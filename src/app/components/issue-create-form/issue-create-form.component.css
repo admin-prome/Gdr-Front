@@ -1,0 +1,113 @@
+.spinner {
+  width: 100vw;
+  justify-content: center;
+  margin: auto;
+  position: relative;
+  top: 40vh;
+  left: 0;
+  z-index: 100;
+}
+
+::ng-deep .mat-progress-spinner circle,
+.mat-spinner circle {
+  stroke: #26BAC3 !important;
+}
+
+.page-title {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+  font-size: 100%;
+  vertical-align: middle;
+}
+
+.page-title h1 {
+  font-family: "Encode Sans", sans-serif;
+  margin-left: 2rem;
+  align-items: center;
+  margin: auto 1rem;
+  color: #3C3C3B !important;
+}
+
+.page-title mat-icon {
+  margin: auto 0;
+  color: #3C3C3B !important;
+}
+
+.global-section {
+  background-color: rgba(255, 255, 255, 90%);
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+  column-gap: 4rem;
+  margin-top: 1rem;
+}
+
+.section-one {
+  justify-content: center;
+  padding: 0;
+  vertical-align: bottom;
+}
+
+.full-width {
+  width: 100%;
+  font-size: 13px;
+}
+
+.margin-top {
+  margin-top: 0.8rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0.8rem 6rem;
+  margin: auto;
+}
+
+button {
+  margin-top: 1rem;
+  max-width: 100px;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: #3c3c3b !important;
+}
+
+::ng-deep .mat-form-field-label {
+  color: #3c3c3b !important;
+}
+
+::ng-deep.mat-focused .mat-form-field-ripple {
+  background-color: #279d2e !important;
+}
+
+::ng-deep.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: #279d2e !important;
+}
+
+@media (max-width: 991px) {
+  .page-title h1 {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+  }
+
+  .page-title mat-icon {
+    display: none;
+  }
+
+  .global-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  button {
+    margin-top: 1rem;
+    max-width: 100px;
+  }
+}

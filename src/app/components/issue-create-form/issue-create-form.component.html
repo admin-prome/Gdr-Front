@@ -1,0 +1,191 @@
+<div class="body">
+  <div class="issueForm">
+    <mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
+
+    <app-issue-created
+      *ngIf="!formError && receivedData && !loading"
+      [childMessage]="dataEntry"
+    >
+    </app-issue-created>
+
+    <form
+      *ngIf="(!loading || formError) && !receivedData"
+      [formGroup]="requestForm"
+    >
+      <div class="page-title">
+        <mat-icon aria-hidden="false" fontIcon="create_new_folder"></mat-icon>
+        <h1>Carga de requerimientos</h1>
+      </div>
+
+      <section class="global-section">
+        <section class="section-one">
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Título</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              required
+              formControlName="title"
+            />
+            <mat-error *ngIf="requestForm.get('title').errors?.required">Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Proyecto</mat-label>
+            <mat-select
+              [(value)]="this.dataJsonNewIssue.key"
+              formControlName="project"
+            >
+              <mat-option
+                *ngFor="let project of projectsList"
+                value="{{ project.key }}"
+                >{{ project.name }}</mat-option
+              >
+            </mat-select>
+            <mat-error *ngIf="requestForm.get('project').errors?.required">Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Prioridad</mat-label>
+            <mat-select [(value)]="selected" formControlName="priority">
+              <mat-option value="2">Alta</mat-option>
+              <mat-option value="3">Normal</mat-option>
+              <mat-option value="4">Baja</mat-option>
+              <mat-option value="5">Desestimada</mat-option>
+            </mat-select>
+            <mat-error *ngIf="requestForm.get('priority').errors?.required">Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Aprobado por</mat-label>
+            <mat-select
+              [(value)]="this.dataJsonNewIssue.approvers"
+              formControlName="approvers"
+            >
+              
+              <mat-option value="6228d69b4160640069ca557b"
+                >Alejandro Bermann</mat-option
+              >
+              <mat-option value="616872d97a6be400718d74b2"
+                >Ariel Cosentino</mat-option
+              >
+              <mat-option value="70121:5207ec8f-c9f4-456f-9116-2699e4c2f324"
+                >Carmen Rojas</mat-option
+              >
+              <mat-option value="61bbafde08e4e00069aef74e"
+                >Gisela Marino</mat-option
+              >
+              <mat-option value="I6171a81dbcb57400682d861e"
+                >Ignacio Stella</mat-option
+              >
+              <mat-option value="5cb0e51cfb6145589296296a"
+                >Juan Carlos Canepa</mat-option
+              >
+              <mat-option value="60b55e675fa6f1006f93d22b"
+                >Mariela Luna</mat-option
+              >
+            </mat-select>
+            <mat-error *ngIf="requestForm.get('approvers').errors?.required">Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Enlace del Adjunto</mat-label>
+            <input
+              matInput
+              autocomplete="off"
+              required
+              formControlName="attached"
+            />
+            <mat-error *ngIf="requestForm.get('attached').errors?.required">Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+          <button
+          type="submit"
+          mat-raised-button
+          class="full-width"
+          color="primary"
+          [disabled]="(!requestForm.valid && !clicked) || clicked"
+          (click)="sendForm(); clicked = true;"
+        >
+          Enviar
+        </button>
+        </section>
+
+
+        <section>
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Como (Rol de usuario de la funcionalidad)</mat-label>
+            <textarea
+              matInput
+              autocomplete="off"
+              required
+              formControlName="managment"
+            ></textarea>
+            <mat-error *ngIf="requestForm.get('managment').errors?.required">Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Quiero (Una funcionalidad)</mat-label>
+            <textarea
+              matInput
+              autocomplete="off"
+              required
+              formControlName="description"
+            ></textarea>
+            <mat-error *ngIf="requestForm.get('description').errors?.required">Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Para (Beneficio)</mat-label>
+            <textarea
+              matInput
+              autocomplete="off"
+              required
+              formControlName="impact"
+            ></textarea>
+            <mat-error *ngIf="requestForm.get('impact').errors?.required">Este campo es obligatorio.
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label
+              >Fecha estimada de implementación (Necesidad de
+              negocio)</mat-label
+            >
+            <input
+              matInput
+              [matDatepicker]="picker"
+              formControlName="finalDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Fecha de implementación por normativa</mat-label>
+            <input
+              matInput
+              [matDatepicker]="picker1"
+              formControlName="normativeDate"
+            />
+            <mat-hint>Cargar solo para requerimiento normativos</mat-hint>
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="picker1"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </section>
+      </section>
+    </form>
+  </div>
+</div>

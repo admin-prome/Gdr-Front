@@ -1,0 +1,59 @@
+.issue {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding: 1rem 1rem;
+  vertical-align: middle;
+}
+
+.example-card {
+  justify-content: center;
+  vertical-align: middle;
+  margin: 2rem auto;
+  max-width: 800px;
+  background-color: #ebebeb;
+}
+
+.example-card img {
+  border: green;
+  padding: 0.5rem;
+}
+
+.card-message {
+  max-width: 500px;
+  display: flex;
+  z-index: 100;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  vertical-align: middle;
+  margin: auto;
+  padding: 1rem 0.5rem;
+}
+
+.card-text {
+  width: 100%;
+  font-size: 1rem;
+  position: absolute;
+  top: 30%;
+}
+
+.card-message h1 {
+  justify-content: center;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 400;
+  margin: auto;
+  font-family: ansangeRegular;
+}
+
+.card-message h3 {
+  justify-content: center;
+  text-align: center;
+  font-family: ansangeLight;
+  font-size: 0.8rem;
+  margin: auto;
+  line-height: 1rem;
+}
