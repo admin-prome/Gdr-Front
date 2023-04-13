@@ -21,6 +21,7 @@
   justify-content: center;
   font-size: 100%;
   vertical-align: middle;
+
 }
 
 .page-title h1 {
@@ -38,18 +39,64 @@
 
 .global-section {
   background-color: rgba(255, 255, 255, 90%);
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
+  display:flex;
+  justify-content:flex-start;
+  width: 90%;
+  margin: 0;
+  padding: 0;
   column-gap: 4rem;
   margin-top: 1rem;
+  max-height: 70dvh;
+
 }
 
-.section-one {
-  justify-content: center;
+.section-two{
+  display: flex;
+  flex-direction: column;
+  
   padding: 0;
+  margin: 0;
+  width: 100%;
   vertical-align: bottom;
+  /* background-color: #279d2e; */
+
 }
+
+.section-one{
+  display: flex;
+  flex-direction: column;  
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  vertical-align: bottom;
+  
+
+}
+
+/* 
+.section-one mat-form-field {
+  
+  background-color: red;
+} */
+
+/* .section-two{
+  
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0;
+    vertical-align: bottom;
+    background-color: violet;
+  } */
+
+
+/* .section-two mat-form-field {
+  background-color: red;
+
+} */
+
+
 
 .full-width {
   width: 100%;
@@ -67,6 +114,25 @@ form {
   margin: auto;
 }
 
+.dates{
+  display: flex;  
+  max-width: 100%;
+  flex-wrap: nowrap;
+  column-gap:2%;
+  
+}
+
+.dates mat-form-field{
+ max-width: 80%;
+}
+.footerButton{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  width: 90%;
+  margin: 0;
+  padding: 0;
+}
 button {
   margin-top: 1rem;
   max-width: 100px;
@@ -104,6 +170,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin: auto;
   }
 
   button {

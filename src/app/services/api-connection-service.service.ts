@@ -5,7 +5,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-
+import { DataForm } from '../models/issue-create-form.models';
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
@@ -27,14 +28,39 @@ export class ApiConnectionService {
     return this.http.get<IssuesInformation>(this.urlApi + 'Issues');
   }
   //Obtener todos los nombres y keys de proyectos en jira
-  public GetAllProjects(): Observable<any> {
-    console.log(this.urlApi,'esta es la urlapi');
-    return this.http.get<any>(this.urlApi + 'GetAllProjects');
+  public GetAllProjects(): Observable<any> { 
+    const response =  this.http.get<any>(this.urlApi + 'getallprojects');
+    response.subscribe(
+      (data) => {
+          console.log(data);
+      },
+      (error) => {
+          console.log(error);
+      }
+  );
+
+    return response;
 
   }
 
+ 
+
+  public GetDataForm(): Observable<DataForm> {
+    const url = this.urlApi + 'getallprojects';
+
+    return this.http.get<any>(url).pipe(
+      map(data => {
+        const projects = data[0].projects;
+        const initiatives = data[1].initiatives;
+        return new DataForm(projects, initiatives);
+      })
+    );
+  }
+
+
   //Crear un nuevo incidente en el backlog del proyecto
   public PostNewIssue(newIssue: JSON): Observable<JSON> {
-    return this.http.post<JSON>(this.urlApi + 'CreateIssue', newIssue);
+    console.log(newIssue)
+    return this.http.post<JSON>(this.urlApi + 'createissue', newIssue);
   }
 }

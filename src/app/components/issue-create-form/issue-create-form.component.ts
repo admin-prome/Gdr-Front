@@ -12,6 +12,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { SharedModule } from '../../modules/material/shared.module';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
+import { Project } from '../../models/projects.models';
+import { Initiatives } from '../../models/initiatives.models';
 
 @Component({
   selector: 'app-issue-create-form',
@@ -28,13 +30,18 @@ export class IssueCreateFormComponent implements OnInit {
   selected = '';
   requestForm : any;
   dataJsonNewIssue: any;
-  projectsList: Array<any> = [];
+  projectsList: any;
+  initiativesList: Array<any> = [];
   finalDate: string = '';
   normativeDate: string = '';
   formError: boolean = false;
   receivedData: boolean = false;
   audio = new Audio('../../../assets/sound/sound.mp3');
   snackBar: any;
+  initiatives!: Initiatives;
+  projects!: Project;
+
+ 
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +50,8 @@ export class IssueCreateFormComponent implements OnInit {
   ) {
     this.loadSpinner();
     this.projectsList = [];
+    // this.initiatives;
+    
     this.dataJsonNewIssue = {};
     this.dataJsonNewIssue = new IssueCreate();
     this.dataEntry = '';
@@ -55,23 +64,38 @@ export class IssueCreateFormComponent implements OnInit {
       managment: new FormControl('', [Validators.required]),
       description: new FormControl('', [Validators.required]),
       impact: new FormControl('', [Validators.required]),
-      attached: new FormControl('', [Validators.required]),
+      attached: new FormControl(''),
       finalDate: new FormControl(''),
       normativeDate: new FormControl(''),
+      initiative: new FormControl('')
     });
   }
 
   ngOnInit(): void {
     this.loadSpinner();
     this.getAllProjects();
+    // this.getDataForm();
   }
 
   getAllProjects(): any {
     this.ConnectionService.GetAllProjects().subscribe((response) => {
-      this.projectsList = response.projects;
-      console.log('proyectos: ', this.projectsList);
+      this.projectsList = response[0].projects;
+      this.initiativesList = Object.values(response[1].initiatives);
+      console.log('---------------------------');
+      console.log(this.projectsList);
+      console.log(this.initiativesList);
+      console.log('---------------------------');
+      
     });
   }
+
+  // getDataForm(): any{
+  //   this.ConnectionService.GetDataForm().subscribe((response) => {
+  //     this.initiatives = response.initiatives;
+  //     console.log(this.initiatives)
+  //     // this.projects = response.projects;
+  //   })
+  // }
 
   sendForm() {
     this.validateForm();
@@ -131,6 +155,7 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.description = this.requestForm.value.description;
     this.dataJsonNewIssue.impact = this.requestForm.value.impact;
     this.dataJsonNewIssue.attached = this.requestForm.value.attached;
+    this.dataJsonNewIssue.initiative = this.requestForm.value.initiative;
     this.dataJsonNewIssue.type = 'Epic';
 
     if (finalDate.length != 0) {

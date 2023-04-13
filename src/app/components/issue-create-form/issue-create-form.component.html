@@ -97,26 +97,17 @@
             <input
               matInput
               autocomplete="off"
-              required
+              
               formControlName="attached"
             />
-            <mat-error *ngIf="requestForm.get('attached').errors?.required">Este campo es obligatorio.
-            </mat-error>
           </mat-form-field>
-          <button
-          type="submit"
-          mat-raised-button
-          class="full-width"
-          color="primary"
-          [disabled]="(!requestForm.valid && !clicked) || clicked"
-          (click)="sendForm(); clicked = true;"
-        >
-          Enviar
-        </button>
+          
+          
+         
         </section>
 
 
-        <section>
+        <section class="section-two">
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Como (Rol de usuario de la funcionalidad)</mat-label>
             <textarea
@@ -152,40 +143,78 @@
             <mat-error *ngIf="requestForm.get('impact').errors?.required">Este campo es obligatorio.
             </mat-error>
           </mat-form-field>
+          
+          
+              <mat-form-field class="full-width margin-top" appearance="fill">
+                <mat-label>Iniciativas</mat-label>
+                <mat-select
+                  [(value)]="this.dataJsonNewIssue.initiative"
+                  formControlName="initiative"
+                >
+                    <mat-option
+                      *ngFor="let initiative of initiativesList"
+                      value="{{ initiative.name }}"
+                      >{{ initiative.name }}
+                    </mat-option>
+                </mat-select>
+                <!-- <mat-error *ngIf="requestForm.get('initiatives').errors?.required">Seleccione una opción.
+                </mat-error> -->
+              </mat-form-field>
+            
 
-          <mat-form-field class="full-width margin-top" appearance="fill">
-            <mat-label
-              >Fecha estimada de implementación (Necesidad de
-              negocio)</mat-label
-            >
-            <input
-              matInput
-              [matDatepicker]="picker"
-              formControlName="finalDate"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field>
+          <div class="dates">
+              <mat-form-field class="full-width margin-top" appearance="fill">
+                <mat-label
+                  >Fecha estimada de implementación (Necesidad de
+                  negocio)</mat-label
+                >
+                <input
+                  matInput
+                  [matDatepicker]="picker"
+                  formControlName="finalDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+          
+              <mat-form-field class="full-width margin-top" appearance="fill">
+                <mat-label>Fecha de implementación por normativa</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="picker1"
+                  formControlName="normativeDate"
+                />
+                <mat-hint>Cargar solo para requerimiento normativos</mat-hint>
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="picker1"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
 
-          <mat-form-field class="full-width margin-top" appearance="fill">
-            <mat-label>Fecha de implementación por normativa</mat-label>
-            <input
-              matInput
-              [matDatepicker]="picker1"
-              formControlName="normativeDate"
-            />
-            <mat-hint>Cargar solo para requerimiento normativos</mat-hint>
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker1"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-          </mat-form-field>
+        </div>
+
+         
         </section>
+
+        
+
       </section>
+
+      <div class="footerButton">
+        <button
+          type="submit"
+          mat-raised-button
+          class="full-width"
+          color="primary"
+          [disabled]="(!requestForm.valid && !clicked) || clicked"
+          (click)="sendForm(); clicked = true;">
+          Enviar
+        </button>
+      </div>
     </form>
   </div>
 </div>
