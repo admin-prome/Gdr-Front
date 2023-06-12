@@ -14,6 +14,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './modules/material/shared.module';
 
 import { ApiConnectionService } from './services/api-connection-service.service';
+import { KeyvaultServicesServices } from './services/keyvault/keyvault-services.service';
+
+import { AuthGoogleComponent } from './components/auth-google/auth-google.component';
+import { LoginComponent } from './components/login/login.component';
+import { EncryptionServiceService } from './services/EncryptionService/encryption-service.service';
 
 @NgModule({
   declarations: [
@@ -22,6 +27,8 @@ import { ApiConnectionService } from './services/api-connection-service.service'
     NavbarComponent,
     IssueCreatedComponent,
     IssueCreateFormComponent,
+    AuthGoogleComponent,    
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,6 +39,8 @@ import { ApiConnectionService } from './services/api-connection-service.service'
   ],
   providers: [
     ApiConnectionService,
+    KeyvaultServicesServices,
+    EncryptionServiceService,
   ],
   bootstrap: [AppComponent]
 })

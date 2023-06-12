@@ -40,6 +40,7 @@ export class IssueCreate{
     managment: string = '';
     //spring: string = '';
     priority: string = '';
+    userCredential: JSON | undefined;
 
 }
 

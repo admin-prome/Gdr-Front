@@ -1,0 +1,214 @@
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+buttonDiv {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+   
+}
+
+h1 {
+    margin: 0;
+}
+
+.triangles-top-box {
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+}
+
+.triangles-top {
+    width: 25vw;
+    min-width: 250px;
+    transform: translateX(0%);
+    animation: slide-in-bottom 1s forwards;
+}
+
+.triangles-bottom-box {
+    height: 100vh;
+    display: flex-start;
+}
+
+.triangles-bottom {
+    width: 25vw;
+    min-width: 250px;
+    transform: translateX(-100%);
+    animation: slide-in-top 1s forwards;
+}
+
+@keyframes slide-in-top {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+
+@keyframes slide-in-bottom {
+0% {
+    transform: translateX(-100%);
+}
+100% {
+    transform: translateX(0%);
+}
+}
+
+
+.login-div {
+    display: block;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 50vw;
+    height: 30vh;
+    align-content: space-between;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+    transform: scale(1);
+    animation: fade-in 1s ease-in;
+  }
+  
+  .login-div:hover {
+    transform: scale(1.1);
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  
+
+.login-title {
+    display: flex;
+    flex-direction: row;
+    /* width: 100%;
+    height: 70%; */
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    margin-bottom: 2rem;
+    margin: auto;
+}
+
+.login-img {
+    width: auto;
+    height: 100%;
+}
+
+.login-title-prome {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    /* align-content: space-evenly; */
+    margin: auto;
+    align-items: flex-start;
+    margin-left: 1.2rem;
+    vertical-align: middle;
+    height: 100%;
+    width: auto;
+}
+
+.login-title-provincia {
+    font-weight: 650;
+    font-size: 3rem;
+    margin-top: 1rem;
+}
+
+.login-title-microcreditos {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    font-size: 3rem;
+}
+
+.login-btn {
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 5000px) {
+
+    .login-img {
+        height: 8rem;
+    }
+}
+
+@media (max-width: 720px) {
+
+    .triangles-top-box {
+        height: 100vh;
+        display: flex;
+    }
+
+    .triangles-top {
+        min-width: 250px;
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+    }
+
+    .triangles-bottom {
+        min-width: 250px;
+        position: absolute;
+        bottom: 0.5rem;
+        left: 0.5rem;
+    }
+
+    .login-img {
+        height: 6rem;
+    }
+
+    .login-title-provincia {
+        font-size: 2.5rem;
+    }
+
+    .login-title-microcreditos {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 380px) {
+
+    .login-img {
+        height: 4rem;
+    }
+
+    .login-title-provincia {
+        font-size: 1.25rem;
+    }
+
+    .login-title-microcreditos {
+        font-size: 1.25rem;
+    }
+}
+
+@media (device-height : 568px) and (device-width : 320px) and (-webkit-min-device-pixel-ratio: 2) {
+
+    .triangles-top {
+        min-width: 180px;
+    }
+
+    .triangles-bottom {
+        min-width: 180px;
+    }
+
+    .login-img {
+        height: 4rem;
+    }
+}

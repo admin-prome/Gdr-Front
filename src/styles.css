@@ -19,7 +19,9 @@
 
 html,
 body {
-  height: 100%;
+  height: 99%;  
+  max-height: 100vh;
+  overflow: hidden;
 }
 
 body {
@@ -38,3 +40,6 @@ button.mat-raised-button {
 button.mat-raised-button::before {
   background-color: #3c3c3b;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

@@ -27,14 +27,18 @@ export class ApiConnectionService {
   ): Observable<IssuesInformation> {
     return this.http.get<IssuesInformation>(this.urlApi + 'Issues');
   }
+  
   //Obtener todos los nombres y keys de proyectos en jira
   public GetAllProjects(): Observable<any> { 
-    const response =  this.http.get<any>(this.urlApi + 'getallprojects');
+    const response =  this.http.get<any>(this.urlApi + 'GetAllProjects');
     response.subscribe(
       (data) => {
-          console.log(data);
+        console.log("estos son los proyectos")  
+        console.log(data);
+
       },
       (error) => {
+          console.log('Ocurrio un error al mostrar los proyectos')
           console.log(error);
       }
   );
