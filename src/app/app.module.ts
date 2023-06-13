@@ -19,6 +19,7 @@ import { KeyvaultServicesServices } from './services/keyvault/keyvault-services.
 import { AuthGoogleComponent } from './components/auth-google/auth-google.component';
 import { LoginComponent } from './components/login/login.component';
 import { EncryptionServiceService } from './services/EncryptionService/encryption-service.service';
+import { LoginService } from './services/userHandler/login/login.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { EncryptionServiceService } from './services/EncryptionService/encryptio
     ApiConnectionService,
     KeyvaultServicesServices,
     EncryptionServiceService,
+    LoginService
   ],
   bootstrap: [AppComponent]
 })

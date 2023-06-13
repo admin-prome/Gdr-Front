@@ -94,8 +94,9 @@ export class IssueCreateFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.loadSpinner();    
-    this.getAllProjects();    
+    // this.loadSpinner();
+    const userCredential = localStorage.getItem('userCredentialGDR');
+    this.getAllProjects(this.userCredential);    
     // console.log('estos es this.getAll' + this.getAllProjects());
     // this.getDataForm();
     console.log('esto es el onInit');
@@ -152,9 +153,9 @@ export class IssueCreateFormComponent implements OnInit {
 
 
 
-  getAllProjects(): any {
+  getAllProjects(token: any): any {
     this.openSpinner();
-    this.ConnectionService.GetAllProjects().subscribe((response) => {
+    this.ConnectionService.GetAllProjects(token).subscribe((response) => {
       
       this.projectsList = response.projects; // Asigna la respuesta directamente a projectsList
       if (this.projectsList){

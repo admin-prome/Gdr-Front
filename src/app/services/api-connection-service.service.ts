@@ -29,7 +29,7 @@ export class ApiConnectionService {
   }
   
   //Obtener todos los nombres y keys de proyectos en jira
-  public GetAllProjects(): Observable<any> { 
+  public GetAllProjects(token: any): Observable<any> { 
     const response =  this.http.get<any>(this.urlApi + 'GetAllProjects');
     response.subscribe(
       (data) => {
