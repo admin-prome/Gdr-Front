@@ -13,8 +13,8 @@ export class HomeComponent implements OnInit {
   constructor(private ConnectionService: ApiConnectionService) {}
 
   ngOnInit(): void {
-    let token = localStorage.getItem('token') as string;
-    const userCredential = localStorage.getItem('userCredentialGDR');
+    // let token = localStorage.getItem('token') as string;
+    // const userCredential = localStorage.getItem('userCredentialGDR');
     // this.credentialObj = this.decodeJWT(token);
     // console.log('mi objeto credential', this.credentialObj)    
     console.log('-----------ESTO ES EL HOME ----------')
@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
     // const responsePayload = JSON.parse(jsonPayload);  
     //sessionStorage.setItem("googleCredential", JSON.stringify(userCredential));
     
-    console.log(userCredential)
+    //console.log(userCredential)
     // document.location.href = "home";
 
     console.log('-----------ESTO ES EL HOME ----------')

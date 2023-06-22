@@ -33,7 +33,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="full-width margin-top" appearance="fill">
+          <!-- <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Proyecto</mat-label>
             <mat-select
               [(value)]="this.dataJsonNewIssue.key"
@@ -47,7 +47,7 @@
             </mat-select>
             <mat-error *ngIf="requestForm.get('project').errors?.required">Seleccione una opción.
             </mat-error>
-          </mat-form-field>
+          </mat-form-field> -->
 
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Prioridad</mat-label>
@@ -128,7 +128,7 @@
           </mat-form-field>
           
           <!-- Iniciativas -->
-          <mat-form-field class="full-width margin-top" appearance="fill">
+          <!-- <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Iniciativas</mat-label>
             <mat-select
               [(value)]="this.dataJsonNewIssue.initiative"
@@ -140,9 +140,8 @@
                   >{{ initiativesList[key].name }}
                 </mat-option>
             </mat-select>
-            <!-- <mat-error *ngIf="requestForm.get('initiatives').errors?.required">Seleccione una opción.
-            </mat-error> -->
-          </mat-form-field>
+            
+          </mat-form-field> -->
             
 
           <!-- implementación -->

@@ -7,6 +7,7 @@ import { LoginService } from 'src/app/services/userHandler/login/login.service';
 declare var google: any;
 
 import { EncryptionServiceService } from '../../services/EncryptionService/encryption-service.service';
+import { LoginJiraService } from 'src/app/services/userHandler/loginJira/login-jira.service';
 
 @Component({
   selector: 'app-login',
@@ -17,24 +18,21 @@ import { EncryptionServiceService } from '../../services/EncryptionService/encry
 export class LoginComponent implements OnInit, AfterViewInit {
 
   pathTriangles = "../../assets/triangulosbackII@4x.png";
-  // userCredential = localStorage.getItem('userCredentialGDREncrypted');
   
+    
   constructor(private router: Router,
               private encryptionService: EncryptionServiceService,
-              private loginService: LoginService) { }
+              private loginService: LoginService,
+              private loginJiraService: LoginJiraService) { }
 
   ngAfterViewInit(): void {
-    // const userCredential = localStorage.getItem('userCredentialGDR');
-    if(localStorage.getItem('userCredentialGDR')){
-      const userCredential = localStorage.getItem('userCredentialGDR');
-      console.log('Se encontro un usuario en localStorage');
-      console.log('este es el usuario en el localStorage ',userCredential);
-      // this.loginBackend(userCredential); //aca le quiero mandar un key para jira que van a estar en session storage
-      this.router.navigate(['/home']);
+    const userCredential = localStorage.getItem('userCredentialGDR');
+    if(userCredential){
+       this.router.navigate(['/home']);
     }
     else{
       google.accounts.id.initialize({
-        client_id: "688079392079-bpsjl4kmg4vuqik4562slb4ni6o9netb.apps.googleusercontent.com",
+        client_id: environment.googleClientId,
         callback: this.handleCredentialResponse
       });
       google.accounts.id.renderButton(
@@ -47,16 +45,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
-
   }
 
   handleCredentialResponse = (response: any) => {
-    console.log('Esto es el response.credential de google: ',response);
+  
 
-    if(response.credential){
-      this.loginBackend(response);
-      sessionStorage.setItem('TokenGoogle', response.credential);
+    if(response.credential){      
       
     
       var base64Url = response.credential.split('.')[1];
@@ -66,10 +60,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       }).join(''));
 
       const responsePayload = JSON.parse(jsonPayload)
-      console.log('Esto es el login y lo que sigue es el responsePAyload: ', responsePayload)
+      
       sessionStorage.setItem('PayloadGDRBack', JSON.stringify(responsePayload));
-      console.log(responsePayload.name)
-      //sessionStorage.setItem('CredentialGDRBack', response.credential);
+      
       
       if (responsePayload.email_verified){
         console.log('El correo ha sido verificado');
@@ -83,17 +76,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
             "credential": response.credential
           };
           const userDataJson = userData;
-          console.log('userDataJson: ', userDataJson);
-          const userDataText = userDataJson.toString();
-          console.log('userDataText: ', userDataText);
           
-          // const encryptedData = CryptoJS.AES.encrypt(userDataJson, environment.key).toString();
-          
-          //const encryptedData = this.encryptionService.encryptData(userDataText);
+         
           localStorage.setItem("userCredentialGDR",JSON.stringify(userDataJson));
-          //console.log('Esto es la data encriptada: ',encryptedData);
-          // this.router.navigate(['/home']);
-          this.loginBackend(userDataJson);
+          
+          this.router.navigate(['/home']);
+        
         }
         else{
           console.log('El dominio no ha sido verificado');
@@ -103,15 +91,17 @@ export class LoginComponent implements OnInit, AfterViewInit {
       else{
         console.log('El correo no ha sido verificado');
       }
-      this.router.navigate(['/home']);
+
+      
+      // this.router.navigate(['/home']);
       // sessionStorage.setItem("username", responsePayload.given_name);
       // localStorage.setItem("userCredentialGDR",JSON.stringify(responsePayload));
       // sessionStorage.setItem("userCredentialGDR",JSON.stringify(responsePayload));
       // Encriptar los datos utilizando una clave secreta
       // localStorage.setItem("userCredentialGDREncrypt",JSON.stringify(responsePayload));           
       
-      // document.location.href = "home";      
-      // this.router.navigate(['/home']);
+      document.location.href = "home";      
+      this.router.navigate(['/home']);
       // sessionStorage.setItem('token',response.credential);
    }
   }
@@ -130,4 +120,20 @@ export class LoginComponent implements OnInit, AfterViewInit {
       
     );
   }
+
+  getToken(credentialUser: any) {
+    this.loginJiraService.getToken(credentialUser)
+      .subscribe(
+        (data: any) => {
+          console.log(data);
+          // Aquí puedes realizar acciones adicionales con la respuesta exitosa
+        },
+        (error: any) => {
+          console.error(error);
+          // Aquí puedes manejar el error de acuerdo a tus necesidades
+        }
+      );
+  }
+  
+
 }

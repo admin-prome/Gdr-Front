@@ -78,7 +78,7 @@ export class IssueCreateFormComponent implements OnInit {
 
     this.requestForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
-      project: new FormControl('', [Validators.required]),
+      project: new FormControl(''),
       priority: new FormControl('', [Validators.required]),
       approvers: new FormControl('', [Validators.required]),
       managment: new FormControl('', [Validators.required]),
@@ -96,11 +96,11 @@ export class IssueCreateFormComponent implements OnInit {
   ngOnInit(): void {
     // this.loadSpinner();
     const userCredential = localStorage.getItem('userCredentialGDR');
-    this.getAllProjects(this.userCredential);    
-    // console.log('estos es this.getAll' + this.getAllProjects());
+    this.getAllProjects();    
+    console.log('estos es this.getAll' + this.getAllProjects());
     // this.getDataForm();
     console.log('esto es el onInit');
-    console.log(this.dataJsonNewIssue.priority);
+    // console.log(this.dataJsonNewIssue.priority);
     // console.log(this.requestForm.get('priority'));  
 
     
@@ -108,7 +108,7 @@ export class IssueCreateFormComponent implements OnInit {
     const encryptedData = localStorage.getItem('userCredentialGDR');
     
     if (encryptedData) {
-      console.log('esto es la data traida del local storage: ',encryptedData);
+      // console.log('esto es la data traida del local storage: ',encryptedData);
       // Desencriptar los datos utilizando la misma clave secreta
       // const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, environment.key);
       // const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
@@ -125,10 +125,6 @@ export class IssueCreateFormComponent implements OnInit {
     }
 
 
-
-    console.log('###########   ESTO ES EL GOOGLE CREDENTIAL #############')
-    console.log(this.requestForm.userCredential)
-    console.log('###########   ESTO ES EL GOOGLE CREDENTIAL #############')
     
     if (this.requestForm.userCredential) {
       const usuario = JSON.parse(this.requestForm.userCredential);
@@ -153,21 +149,21 @@ export class IssueCreateFormComponent implements OnInit {
 
 
 
-  getAllProjects(token: any): any {
+  getAllProjects(): any {
     this.openSpinner();
-    this.ConnectionService.GetAllProjects(token).subscribe((response) => {
+    this.ConnectionService.GetAllProjects().subscribe((response) => {
       
       this.projectsList = response.projects; // Asigna la respuesta directamente a projectsList
       if (this.projectsList){
-        this.displaySnackbar(
-          'No se pudieron obtener los campos INICIATIVA. Por favor, actualice el formulario o pongase en contacnto con el administrador'
-        );
+        // this.displaySnackbar(
+        //   'No se pudieron obtener los campos PROJECTOS. Por favor, actualice el formulario o pongase en contacnto con el administrador'
+        // );
       }
       this.initiativesList = response.initiatives; // Inicializa la lista de iniciativas como un array vacío
       if (this.initiativesList){
-        this.displaySnackbar(
-          'No se pudieron obtener los campos INICIATIVAS. Por favor, actualice el formulario o pongase en contacto con el administrador'
-        );
+        // this.displaySnackbar(
+        //   'No se pudieron obtener los campos INICIATIVAS. Por favor, actualice el formulario o pongase en contacto con el administrador'
+        // );
       }
       
       console.log('---------------------------');
