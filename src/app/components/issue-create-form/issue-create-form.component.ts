@@ -97,9 +97,7 @@ export class IssueCreateFormComponent implements OnInit {
     // this.loadSpinner();
     const userCredential = localStorage.getItem('userCredentialGDR');
     this.getAllProjects();    
-    console.log('estos es this.getAll' + this.getAllProjects());
-    // this.getDataForm();
-    console.log('esto es el onInit');
+    
     // console.log(this.dataJsonNewIssue.priority);
     // console.log(this.requestForm.get('priority'));  
 
@@ -129,7 +127,6 @@ export class IssueCreateFormComponent implements OnInit {
     if (this.requestForm.userCredential) {
       const usuario = JSON.parse(this.requestForm.userCredential);
 
-      console.log('Valor almacenado en el formulario:', usuario);
       // Utiliza los datos del usuario como desees
     } else {
       // No se encontraron datos en el sessionStorage
@@ -143,8 +140,7 @@ export class IssueCreateFormComponent implements OnInit {
 
   onPriorityChange(): void {
     this.normativeRequirement = this.requestForm.priority.value;
-    console.log(this.normativeRequirement);
-    console.log(this.requestForm.priority.value);
+   
   }
 
 
@@ -166,10 +162,7 @@ export class IssueCreateFormComponent implements OnInit {
         // );
       }
       
-      console.log('---------------------------');
-      console.log(this.projectsList);
-      console.log(this.initiativesList);
-      console.log('---------------------------');
+    
     this.closeSpinner();
     });
   }

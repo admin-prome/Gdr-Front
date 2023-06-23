@@ -7,22 +7,25 @@ import { IssueCreateFormComponent } from './components/issue-create-form/issue-c
 import { AuthGoogleComponent } from './components/auth-google/auth-google.component';
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './components/guards/login.guards';
+import { VersionComponent } from './components/version/version.component';
 const routes: Routes = [
   
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  {path: '', redirectTo: '/home', pathMatch: 'full' },
 
   // { path: 'login', component: AuthGoogleComponent },
 
-  { path: 'login', component: LoginComponent },
+  {path: 'login', component: LoginComponent },
 
   {path: 'home', component: HomeComponent, 
     canActivate: [LoginGuard],
     children:[
       { path: 'issueCreated', component: IssueCreatedComponent },
-      { path: '', component: IssueCreateFormComponent }
+      { path: '', component: IssueCreateFormComponent },
+      { path: 'version', component: VersionComponent }
     ]
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' },
+
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
   
 ];
 

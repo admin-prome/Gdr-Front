@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
     // const userCredential = localStorage.getItem('userCredentialGDR');
     // this.credentialObj = this.decodeJWT(token);
     // console.log('mi objeto credential', this.credentialObj)    
-    console.log('-----------ESTO ES EL HOME ----------')
+    
     
     // const responsePayload = JSON.parse(jsonPayload);  
     //sessionStorage.setItem("googleCredential", JSON.stringify(userCredential));
@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit {
     //console.log(userCredential)
     // document.location.href = "home";
 
-    console.log('-----------ESTO ES EL HOME ----------')
   }
 
   // private decodeJWT(token: string):any{

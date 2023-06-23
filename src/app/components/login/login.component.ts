@@ -65,9 +65,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
       
       
       if (responsePayload.email_verified){
-        console.log('El correo ha sido verificado');
+       
         if(responsePayload.hd === environment.domain){
-          console.log('El dominio del usuario ha sido verificado');          
+             
           const userData = {            
             "email": responsePayload.email,
             "name": responsePayload.name,
@@ -84,12 +84,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
         
         }
         else{
-          console.log('El dominio no ha sido verificado');
+          
+          this.router.navigate(['/login']);
         }
 
       }
       else{
-        console.log('El correo no ha sido verificado');
+        this.router.navigate(['/login']);
       }
 
       
@@ -110,7 +111,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     const response = this.loginService.loginBack(credential);
     response.subscribe(
       (data) => {
-        console.log('Se ha logueado en el back: ',data);
+       
         sessionStorage.setItem('CredentialJira', JSON.stringify(data));
         localStorage.setItem('CredentialJira', JSON.stringify(data));
     },

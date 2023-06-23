@@ -20,6 +20,7 @@ import { AuthGoogleComponent } from './components/auth-google/auth-google.compon
 import { LoginComponent } from './components/login/login.component';
 import { EncryptionServiceService } from './services/EncryptionService/encryption-service.service';
 import { LoginService } from './services/userHandler/login/login.service';
+import { VersionComponent } from './components/version/version.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { LoginService } from './services/userHandler/login/login.service';
     IssueCreatedComponent,
     IssueCreateFormComponent,
     AuthGoogleComponent,    
-    LoginComponent,
+    LoginComponent, 
+    VersionComponent,
   ],
   imports: [
     BrowserModule,
