@@ -12,6 +12,7 @@ export class VersionComponent implements OnInit {
     name: 'Gestor de Requerimientos',
     version: '1.0.0',
     author: 'Millan Maximiliano',
+    gerencia:'Tecnología',
     contactEmail: 'mmillan@provinciamicrocreditos.com',
     targetAudience: 'Provincia Microcréditos'
   };

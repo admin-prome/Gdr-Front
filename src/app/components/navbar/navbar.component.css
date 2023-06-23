@@ -113,6 +113,8 @@ body {
 
 .menu-logo img:hover{
   filter:none;
+  transform: scale(1.1);
+  animation: fade-in 1s ease-in;
     
 }
 
@@ -124,7 +126,7 @@ body {
 }
 
 .menu-container a:hover {
-  color: rgba(39, 157, 46, 1);
+  color: rgba(39, 157, 46, 1);  
 }
 
 .menu-container input {
@@ -190,6 +192,10 @@ body {
   font-size: 100%;
   font-weight: 10;
   
+}
+.menu li:hover{
+  transform: scale(1.05);
+  animation: fade-in 1s ease-in;
 }
 
 /* mobile styles */
