@@ -199,7 +199,7 @@ body {
 }
 
 /* mobile styles */
-@media only screen and (max-width: 767px) { 
+@media only screen and (max-width: 1067px) { 
   .menu-container {
     flex-direction: column;
     align-items: flex-end;
@@ -240,7 +240,7 @@ body {
 }
 
 /* desktop styles */
-@media only screen and (min-width: 768px) { 
+@media only screen and (min-width: 1068px) { 
   .menu-container {
     width: 100%;
   }
@@ -319,7 +319,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 40px;
 }
 
 .imageUser img {

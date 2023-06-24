@@ -38,7 +38,7 @@ import { VersionComponent } from './components/version/version.component';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [
     ApiConnectionService,

@@ -39,62 +39,56 @@
     <!-- menu items -->
     <div class="menu">
       <ul>
-        
-        <!-- <li>
-          <a href="#pricing">
-            Pricing
-          </a>
-        </li>
-        <li>
-          <a href="#blog">
-            Blog
-          </a>
-        </li>
-        <li>
-          <a href="#docs">
-            Docs
-          </a>
-        </li> -->
       </ul>
+      <li>
+        
+      </li>
       <ul>
         <li>
-          <a href="home">
+          <button mat-button routerLink="home">Crear Requerimiento</button>
+       
+          <!-- <a href="home">
             Crear Requerimiento
-          </a>
-        </li>
-        <li>
-            <a href="home/version">
-              Mas información
-            </a>
+          </a> -->
         </li>
 
-        
-        <!-- <li><a href="#logout" (click)="clearLocalStorage()">Cerrar sesión</a></li>         -->
+            
+        <li>
+          <button mat-button  routerLink="home/version">
+            Hola, {{firstName}}.
+          </button>            
+        </li>  
+        <li class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario" ></li>
         <!-- <li>
-            <a href="#" (click)="toggleDropdown()">Opciones</a>
-            <ul *ngIf="showDropdown" class="menu">
-              <li>
-                <a href="#logout" (click)="clearLocalStorage()">Cerrar sesión</a>
-              </li>
-              <li>
-                <a href="#">Información de la app</a>
-              </li>
-            </ul>
-          </li> -->
-          <li>
-          <ul class="dropdown">
-           
+          <ul class="dropdown">           
             <li class="dropdown">Hola, {{firstName}}.</li>
-            <div class="dropdown-content">
-            <a  href="home/version">Versión 1.1.0</a>
-            <a href="#logout" (click)="clearLocalStorage()">Cerrar sesión</a>            
-            </div>
+              <div class="dropdown-content">
+                <a  href="home/version">Versión 1.1.0</a>
+                <a href="#logout" (click)="clearLocalStorage()">Cerrar sesión</a>            
+              </div>
             <li class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario" ></li>
-        </ul>
+          </ul>
+        </li> -->
+        
+        <li>
+          <button mat-icon-button [matMenuTriggerFor]="create" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #create="matMenu">
+            <button mat-menu-item>
+              <mat-icon>information</mat-icon>
+              <span><a href="home/version">Más Información</a></span>
+              
+            </button>            
+            <button mat-menu-item (click)="clearLocalStorage()">
+              <mat-icon>logout</mat-icon>
+              <span>Cerrar sesión</span>
+            </button>
+            
+          </mat-menu>
         </li>
-       
-          
       </ul> 
+      
     </div>
 
     
