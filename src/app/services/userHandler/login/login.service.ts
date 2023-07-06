@@ -20,13 +20,12 @@ public loginBack(userCredential: any): Observable<any> {
   const response =  this.http.post<any>(this.urlApi + 'user/login', userCredential);
   response.subscribe(
     (data) => {
-      console.log("Usted se ha logueado correctamente en el back")  
-      console.log(data);
+      
+    
       sessionStorage.setItem('ResponseGDRLoginBack', JSON.stringify(data));
     },
     (error) => {
         console.log('Ocurrio un error al loguearse en el back')
-        console.log(error);
     }
 );
 

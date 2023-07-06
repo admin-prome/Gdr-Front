@@ -45,7 +45,8 @@
       </li>
       <ul>
         <li>
-          <button mat-button routerLink="home">Crear Requerimiento</button>
+          <!-- <button mat-button routerLink="home">Crear Requerimiento</button> -->
+          <button mat-button routerLink="home"><a href="#">Crear Requerimiento</a></button>
        
           <!-- <a href="home">
             Crear Requerimiento
@@ -80,7 +81,7 @@
               <span><a href="home/version">Más Información</a></span>
               
             </button>            
-            <button mat-menu-item (click)="clearLocalStorage()">
+            <button mat-menu-item (click)="this.clearLocalStorage()">
               <mat-icon>logout</mat-icon>
               <span>Cerrar sesión</span>
             </button>

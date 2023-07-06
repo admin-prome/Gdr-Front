@@ -48,8 +48,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   handleCredentialResponse = (response: any) => {
-  
-
+    console.log('--------------------------------');
+    console.log(response);
+    sessionStorage.setItem('maxi', JSON.stringify(response));
+    console.log('--------------------------------');
     if(response.credential){      
       
     
@@ -59,7 +61,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
         return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
       }).join(''));
 
-      const responsePayload = JSON.parse(jsonPayload)
+      const responsePayload = JSON.parse(jsonPayload);
       
       sessionStorage.setItem('PayloadGDRBack', JSON.stringify(responsePayload));
       
@@ -126,11 +128,11 @@ export class LoginComponent implements OnInit, AfterViewInit {
     this.loginJiraService.getToken(credentialUser)
       .subscribe(
         (data: any) => {
-          console.log(data);
+          // console.log(data);
           // Aquí puedes realizar acciones adicionales con la respuesta exitosa
         },
         (error: any) => {
-          console.error(error);
+          // console.error(error);
           // Aquí puedes manejar el error de acuerdo a tus necesidades
         }
       );

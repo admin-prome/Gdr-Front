@@ -9,3 +9,26 @@
   background-position-y: bottom;  
   
 }
+app-navbar{
+  margin:0;
+  padding: 0;
+}
+
+app-issue-create-form{
+  margin:0;
+  padding: 0;
+}
+
+
+
+@media screen and (min-width: 1024px) and (max-width: 1279px) {
+  /* Estilos para tablets en orientación horizontal y pantallas pequeñas de escritorio */
+  app-issue-create-form{
+    max-height: 50vh;
+    background-color: aqua;
+  }
+
+
+}
+
+

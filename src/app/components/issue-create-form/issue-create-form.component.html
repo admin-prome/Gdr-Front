@@ -8,14 +8,16 @@
     >
     </app-issue-created>
 
+   
+
     <form
       *ngIf="(!loading || formError) && !receivedData"
       [formGroup]="requestForm"
     >
-      <!-- <div class="page-title">
-        <mat-icon aria-hidden="false" fontIcon="create_new_folder"></mat-icon>
-        <h1>Carga de requerimientos</h1>
-      </div> -->
+      <div class="page-title">
+        <!-- <mat-icon aria-hidden="false" fontIcon="create_new_folder"></mat-icon> -->
+        <h1>Crear requerimiento</h1>
+      </div>
 
       <section class="global-section">
         
@@ -49,6 +51,57 @@
             </mat-error>
           </mat-form-field> -->
 
+          <!-- Tipo de Requerimiento -->
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Tipo del requerimiento</mat-label>
+            <mat-select [(value)]="requestForm.value.issueType" formControlName="issueType"  (selectionChange)="onPriorityChange()">
+              <mat-option *ngFor="let option of optionsIssue" [value]="option.value">
+                {{option.label}} - [{{option.value}}]
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="requestForm.get('issueType').errors?.required">Seleccione una opción.
+            </mat-error>
+          </mat-form-field>
+
+
+          <!-- subTipo de requerimiento REQ Ó INC -->
+          <div *ngIf="requestForm.get('issueType').value == 'REQ' || requestForm.get('issueType').value == 'INC'">
+              <mat-form-field class="full-width margin-top" appearance="fill">
+                <mat-label>Subtipo del requerimiento</mat-label>
+                <mat-select [(value)]="requestForm.value.subIssueType" formControlName="subIssueType"  (selectionChange)="onPriorityChange()">
+                  <mat-option  *ngFor="let option of subOptionsIssueREQ" [value]="option.value">
+                    {{option.label}} - [{{option.value}}]
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Seleccione una opción.
+                </mat-error>
+              </mat-form-field>         
+          </div>
+          
+          <!-- subTipo de requerimiento INF -->
+          <div *ngIf="requestForm.get('issueType').value == 'INF'">
+            <mat-form-field class="full-width margin-top" appearance="fill">
+              <mat-label>Subtipo del requerimiento</mat-label>
+              <mat-select [(value)]="requestForm.value.subIssueType" formControlName="subIssueType"  (selectionChange)="onPriorityChange()">
+                <mat-option *ngFor="let option of subOptionsIssueINF" [value]="option.value">
+                  {{option.label}} - [{{option.value}}]
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Seleccione una opción.
+              </mat-error>
+            </mat-form-field>         
+          </div>
+
+          <!-- subTipo de requerimiento FIX -->      
+          <mat-form-field *ngIf="requestForm.get('issueType').value == '' || requestForm.get('issueType').value == 'FIX'" class="full-width margin-top" appearance="fill">
+            <mat-label *ngIf="requestForm.get('issueType').value ==''">Seleccione Primero el tipo de Requerimiento</mat-label>
+            <mat-label *ngIf="requestForm.get('issueType').value =='FIX'">Ingrese el numero ID del requerimiento asociado (Ej:REQ-123)</mat-label>
+            <input matInput autocomplete="off"  formControlName="subIssueType"/>
+            <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Este campo es obligatorio.
+            </mat-error> 
+          </mat-form-field>
+
+          <!-- Prioridad definida por el usuario -->
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Prioridad</mat-label>
             <mat-select [(value)]="this.dataJsonNewIssue.priority" formControlName="priority" (change)="onPriorityChange()">
@@ -60,6 +113,7 @@
             </mat-error>
           </mat-form-field>
 
+           <!-- Gerente que aprueba el requerimiento -->
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Aprobado por</mat-label>
             <mat-select [(value)]="requestForm.value.approvers" formControlName="approvers"  (selectionChange)="onPriorityChange()">
@@ -70,33 +124,21 @@
             <mat-error *ngIf="requestForm.get('approvers').errors?.required">Seleccione una opción.
             </mat-error>
           </mat-form-field>
-
-          <mat-form-field class="full-width margin-top" appearance="fill">
-            <mat-label>Enlace del Adjunto</mat-label>
-            <input
-              matInput
-              autocomplete="off"
-              
-              formControlName="attached"
-            />
-          </mat-form-field>
-          
-          
          
         </section>
 
-
         <section class="section-two">
+
+          <!-- Enlace a documentación -->
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Enlace del Adjunto</mat-label>
+            <input matInput autocomplete="off"  formControlName="attached"/>
+          </mat-form-field>
           
           <!-- Rol -->
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Como (Rol de usuario de la funcionalidad)</mat-label>
-            <textarea
-              matInput
-              autocomplete="off"
-              required
-              formControlName="managment"
-            ></textarea>
+            <textarea matInput autocomplete="off" required formControlName="managment"></textarea>
             <mat-error *ngIf="requestForm.get('managment').errors?.required">Este campo es obligatorio.
             </mat-error>
           </mat-form-field>
@@ -174,10 +216,10 @@
 
         
 
-      </section>
+     </section> 
 
       <div class="footerButton">
-        <button
+        <!-- <button
           type="submit"
           mat-raised-button
           class="full-width"
@@ -185,10 +227,22 @@
           [disabled]="(!requestForm.valid && !clicked) || (clicked && !formError)"
           (click)="sendForm(); clicked = true;">
           Enviar
-        </button>
+        </button> -->
       </div>
       
     </form>
+    <footer>
+      <button
+          type="submit"
+          mat-raised-button
+          class="full-width"
+          color="primary"
+          [disabled]="(!requestForm.valid && !clicked) || (clicked && !formError)"
+          (click)="sendForm(); clicked = true;">
+          Enviar
+      </button>
+    </footer>
+    
     
   </div>
 </div>

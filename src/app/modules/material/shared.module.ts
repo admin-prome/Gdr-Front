@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -44,7 +45,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     MatProgressBarModule,
     MatCardModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
@@ -67,7 +69,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     MatProgressBarModule,
     MatCardModule,
     MatToolbarModule,    
-    MatMenuModule
+    MatMenuModule,
+    MatGridListModule
   ],
 })
 export class SharedModule {}

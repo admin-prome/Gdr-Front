@@ -22,11 +22,11 @@ export class NavbarComponent implements OnInit {
       const credentialObj = JSON.parse(userCredential);
       const name = credentialObj.name;
       
-      console.log(name);
+      
       const [firstName] = name.split(" ");
       this.imgUser = credentialObj.picture;
       this.firstName = firstName; // Asignar el valor de firstName a la propiedad del componente
-      console.log(firstName);
+     
       // Hacer algo con el nombre
     } else {
       // El valor en el Local Storage es nulo, maneja este caso según tus necesidades
@@ -35,6 +35,7 @@ export class NavbarComponent implements OnInit {
 
   clearLocalStorage() {
     localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   toggleDropdown() {

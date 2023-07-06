@@ -11,13 +11,11 @@ export class EncryptionServiceService {
   constructor() {}
 
   encryptData(data: string): string {
-    console.log('esto es la data por encriptar: ', data)
     return btoa(data);
   }
 
 
   decryptData(encodedData: string): string {
-    console.log('esto es la data por desencriptar: ', encodedData)
     return 'hola';
   };
   

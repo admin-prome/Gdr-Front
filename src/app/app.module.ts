@@ -22,6 +22,8 @@ import { EncryptionServiceService } from './services/EncryptionService/encryptio
 import { LoginService } from './services/userHandler/login/login.service';
 import { VersionComponent } from './components/version/version.component';
 
+
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -33,13 +33,11 @@ export class ApiConnectionService {
     const response =  this.http.get<any>(this.urlApi + 'GetAllProjects');
     response.subscribe(
       (data) => {
-        console.log("estos son los proyectos")  
-        console.log(data);
 
       },
       (error) => {
           console.log('Ocurrio un error al mostrar los proyectos')
-          console.log(error);
+          
       }
   );
 
@@ -64,7 +62,7 @@ export class ApiConnectionService {
 
   //Crear un nuevo incidente en el backlog del proyecto
   public PostNewIssue(newIssue: JSON): Observable<JSON> {
-    console.log(newIssue)
+   
     return this.http.post<JSON>(this.urlApi + 'createissue', newIssue);
   }
 }

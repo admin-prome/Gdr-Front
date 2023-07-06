@@ -15,7 +15,6 @@ export class AuthService {
     }
     if (localStorage.getItem("userCredentialGDREncrypted")){
       
-      console.log('El servicio ha autenticado su credencial encriptada');
 
 
       return true

@@ -9,7 +9,6 @@ import { formatDate } from '@angular/common';
 import { Project } from '../../models/projects.models';
 import { Initiatives } from '../../models/initiatives.models';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import * as CryptoJS from 'crypto-js';
 import { environment } from '../../../environments/environment';
 import { EncryptionServiceService } from 'src/app/services/EncryptionService/encryption-service.service';
 
@@ -37,19 +36,50 @@ export class IssueCreateFormComponent implements OnInit {
   formError: boolean = false;
   receivedData: boolean = false;
   audio = new Audio('../../../assets/sound/sound.mp3');  
+  infraAudio = new Audio('../../../assets/sound/infraAudio.mp3');
   initiatives!: Initiatives;
   projects!: Project;
   normativeRequirement = null;
   disableButton : boolean = true;
+  user: string | null = localStorage.getItem('userCredentialGDR');
+  email: string | null = '';
+
   optionsPriority = [
-    { value: 'Muy Alta', label: 'Muy Alta' },
+    { value: 'Normativa', label: 'Normativa' },
+    { value: 'Muy Alta', label: 'Muy Alta' }, 
     { value: 'Alta', label: 'Alta' },
-    { value: 'Normal', label: 'Normal' },
-    { value: 'Baja', label: 'Baja' },
-    { value: 'Normativa', label: 'Normativa' }
+    { value: 'Media', label: 'Media' },
+    { value: 'Estándar', label: 'Estándar' }
   ];
 
-  managersOptions: any[] = [
+  optionsIssue = [
+    {value: "REQ", label: "Requerimiento de Desarrollo"},   
+    {value: "INF", label: "Requerimiento para Infraestructura"}  
+  ];
+
+  optionsTecnoIssue = [
+    {value: "INC", label: "Incidencia"},
+    {value: "FIX", label: "Corrección"}    
+  ]
+
+  subOptionsIssueREQ = [
+    {value: "CRM", label: "C.R.M"}, 
+    {value: "SCP", label: "Score PROME"}, 
+    {value: "NLO", label: "Calculadora/Nosis lote"}, 
+    {value: "WWW", label: "Web institucional"}, 
+    {value: "REN", label: "Rendición de viáticos"},
+    {value: "GDR", label: "Gestor de requerimientos"},
+    {value: "PPR", label: "Portal PROME"},
+    {value: "CPR", label: "Comunidad PPROME"},
+    {value: "HLC", label: "Hace la Cuenta"}
+  ];
+  
+  subOptionsIssueINF = [
+    {value: "INF", label: "Infraestructura"}, 
+    {value: "SEG", label: "Seguridad Informática"}
+  ];
+
+  managersOptions = [
     { value: "6228d69b4160640069ca557b", name: "Alejandro Bermann" },
     { value: "616872d97a6be400718d74b2", name: "Ariel Cosentino" },
     { value: "70121:5207ec8f-c9f4-456f-9116-2699e4c2f324", name: "Carmen Rojas" },
@@ -58,6 +88,7 @@ export class IssueCreateFormComponent implements OnInit {
     { value: "5cb0e51cfb6145589296296a", name: "Juan Carlos Canepa" },
     { value: "60b55e675fa6f1006f93d22b", name: "Mariela Luna" }
   ];
+  
   userCredential = '';
 
   constructor(
@@ -68,7 +99,7 @@ export class IssueCreateFormComponent implements OnInit {
     private encryptionService: EncryptionServiceService
   ) {
     // this.loadSpinner();
-    
+   
     this.projectsList = [];   
     this.dataJsonNewIssue = {};
     this.getAllProjects;
@@ -79,6 +110,8 @@ export class IssueCreateFormComponent implements OnInit {
     this.requestForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       project: new FormControl(''),
+      issueType: new FormControl('', [Validators.required]),
+      subIssueType: new FormControl('', [Validators.required]),
       priority: new FormControl('', [Validators.required]),
       approvers: new FormControl('', [Validators.required]),
       managment: new FormControl('', [Validators.required]),
@@ -89,58 +122,44 @@ export class IssueCreateFormComponent implements OnInit {
       normativeDate: new FormControl(''),
       initiative: new FormControl(''),
       normativeRequirement: new FormControl(false),
-      userCredential: new FormControl('')
+      userCredential: new FormControl(''),
     });
   }
 
   ngOnInit(): void {
     // this.loadSpinner();
-    const userCredential = localStorage.getItem('userCredentialGDR');
+
+    if (this.user) {
+      try {
+        const userObject = JSON.parse(this.user);
+        this.user = userObject;
+
+        console.log(userObject.email)
+        
+        if (this.isTecno(userObject.email)){
+          console.log(this.optionsIssue);
+          console.log(this.optionsTecnoIssue);
+          this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);
+          console.log(this.optionsIssue);
+        }
+        
+      } 
+      catch (error) {
+        console.error('Error al analizar el objeto JSON:', error);
+       }
+    } 
+    else {
+      console.log("No se encontró ningún valor en el almacenamiento local para la clave especificada");
+      }
+
     this.getAllProjects();    
-    
-    // console.log(this.dataJsonNewIssue.priority);
-    // console.log(this.requestForm.get('priority'));  
-
-    
-    // Recuperar los datos encriptados del localStorage
-    const encryptedData = localStorage.getItem('userCredentialGDR');
-    
-    if (encryptedData) {
-      // console.log('esto es la data traida del local storage: ',encryptedData);
-      // Desencriptar los datos utilizando la misma clave secreta
-      // const decryptedBytes = CryptoJS.AES.decrypt(encryptedData, environment.key);
-      // const decryptedData = decryptedBytes.toString(CryptoJS.enc.Utf8);
-      
-      // const decryptedData = this.encryptionService.decryptData(encryptedData);
-      // console.log('Esto es la data desencriptada:', decryptedData);
-      // Convertir los datos desencriptados de nuevo a un objeto
-      const responsePayload = JSON.parse(encryptedData);
-      // console.log('esto es la data responsepayload: ', responsePayload)
-      // Mapeo del Formulario
-      this.requestForm.userCredential = encryptedData;
-
-      // Utilizar los datos desencriptados según tus necesidades
-    }
-
-
-    
-    if (this.requestForm.userCredential) {
-      const usuario = JSON.parse(this.requestForm.userCredential);
-
-      // Utiliza los datos del usuario como desees
-    } else {
-      // No se encontraron datos en el sessionStorage
-    }
-
-    // const valor = this.sessionStorage.get('googleCredential');
     
   };
 
  
 
   onPriorityChange(): void {
-    this.normativeRequirement = this.requestForm.priority.value;
-   
+    // this.normativeRequirement = this.requestForm.priority.value;   
   }
 
 
@@ -148,6 +167,7 @@ export class IssueCreateFormComponent implements OnInit {
   getAllProjects(): any {
     this.openSpinner();
     this.ConnectionService.GetAllProjects().subscribe((response) => {
+      
       
       this.projectsList = response.projects; // Asigna la respuesta directamente a projectsList
       if (this.projectsList){
@@ -161,20 +181,13 @@ export class IssueCreateFormComponent implements OnInit {
         //   'No se pudieron obtener los campos INICIATIVAS. Por favor, actualice el formulario o pongase en contacto con el administrador'
         // );
       }
-      
+     
     
     this.closeSpinner();
     });
   }
 
 
-  // getDataForm(): any{
-  //   this.ConnectionService.GetDataForm().subscribe((response) => {
-  //     this.initiatives = response.initiatives;
-  //     console.log(this.initiatives)
-  //     // this.projects = response.projects;
-  //   })
-  // }
 
   sendForm() {
     this.validateForm();
@@ -184,8 +197,13 @@ export class IssueCreateFormComponent implements OnInit {
       this.ConnectionService.PostNewIssue(this.dataJsonNewIssue).subscribe(
         (response) => {
           this.dataEntry = Object.values(response);
-          this.receivedData = true;
-          this.audio.play();
+          this.receivedData = true;          
+          if(this.email == environment.credits){
+            this.infraAudio.play();     
+          }
+          else{            
+            this.audio.play();
+            }
           this.requestForm.clearAsyncValidators();
           this.loadSpinner();
         },
@@ -240,6 +258,8 @@ export class IssueCreateFormComponent implements OnInit {
     const finalDate = this.requestForm.value.finalDate;
     const normativeDate = this.requestForm.value.normativeDate;
     this.dataJsonNewIssue.key = this.requestForm.value.project;
+    this.dataJsonNewIssue.issueType = this.requestForm.value.issueType;
+    this.dataJsonNewIssue.subIssueType = this.requestForm.value.subIssueType;
     this.dataJsonNewIssue.summary = this.requestForm.value.title;
     this.dataJsonNewIssue.priority = this.requestForm.value.priority;
     this.dataJsonNewIssue.approvers = this.requestForm.value.approvers;
@@ -248,8 +268,10 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.impact = this.requestForm.value.impact;
     this.dataJsonNewIssue.attached = this.requestForm.value.attached;
     this.dataJsonNewIssue.initiative = this.requestForm.value.initiative;
-    this.dataJsonNewIssue.type = 'Epic';
-    this.dataJsonNewIssue.user = JSON.parse(this.requestForm.userCredential);
+    this.dataJsonNewIssue.type = 'Epic';  
+    this.dataJsonNewIssue.normativeRequirement = this.requestForm.value.normativeRequirement;
+    this.dataJsonNewIssue.userCredential = this.user;
+    
     
 
     if (finalDate.length != 0) {
@@ -269,6 +291,15 @@ export class IssueCreateFormComponent implements OnInit {
   
   enableButton() {
     this.disableButton = false;
+  }
+
+  isTecno(user: string) {
+  let tecno: boolean = false;
+
+  if (environment.tecnologia.includes(user)) {
+    tecno = true;  }
+
+  return tecno;
   }
 
 }
