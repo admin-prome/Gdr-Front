@@ -30,6 +30,7 @@
               autocomplete="off"
               required
               formControlName="title"
+              matTooltip="Ingrese un título breve"
             />
             <mat-error *ngIf="requestForm.get('title').errors?.required">Este campo es obligatorio.
             </mat-error>

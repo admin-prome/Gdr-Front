@@ -8,6 +8,8 @@ import { AuthGoogleComponent } from './components/auth-google/auth-google.compon
 import { LoginComponent } from './components/login/login.component';
 import { LoginGuard } from './components/guards/login.guards';
 import { VersionComponent } from './components/version/version.component';
+import { IssuesListComponent } from './components/issues-list/issues-list.component';
+
 const routes: Routes = [
   
   {path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -21,7 +23,9 @@ const routes: Routes = [
     children:[
       { path: 'issueCreated', component: IssueCreatedComponent },
       { path: '', component: IssueCreateFormComponent },
-      { path: 'version', component: VersionComponent }
+      { path: 'version', component: VersionComponent },
+      { path: 'ls', component: IssuesListComponent },
+      
     ]
   },
 

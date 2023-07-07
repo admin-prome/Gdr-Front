@@ -21,6 +21,9 @@ import { LoginComponent } from './components/login/login.component';
 import { EncryptionServiceService } from './services/EncryptionService/encryption-service.service';
 import { LoginService } from './services/userHandler/login/login.service';
 import { VersionComponent } from './components/version/version.component';
+import { IssuesListComponent } from './components/issues-list/issues-list.component';
+import { CardComponent } from './components/card/card.component';
+import { JiraErrorsComponent } from './components/errors/jira-errors/jira-errors.component';
 
 
 
@@ -33,7 +36,7 @@ import { VersionComponent } from './components/version/version.component';
     IssueCreateFormComponent,
     AuthGoogleComponent,    
     LoginComponent, 
-    VersionComponent,
+    VersionComponent, IssuesListComponent, CardComponent, JiraErrorsComponent,
   ],
   imports: [
     BrowserModule,

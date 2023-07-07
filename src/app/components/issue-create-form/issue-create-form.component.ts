@@ -70,7 +70,7 @@ export class IssueCreateFormComponent implements OnInit {
     {value: "REN", label: "Rendición de viáticos"},
     {value: "GDR", label: "Gestor de requerimientos"},
     {value: "PPR", label: "Portal PROME"},
-    {value: "CPR", label: "Comunidad PPROME"},
+    {value: "CPR", label: "Comunidad PROME"},
     {value: "HLC", label: "Hace la Cuenta"}
   ];
   
@@ -134,13 +134,11 @@ export class IssueCreateFormComponent implements OnInit {
         const userObject = JSON.parse(this.user);
         this.user = userObject;
 
-        console.log(userObject.email)
         
         if (this.isTecno(userObject.email)){
-          console.log(this.optionsIssue);
-          console.log(this.optionsTecnoIssue);
+          
           this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);
-          console.log(this.optionsIssue);
+       
         }
         
       } 
@@ -197,7 +195,8 @@ export class IssueCreateFormComponent implements OnInit {
       this.ConnectionService.PostNewIssue(this.dataJsonNewIssue).subscribe(
         (response) => {
           this.dataEntry = Object.values(response);
-          this.receivedData = true;          
+          this.receivedData = true;    
+          console.log("esto es la respuesta del back",this.dataEntry);      
           if(this.email == environment.credits){
             this.infraAudio.play();     
           }
@@ -210,6 +209,7 @@ export class IssueCreateFormComponent implements OnInit {
         (error) => {
           console.error(error);
           this.formError = true;
+
           this.displaySnackbar(
             'Su requerimiento no pudo ser creado. Por favor, reenvie el formulario'
           );
