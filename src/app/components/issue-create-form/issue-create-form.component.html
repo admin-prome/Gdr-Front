@@ -232,7 +232,7 @@
       </div>
       
     </form>
-    <footer>
+    <footer *ngIf="(!loading || formError) && !receivedData">
       <button
           type="submit"
           mat-raised-button
