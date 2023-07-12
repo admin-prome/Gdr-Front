@@ -135,7 +135,7 @@ export class IssueCreateFormComponent implements OnInit {
         this.user = userObject;
 
         
-        if (this.isTecno(userObject.email)){
+        if (this.enableINC(userObject.email)){
           
           this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);
        
@@ -300,6 +300,18 @@ export class IssueCreateFormComponent implements OnInit {
     tecno = true;  }
 
   return tecno;
+  }
+
+  enableINC(user:string){
+
+    let enable: boolean = false;
+
+    if (environment.soporte.includes(user) || environment.tecnologia.includes(user) || environment.procesos.includes(user)) {
+      enable = true;  }
+
+  return enable;
+    
+
   }
 
 }
