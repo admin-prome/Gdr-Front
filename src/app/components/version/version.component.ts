@@ -10,7 +10,7 @@ export class VersionComponent implements OnInit {
 
   versionData: VersionData = {
     name: 'Gestor de Requerimientos',
-    version: '1.0.0',
+    version: '1.0.3',
     author: 'Millan Maximiliano',
     gerencia:'Tecnología',
     contactEmail: 'mmillan@provinciamicrocreditos.com',

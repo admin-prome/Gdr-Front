@@ -115,16 +115,51 @@
           </mat-form-field>
 
            <!-- Gerente que aprueba el requerimiento -->
-          <mat-form-field class="full-width margin-top" appearance="fill">
+          <!-- <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Aprobado por</mat-label>
             <mat-select [(value)]="requestForm.value.approvers" formControlName="approvers"  (selectionChange)="onPriorityChange()">
-              <mat-option *ngFor="let manager of managersOptions" [value]="manager.value">
-                {{manager.name}}
+              <mat-option *ngFor="let manager of managersOptions" [value]="manager">
+                <b>{{manager.name}}</b> - {{manager.management}}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="requestForm.get('approvers').errors?.required">Seleccione una opción.
             </mat-error>
+          </mat-form-field> -->
+
+
+           <!-- Gerente que aprueba el requerimiento -->
+          <!-- <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Aprobado Por</mat-label>
+            <mat-select
+              [(value)]="this.dataJsonNewIssue.approvers"
+              formControlName="approvers">
+                <mat-option
+                  *ngFor="let key of getObjectKeys(this.approversList)"
+                  value="{{ this.approversList }}"
+                  > <b>{{ approversList[key].name }}</b> - {{ approversList[key].management }}
+                </mat-option>
+            </mat-select>
+            
+          </mat-form-field>  -->
+
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Aprobado Por</mat-label>
+            <mat-select
+              (selectionChange)="onApproverSelection($event)"
+              formControlName="approvers"
+            >
+              <mat-option
+                *ngFor="let key of getObjectKeys(this.approversList); let i = index"
+                [value]="this.approversList[key]"
+              >
+                <!-- Mostrar los campos 'name' y 'management' -->
+                <span><b>{{ approversList[key].name }}</b> - {{ approversList[key].management }}</span>
+              </mat-option>
+            </mat-select>
           </mat-form-field>
+          
+          
+
          
         </section>
 

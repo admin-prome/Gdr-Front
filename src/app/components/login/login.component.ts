@@ -49,8 +49,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   handleCredentialResponse = (response: any) => {
     console.log('--------------------------------');
-    console.log(response);
-    sessionStorage.setItem('maxi', JSON.stringify(response));
+    
     console.log('--------------------------------');
     if(response.credential){      
       

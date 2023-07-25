@@ -11,6 +11,9 @@ import { Initiatives } from '../../models/initiatives.models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import { EncryptionServiceService } from 'src/app/services/EncryptionService/encryption-service.service';
+import { MatSelectChange } from '@angular/material/select';
+import { catchError, timeout } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 
@@ -79,17 +82,25 @@ export class IssueCreateFormComponent implements OnInit {
     {value: "SEG", label: "Seguridad Informática"}
   ];
 
-  managersOptions = [
-    { value: "6228d69b4160640069ca557b", name: "Alejandro Bermann" },
-    { value: "616872d97a6be400718d74b2", name: "Ariel Cosentino" },
-    { value: "70121:5207ec8f-c9f4-456f-9116-2699e4c2f324", name: "Carmen Rojas" },
-    { value: "61bbafde08e4e00069aef74e", name: "Gisela Marino" },
-    { value: "I6171a81dbcb57400682d861e", name: "Ignacio Stella" },
-    { value: "5cb0e51cfb6145589296296a", name: "Juan Carlos Canepa" },
-    { value: "60b55e675fa6f1006f93d22b", name: "Mariela Luna" }
+  managersOptions = [    
+    { email: "abermann@provinciamicrocreditos.com", value: "6228d69b4160640069ca557b", name: "Alejandro Daniel Bermann", management: "Administracion y Finanzas"},
+    { email: "acosentino@provinciamicrocreditos.com", value: "616872d97a6be400718d74b2", name: "Ariel Cosentino", management: "Red de Sucursales"},
+    { email: "crojas@provinciamicrocreditos.com", value: "70121:5207ec8f-c9f4-456f-9116-2699e4c2f324", name: "Carmen Eugenia Rojas Jaramillo", management: "Cumplimiento y Procesos"},
+    { email: "efernandez@provinciamicrocreditos.co", value: "615e66da289a54006a2ca1e3", name: "Emiliano Fernandez", management: "Inteligencia de Negocios y Gestion estrategica"},
+    { email: "gmarino@provinciamicrocreditos.com", value: "61bbafde08e4e00069aef74e", name: "Gisela Elin Marino", management: "Comercial"},
+    { email: "istella@provinciamicrocreditos.com", value: "I6171a81dbcb57400682d861e", name: "Ignacio Fernando Stella", management: "Personas"},
+    { email: "jcanepa@provinciamicrocreditos.com", value: "5cb0e51cfb6145589296296a", name: "Juan Carlos Canepa", management: "Tecnologia"},
+    { email: "lottone@provinciamicrocreditos.co", value: "6228d79dc88f10006832563", name: "Leandro Martin Ottone", management: "Direccion Ejecutiva"},
+    { email: "mluna@provinciamicrocreditos.com", value: "60b55e675fa6f1006f93d22b", name: "Mariela Alejandra Luna", management: "Riesgo"},
+    { email: "mcgomez@provinciamicrocreditos.co", value: "61aa6bb06d002b006b02630e", name: "Mar­ia Carolina Gomez", management: "Comunicacion Institucional"},    
+    { email: "srosanovich@provinciamicrocreditos.co", value: "6228d870a1245000688b1065", name: "Sergio Andres Rosanovich", management: "Investigacion y Capacitacion"}
   ];
+
+
+
   
   userCredential = '';
+  approversList: any;
 
   constructor(
     private fb: FormBuilder,
@@ -102,7 +113,7 @@ export class IssueCreateFormComponent implements OnInit {
    
     this.projectsList = [];   
     this.dataJsonNewIssue = {};
-    this.getAllProjects;
+    // this.getAllProjects;
     
     this.dataJsonNewIssue = new IssueCreate();
     this.dataEntry = '';
@@ -128,13 +139,12 @@ export class IssueCreateFormComponent implements OnInit {
 
   ngOnInit(): void {
     // this.loadSpinner();
-
+   
     if (this.user) {
       try {
         const userObject = JSON.parse(this.user);
         this.user = userObject;
-
-        
+        this.email = userObject.email;
         if (this.enableINC(userObject.email)){
           
           this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);
@@ -152,6 +162,7 @@ export class IssueCreateFormComponent implements OnInit {
 
     this.getAllProjects();    
     
+    
   };
 
  
@@ -164,48 +175,92 @@ export class IssueCreateFormComponent implements OnInit {
 
   getAllProjects(): any {
     this.openSpinner();
-    this.ConnectionService.GetAllProjects().subscribe((response) => {
-      
-      
-      this.projectsList = response.projects; // Asigna la respuesta directamente a projectsList
-      if (this.projectsList){
-        // this.displaySnackbar(
-        //   'No se pudieron obtener los campos PROJECTOS. Por favor, actualice el formulario o pongase en contacnto con el administrador'
-        // );
-      }
-      this.initiativesList = response.initiatives; // Inicializa la lista de iniciativas como un array vacío
-      if (this.initiativesList){
-        // this.displaySnackbar(
-        //   'No se pudieron obtener los campos INICIATIVAS. Por favor, actualice el formulario o pongase en contacto con el administrador'
-        // );
-      }
-     
-    
-    this.closeSpinner();
-    });
+  
+    this.ConnectionService.GetAllProjects()
+      .pipe(
+        timeout(10000),
+        catchError((error) => {
+          console.log('Error o timeout al obtener los datos del servidor:', error);
+          // En caso de error o timeout, usa los datos de la variable local (this.managersOptions)
+          return of({ approvers: this.managersOptions || [] });
+        })
+      )
+      .subscribe((response) => {
+        
+  
+        if (response && response.approvers) {
+          this.approversList = response.approvers;
+          
+        } else {
+         
+          this.approversList = this.managersOptions || [];
+        }
+  
+        this.closeSpinner();
+      });
   }
 
+  //getAllProjects(): any {
+  //   this.openSpinner();
+  //   this.ConnectionService.GetAllProjects().subscribe(
+  //     (response) => {
+  //         console.log("esto es lo que llega del back : ", response)
 
+  //       if (response && response.approvers) {
+  //         this.approversList = response.approvers;
+  //         console.log('Los campos fueron actualizados')
+  //       }
+  //       else {
+  //         // Si no hay respuesta o faltan campos, usa los datos de la variable local
+  //         // Asegúrate de que this.variableLocal contenga datos válidos previamente
+  //         console.log('No se pudieron actualizar los campos')
+          
+          
+  //       }
+  //     },
+  //     (error) => {
+  //       console.log('Ocurrio un error al consultar el servicio: ', error);
+  //     }
+  //   );
+    
+  //   this.closeSpinner();
+  //   ;
+  // }
 
   sendForm() {
-    this.validateForm();
-   
+    this.openSpinner();
+    this.validateForm();   
     
     if (this.requestForm.invalid != true) {
       this.ConnectionService.PostNewIssue(this.dataJsonNewIssue).subscribe(
         (response) => {
           this.dataEntry = Object.values(response);
-          this.receivedData = true;    
           console.log("esto es la respuesta del back",this.dataEntry);      
-          if(this.email == environment.credits){
-            this.infraAudio.play();     
-          }
-          else{            
-            this.audio.play();
+          
+          if (this.dataEntry[2] == "200"){
+              this.closeSpinner();
+              this.receivedData = true; 
+              if(this.email == environment.credits){
+                this.infraAudio.play();     
+              }
+              else{            
+                this.audio.play();
+                }
+              this.requestForm.clearAsyncValidators();
+              // this.loadSpinner();
             }
-          this.requestForm.clearAsyncValidators();
-          this.loadSpinner();
-        },
+          else{
+           
+            this.receivedData = false;
+            this.formError = true;
+            this.closeSpinner();
+            this.displaySnackbar(
+                                'Su requerimiento no pudo ser creado. Por favor, reenvie el formulario'
+                                );
+            this.enableButton();
+          }
+          },
+         
         (error) => {
           console.error(error);
           this.formError = true;
@@ -252,6 +307,16 @@ export class IssueCreateFormComponent implements OnInit {
     this.loading = false;
   }
   
+  // Método para obtener el objeto completo según el índice seleccionado
+ 
+
+  // Método para obtener el objeto completo según el índice seleccionado
+  onApproverSelection(event: MatSelectChange): void {
+  const selectedApprover = event.value;
+  console.log(selectedApprover); // Aquí tienes el objeto completo seleccionado
+  // Puedes enviar 'selectedApprover' al back-end u operar con él como desees
+  }
+
 
 
   validateForm() {
@@ -263,6 +328,7 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.summary = this.requestForm.value.title;
     this.dataJsonNewIssue.priority = this.requestForm.value.priority;
     this.dataJsonNewIssue.approvers = this.requestForm.value.approvers;
+    console.log('esto es approvers para enviar', this.dataJsonNewIssue.approvers);
     this.dataJsonNewIssue.managment = this.requestForm.value.managment;
     this.dataJsonNewIssue.description = this.requestForm.value.description;
     this.dataJsonNewIssue.impact = this.requestForm.value.impact;
@@ -271,16 +337,19 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.type = 'Epic';  
     this.dataJsonNewIssue.normativeRequirement = this.requestForm.value.normativeRequirement;
     this.dataJsonNewIssue.userCredential = this.user;
+ 
     
-    
-
-    if (finalDate.length != 0) {
+    if (finalDate != 0) {
+      console.log("fecha  estimada: ", finalDate.length)
       this.dataJsonNewIssue.finalDate = this.formatDate(finalDate);
     }
+    else{this.dataJsonNewIssue.finalDate = "None"}
 
-    if (normativeDate.length != 0) {
+    if (normativeDate != 0) {
+      console.log("fecha normativa: ", normativeDate.length)
       this.dataJsonNewIssue.normativeDate = this.formatDate(normativeDate);
     }
+    else{this.dataJsonNewIssue.normativeDate = "None"}
     
     return this.dataJsonNewIssue;
   }
