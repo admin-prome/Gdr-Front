@@ -3,15 +3,16 @@
     <div class="card-message">
       <img
         mat-card-image
-        src="../../../assets/backgroundCard2@4x.png"
+        src="../../../assets/fondoReq.png"
         alt="Requerimiento creado con exito"
       />
       <div class="card-text">
-        <h1>¡Su requerimiento fue creado con éxito!</h1>
-        <h3>
-          Puede seguir el enlace para ver su estado. <br />
-          Muchas gracias.
-        </h3>
+        <h1>¡Su requerimiento: <b>{{issueData[0].summary}}</b></h1>
+          <h1>fue creado con éxito!</h1>
+        
+        <!-- <a href="{{issueData.link}}"><h3 class="Titulo">{{issueData[1]}}</h3></a>        
+        <h3 class="Titulo">{{issueData[0].summary}}</h3>                             -->
+                    
       </div>
     </div>
 

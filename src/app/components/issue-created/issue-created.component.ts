@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { SharedDataService } from 'src/app/services/sharedData/shared-data.service';
 
 @Component({
   selector: 'app-issue-created',
@@ -12,12 +13,20 @@ export class IssueCreatedComponent implements OnInit {
 
   message: Array<any> = [];
   init = false;
+  issueData: any;
 
-  constructor() {
+  constructor(
+    private sharedDataService: SharedDataService
+  ) {
     this.childMessage;
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.issueData = this.sharedDataService.getReceivedData();
+    console.log('Esto es la info recibida', this.issueData);
+    console.log('data: ', this.issueData[0])
+
+  }
 
   reloadPage() {
     window.location.reload();

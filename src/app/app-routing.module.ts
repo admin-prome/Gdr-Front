@@ -13,7 +13,8 @@ import { IssuesListComponent } from './components/issues-list/issues-list.compon
 const routes: Routes = [
   
   {path: '', redirectTo: '/home', pathMatch: 'full' },
-
+  // {path: '', redirectTo: '/issueCreated', pathMatch: 'full' },
+  // { path: 'issueCreated', component: IssueCreatedComponent },
   // { path: 'login', component: AuthGoogleComponent },
 
   {path: 'login', component: LoginComponent },

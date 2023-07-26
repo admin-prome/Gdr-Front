@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder,Validators,FormControl} from '@angular/forms';
 import { ApiConnectionService } from 'src/app/services/api-connection-service.service';
+import { SharedDataService } from 'src/app/services/sharedData/shared-data.service'
 import { IssueCreate } from 'src/app/interfaces/issueCreate-interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SharedModule } from '../../modules/material/shared.module';
@@ -107,7 +108,8 @@ export class IssueCreateFormComponent implements OnInit {
     private ConnectionService: ApiConnectionService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private encryptionService: EncryptionServiceService
+    private encryptionService: EncryptionServiceService,
+    private sharedDataService: SharedDataService
   ) {
     // this.loadSpinner();
    
@@ -240,6 +242,7 @@ export class IssueCreateFormComponent implements OnInit {
           if (this.dataEntry[2] == "200"){
               this.closeSpinner();
               this.receivedData = true; 
+              this.sharedDataService.setReceivedData(this.dataEntry);
               if(this.email == environment.credits){
                 this.infraAudio.play();     
               }
@@ -257,7 +260,7 @@ export class IssueCreateFormComponent implements OnInit {
             this.displaySnackbar(
                                 'Su requerimiento no pudo ser creado. Por favor, reenvie el formulario'
                                 );
-            this.enableButton();
+           //this.enableButton();
           }
           },
          
@@ -268,8 +271,9 @@ export class IssueCreateFormComponent implements OnInit {
           this.displaySnackbar(
             'Su requerimiento no pudo ser creado. Por favor, reenvie el formulario'
           );
-          this.enableButton();
-
+          //this.enableButton();
+          this.closeSpinner();
+          
         }
       );
     } else {
@@ -277,6 +281,7 @@ export class IssueCreateFormComponent implements OnInit {
         'Por favor, complete los campos requeridos para enviar'
       );
     }
+    
   }
 
   formatDate(finalDate: any): any {
@@ -328,7 +333,7 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.summary = this.requestForm.value.title;
     this.dataJsonNewIssue.priority = this.requestForm.value.priority;
     this.dataJsonNewIssue.approvers = this.requestForm.value.approvers;
-    console.log('esto es approvers para enviar', this.dataJsonNewIssue.approvers);
+    
     this.dataJsonNewIssue.managment = this.requestForm.value.managment;
     this.dataJsonNewIssue.description = this.requestForm.value.description;
     this.dataJsonNewIssue.impact = this.requestForm.value.impact;
@@ -340,13 +345,13 @@ export class IssueCreateFormComponent implements OnInit {
  
     
     if (finalDate != 0) {
-      console.log("fecha  estimada: ", finalDate.length)
+      //console.log("fecha  estimada: ", finalDate.length)
       this.dataJsonNewIssue.finalDate = this.formatDate(finalDate);
     }
     else{this.dataJsonNewIssue.finalDate = "None"}
 
     if (normativeDate != 0) {
-      console.log("fecha normativa: ", normativeDate.length)
+      //console.log("fecha normativa: ", normativeDate.length)
       this.dataJsonNewIssue.normativeDate = this.formatDate(normativeDate);
     }
     else{this.dataJsonNewIssue.normativeDate = "None"}

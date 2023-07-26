@@ -49,30 +49,59 @@ export class ApiConnectionService {
   public GetAllProjects(): Observable<any> {
     const localStorageKey = 'projectsData'; // Clave para almacenar los datos en el localStorage
     const cachedData = localStorage.getItem(localStorageKey);
+   
+    let errorValue = false; // Valor por defecto para el campo "error"
   
-    // Verificar si los datos están en el localStorage
-    const cachedDataValid = cachedData &&
-      JSON.parse(cachedData).timestamp &&
-      new Date().getTime() - JSON.parse(cachedData).timestamp < 1 * 5 * 60 * 1000;
+    // Verificar si los datos están en el localStorage y no son nulos
+    if (cachedData !== null) {
+      const parsedData = JSON.parse(cachedData);
   
-    if (cachedDataValid) {
-      // Si los datos son válidos, retornarlos desde el localStorage
-      return of(JSON.parse(cachedData).data);
-    } else {
-      // Si los datos no están en el localStorage o son inválidos, obtenerlos del backend
-      return this.http.get<any>(this.urlApi + 'GetAllProjects').pipe(
-        tap((data) => {
-          // Almacenar los datos en el localStorage junto con la fecha actual
-          localStorage.setItem(localStorageKey, JSON.stringify({ data: data, timestamp: new Date().getTime() }));
-        }),
-        catchError((error) => {
-          console.log('Ocurrió un error al mostrar los proyectos');
-          return of([]); // En caso de error, retornar un array vacío u otra información por defecto
-        })
-      );
+      // Acceder al valor del campo "error"
+      if (parsedData.data && parsedData.data.approvers && parsedData.data.approvers.error) {
+        errorValue = parsedData.data.approvers.error;
+
+        if(errorValue){          
+        localStorage.removeItem(localStorageKey);
+        }
+      }
+  
+    
+  
+      const cachedDataValid =
+        parsedData.timestamp &&
+        new Date().getTime() - parsedData.timestamp < 1 * 60 * 60 * 1000;
+      
+      if (cachedDataValid) {
+        // Si los datos son válidos y el campo "error" no es true, retornarlos desde el localStorage
+        return of(parsedData.data);
+      }
     }
+    
+    // Si los datos no están en el localStorage, son inválidos o el campo "error" es true,
+    // obtener los datos del backend
+    return this.http.get<any>(this.urlApi + 'GetAllProjects').pipe(
+      tap((data) => {
+        console.log('usted esta aqui', data)
+        // Verificar si el backend devuelve un objeto con error = true
+        if (data.error) {
+          console.log('El backend devolvió un error: ', data.descripcion); // Mostrar el mensaje de error del backend
+          return of([]); // Retornar un array vacío u otra información por defecto
+        } else {
+          // Almacenar los datos en el localStorage junto con la fecha actual
+          localStorage.setItem(
+            localStorageKey,
+            JSON.stringify({ data: data, timestamp: new Date().getTime() })
+          );
+          return data; // Retornar los datos recibidos del backend
+        }
+      }),
+      catchError((error) => {
+        console.log('Ocurrió un error al mostrar los proyectos: ', error);
+        return of([]); // En caso de error, retornar un array vacío u otra información por defecto
+      })
+    );
   }
- 
+  
 
   public GetDataForm(): Observable<DataForm> {
     const url = this.urlApi + 'getallprojects';
