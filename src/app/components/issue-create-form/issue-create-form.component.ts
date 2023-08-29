@@ -160,11 +160,17 @@ export class IssueCreateFormComponent implements OnInit {
         this.email = userObject.email;
         this.reporter = userObject.userIdJIRA;
         
-        if (this.enableINC(userObject.email)){
-          
-          this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);
-       
+        // if (this.reporter == "6228d8734160640069ca5686"){
+        //   localStorage.removeItem("userCredentialGDR");
+        //   this.displaySnackbar("Intentando obtener usuario de JIRA")
+        //   this.router.navigate(['/login']);
+
+        // }        
+        
+        if (this.enableINC(userObject.email)){            
+          this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);      
         }
+         
         
       } 
       catch (error) {
@@ -281,7 +287,7 @@ export class IssueCreateFormComponent implements OnInit {
           if (this.dataEntry[2] == "200"){
               this.closeSpinner();
               this.receivedData = true; 
-              this.sharedDataService.setReceivedData(this.dataEntry);
+              this.sharedDataService.setReceivedData(this.dataEntry)
               if(this.email == environment.credits){
                 this.infraAudio.play();     
               }
