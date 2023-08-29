@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { IssueCreate, IssuesInformation} from '../interfaces/issueCreate-interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -55,11 +55,9 @@ export class ApiConnectionService {
     // Verificar si los datos están en el localStorage y no son nulos
     if (cachedData !== null) {
       const parsedData = JSON.parse(cachedData);
-  
       // Acceder al valor del campo "error"
       if (parsedData.data && parsedData.data.approvers && parsedData.data.approvers.error) {
         errorValue = parsedData.data.approvers.error;
-
         if(errorValue){          
         localStorage.removeItem(localStorageKey);
         }
@@ -69,7 +67,7 @@ export class ApiConnectionService {
   
       const cachedDataValid =
         parsedData.timestamp &&
-        new Date().getTime() - parsedData.timestamp < 1 * 60 * 60 * 1000;
+        new Date().getTime() - parsedData.timestamp < 1 * 1 * 60 * 1000;
       
       if (cachedDataValid) {
         // Si los datos son válidos y el campo "error" no es true, retornarlos desde el localStorage
@@ -81,7 +79,6 @@ export class ApiConnectionService {
     // obtener los datos del backend
     return this.http.get<any>(this.urlApi + 'GetAllProjects').pipe(
       tap((data) => {
-        console.log('usted esta aqui', data)
         // Verificar si el backend devuelve un objeto con error = true
         if (data.error) {
           console.log('El backend devolvió un error: ', data.descripcion); // Mostrar el mensaje de error del backend
@@ -117,8 +114,16 @@ export class ApiConnectionService {
 
 
   //Crear un nuevo incidente en el backlog del proyecto
-  public PostNewIssue(newIssue: JSON): Observable<JSON> {
-   
-    return this.http.post<JSON>(this.urlApi + 'createissue', newIssue);
+  
+
+  public PostNewIssue(newIssue: FormData): Observable<any> {
+    
+    // const headers = new HttpHeaders();
+    // headers.append('Content-Type', 'multipart/form-data');
+
+    return this.http.post<any>(this.urlApi + 'createissue',newIssue);
+
+    //return this.http.post<JSON>(this.urlApi + 'createissue', newIssue);
   }
 }
+ 

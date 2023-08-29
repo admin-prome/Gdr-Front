@@ -4,6 +4,8 @@ import { ApiConnectionService } from 'src/app/services/api-connection-service.se
 import { SharedDataService } from 'src/app/services/sharedData/shared-data.service'
 import { IssueCreate } from 'src/app/interfaces/issueCreate-interface';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
 import { SharedModule } from '../../modules/material/shared.module';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
@@ -15,6 +17,9 @@ import { EncryptionServiceService } from 'src/app/services/EncryptionService/enc
 import { MatSelectChange } from '@angular/material/select';
 import { catchError, timeout } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+
+
 
 
 
@@ -22,6 +27,7 @@ import { of } from 'rxjs';
   selector: 'app-issue-create-form',
   templateUrl: './issue-create-form.component.html',
   styleUrls: ['./issue-create-form.component.css'],
+
 })
 export class IssueCreateFormComponent implements OnInit {
   @Input() dataEntry: any;
@@ -47,6 +53,9 @@ export class IssueCreateFormComponent implements OnInit {
   disableButton : boolean = true;
   user: string | null = localStorage.getItem('userCredentialGDR');
   email: string | null = '';
+  selectedFile: File | null = null;
+  selectedFileName: string = '';
+  reporter: string | null = '';
 
   optionsPriority = [
     { value: 'Normativa', label: 'Normativa' },
@@ -89,19 +98,21 @@ export class IssueCreateFormComponent implements OnInit {
     { email: "crojas@provinciamicrocreditos.com", value: "70121:5207ec8f-c9f4-456f-9116-2699e4c2f324", name: "Carmen Eugenia Rojas Jaramillo", management: "Cumplimiento y Procesos"},
     { email: "efernandez@provinciamicrocreditos.co", value: "615e66da289a54006a2ca1e3", name: "Emiliano Fernandez", management: "Inteligencia de Negocios y Gestion estrategica"},
     { email: "gmarino@provinciamicrocreditos.com", value: "61bbafde08e4e00069aef74e", name: "Gisela Elin Marino", management: "Comercial"},
-    { email: "istella@provinciamicrocreditos.com", value: "I6171a81dbcb57400682d861e", name: "Ignacio Fernando Stella", management: "Personas"},
+    { email: "istella@provinciamicrocreditos.com", value: "6171a81dbcb57400682d861e", name: "Ignacio Fernando Stella", management: "Personas"},
     { email: "jcanepa@provinciamicrocreditos.com", value: "5cb0e51cfb6145589296296a", name: "Juan Carlos Canepa", management: "Tecnologia"},
-    { email: "lottone@provinciamicrocreditos.co", value: "6228d79dc88f10006832563", name: "Leandro Martin Ottone", management: "Direccion Ejecutiva"},
+    { email: "lottone@provinciamicrocreditos.co", value: "6228d79dc88f10006832563a", name: "Leandro Martin Ottone", management: "Direccion Ejecutiva"},
     { email: "mluna@provinciamicrocreditos.com", value: "60b55e675fa6f1006f93d22b", name: "Mariela Alejandra Luna", management: "Riesgo"},
     { email: "mcgomez@provinciamicrocreditos.co", value: "61aa6bb06d002b006b02630e", name: "Mar­ia Carolina Gomez", management: "Comunicacion Institucional"},    
     { email: "srosanovich@provinciamicrocreditos.co", value: "6228d870a1245000688b1065", name: "Sergio Andres Rosanovich", management: "Investigacion y Capacitacion"}
   ];
-
+  
 
 
   
   userCredential = '';
   approversList: any;
+
+  private fileTmb: any;
 
   constructor(
     private fb: FormBuilder,
@@ -109,7 +120,7 @@ export class IssueCreateFormComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private encryptionService: EncryptionServiceService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,  
   ) {
     // this.loadSpinner();
    
@@ -147,6 +158,8 @@ export class IssueCreateFormComponent implements OnInit {
         const userObject = JSON.parse(this.user);
         this.user = userObject;
         this.email = userObject.email;
+        this.reporter = userObject.userIdJIRA;
+        
         if (this.enableINC(userObject.email)){
           
           this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);
@@ -173,6 +186,52 @@ export class IssueCreateFormComponent implements OnInit {
     // this.normativeRequirement = this.requestForm.priority.value;   
   }
 
+  onFileSelected($event: any) {
+    const file = $event.target.files[0];
+    console.log(file)
+   
+    if (file) {
+      const maxSizeInBytes = 2 * 1024 * 1024 * 1024; // 2 GB en bytes
+      if (file.size <= maxSizeInBytes) {
+        this.fileTmb = {
+          fileRaw: file,
+          fileName: file.name
+        }
+        this.selectedFile = file;
+        this.selectedFileName = file ? file.name : '';
+       
+      } 
+      else {
+        this.selectedFileName = ''; // Limpia el nombre del archivo
+        // Muestra un mensaje de error o notificación sobre el tamaño máximo
+        this.displaySnackbar('El archivo excede el tamaño máximo permitido (2 GB)');
+      }
+    }
+
+  }
+
+  onUpload() {
+    if (!this.selectedFile) {
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', this.selectedFile);
+
+    // const headers = new HttpHeaders();
+    // headers.append('Content-Type', 'multipart/form-data');
+
+    // this.http.post('URL_DEL_ENDPOINT', formData, { headers: headers }).subscribe(
+    //   (response) => {
+    //     console.log('File uploaded successfully!', response);
+    //     // Manejar la respuesta del backend aquí si es necesario
+    //   },
+    //   (error) => {
+    //     console.error('Error uploading file:', error);
+    //     // Manejar el error aquí si es necesario
+    //   }
+    // );
+  }
 
 
   getAllProjects(): any {
@@ -202,39 +261,19 @@ export class IssueCreateFormComponent implements OnInit {
       });
   }
 
-  //getAllProjects(): any {
-  //   this.openSpinner();
-  //   this.ConnectionService.GetAllProjects().subscribe(
-  //     (response) => {
-  //         console.log("esto es lo que llega del back : ", response)
 
-  //       if (response && response.approvers) {
-  //         this.approversList = response.approvers;
-  //         console.log('Los campos fueron actualizados')
-  //       }
-  //       else {
-  //         // Si no hay respuesta o faltan campos, usa los datos de la variable local
-  //         // Asegúrate de que this.variableLocal contenga datos válidos previamente
-  //         console.log('No se pudieron actualizar los campos')
-          
-          
-  //       }
-  //     },
-  //     (error) => {
-  //       console.log('Ocurrio un error al consultar el servicio: ', error);
-  //     }
-  //   );
-    
-  //   this.closeSpinner();
-  //   ;
-  // }
-
-  sendForm() {
+  sendForm():void {
     this.openSpinner();
     this.validateForm();   
-    
+    const body = new FormData();
+    if (this.fileTmb != null){
+      body.append('myFile', this.fileTmb.fileRaw, this.fileTmb.fileName);
+    }
+      
+    body.append('myJson', JSON.stringify(this.dataJsonNewIssue));
+
     if (this.requestForm.invalid != true) {
-      this.ConnectionService.PostNewIssue(this.dataJsonNewIssue).subscribe(
+      this.ConnectionService.PostNewIssue(body).subscribe(
         (response) => {
           this.dataEntry = Object.values(response);
           console.log("esto es la respuesta del back",this.dataEntry);      
@@ -332,8 +371,7 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.subIssueType = this.requestForm.value.subIssueType;
     this.dataJsonNewIssue.summary = this.requestForm.value.title;
     this.dataJsonNewIssue.priority = this.requestForm.value.priority;
-    this.dataJsonNewIssue.approvers = this.requestForm.value.approvers;
-    
+    this.dataJsonNewIssue.approvers = this.requestForm.value.approvers;    
     this.dataJsonNewIssue.managment = this.requestForm.value.managment;
     this.dataJsonNewIssue.description = this.requestForm.value.description;
     this.dataJsonNewIssue.impact = this.requestForm.value.impact;
@@ -342,11 +380,13 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.type = 'Epic';  
     this.dataJsonNewIssue.normativeRequirement = this.requestForm.value.normativeRequirement;
     this.dataJsonNewIssue.userCredential = this.user;
+    this.dataJsonNewIssue.reporter = this.reporter;
  
     
     if (finalDate != 0) {
       //console.log("fecha  estimada: ", finalDate.length)
       this.dataJsonNewIssue.finalDate = this.formatDate(finalDate);
+      
     }
     else{this.dataJsonNewIssue.finalDate = "None"}
 
@@ -355,7 +395,7 @@ export class IssueCreateFormComponent implements OnInit {
       this.dataJsonNewIssue.normativeDate = this.formatDate(normativeDate);
     }
     else{this.dataJsonNewIssue.normativeDate = "None"}
-    
+
     return this.dataJsonNewIssue;
   }
 
@@ -388,4 +428,5 @@ export class IssueCreateFormComponent implements OnInit {
 
   }
 
+ 
 }

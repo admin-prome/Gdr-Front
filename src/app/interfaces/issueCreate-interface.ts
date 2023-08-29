@@ -44,6 +44,7 @@ export class IssueCreate{
     priority: string = '';
     userCredential: JSON | undefined;
     user: JSON | any;
+    jiraAttach: any;
 
 }
 

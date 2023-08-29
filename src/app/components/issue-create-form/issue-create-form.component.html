@@ -8,8 +8,7 @@
     >
     </app-issue-created>
 
-   
-
+    
     <form
       *ngIf="(!loading || formError) && !receivedData"
       [formGroup]="requestForm"
@@ -23,6 +22,45 @@
         
         
         <section class="section-one">
+          
+          <!-- <div *ngIf="requestForm.get('priority').value !== 'Normativa'">
+            <mat-form-field class="full-width margin-top" appearance="fill">
+              <mat-label>Fecha estimada de implementación (Necesidad de negocio)</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="finalDate"/>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div> -->
+
+              
+          
+          
+          
+          
+          <!-- <div *ngIf="requestForm.get('priority').value === 'Normativa'">
+            <mat-form-field class="full-width margin-top" appearance="fill">
+                <mat-label>Seleccione archivos adjuntos</mat-label>
+                <input matInput [matDatepicker]="picker1" />
+                 <mat-hint>Cargar siempre documentación para analisis</mat-hint> 
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+              </mat-form-field>
+          </div>
+          -->
+           
+            
+              <!-- <input type="file" [value]="selectedFileName" style="display: none" #fileInput (change)="onFileSelected($event)" /> -->
+             
+              
+            <!-- <input matInput [value]="selectedFileName" >
+            <mat-form-field class="full-width margin-top" appearance="fill">
+              <input matInput [value]="selectedFileName" readonly>
+              <button type="submit" mat-raised-button color="primary" (click)="onFileSelected(selectedFileName)">Seleccionar Archivo</button>
+            </mat-form-field> -->
+        
+          
+
+
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Título</mat-label>
             <input
@@ -141,6 +179,7 @@
             </mat-select>
             
           </mat-form-field>  -->
+          
 
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Aprobado Por</mat-label>
@@ -157,8 +196,39 @@
               </mat-option>
             </mat-select>
           </mat-form-field>
-          
-          
+<!--           
+        <mat-form-field>
+          <mat-label>Subir Archivo</mat-label>
+          <p>You have received a file called "cat-picture.jpeg".</p>
+          <button mat-raised-button (click)="openBottomSheet()">Open file</button>
+        </mat-form-field>
+
+
+        <mat-nav-list>
+          <a href="https://keep.google.com/" mat-list-item (click)="openLink($event)">
+            <span matListItemTitle>Google Keep</span>
+            <span matLine>Add to a note</span>
+          </a>
+        
+          <a href="https://docs.google.com/" mat-list-item (click)="openLink($event)">
+            <span matListItemTitle>Google Docs</span>
+            <span matLine>Embed in a document</span>
+          </a>
+        
+          <a href="https://plus.google.com/" mat-list-item (click)="openLink($event)">
+            <span matListItemTitle>Google Plus</span>
+            <span matLine>Share with your friends</span>
+          </a>
+        
+          <a href="https://hangouts.google.com/" mat-list-item (click)="openLink($event)">
+            <span matListItemTitle>Google Hangouts</span>
+            <span matLine>Show to your coworkers</span>
+          </a>
+        </mat-nav-list> -->
+
+      
+        
+        
 
          
         </section>
@@ -167,9 +237,30 @@
 
           <!-- Enlace a documentación -->
           <mat-form-field class="full-width margin-top" appearance="fill">
-            <mat-label>Enlace del Adjunto</mat-label>
-            <input matInput autocomplete="off"  formControlName="attached"/>
+            <mat-label>Enlaces externos a documentación</mat-label>
+            <input matInput autocomplete="off"  formControlName="attached"  matTooltip="Aquí puede enlazar documentación externa (ej: www.drive.com/...)"/>
           </mat-form-field>
+
+
+          <!--Adjunto para JIRA documentación -->
+          <mat-form-field class="full-width margin-top" appearance="fill">
+            <mat-label>Adjuntar documentación en JIRA</mat-label>
+            <input type="file" class="inputFile"  #fileInput (change)="onFileSelected($event)" /> 
+            <!-- formControlName="jiraAttach" -->
+            <mat-icon
+              aria-hidden="false"
+              aria-label="Example home icon"
+              fontIcon="attach_file_add"
+              matSuffix
+              (click)="fileInput.click()"
+            >
+              attach_file_add
+            </mat-icon>
+            <input matInput [value]="selectedFileName" 
+            autocomplete="off"                   
+            matTooltip="Maximo permitido 2 Gigabytes" readonly />
+          </mat-form-field>
+
           
           <!-- Rol -->
           <mat-form-field class="full-width margin-top" appearance="fill">

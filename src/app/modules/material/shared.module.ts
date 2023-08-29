@@ -26,7 +26,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatListModule} from '@angular/material/list';
 
+import {
+  MatBottomSheet,
+  MatBottomSheetModule,
+  MatBottomSheetRef,
+} from '@angular/material/bottom-sheet'
 
 
 @NgModule({
@@ -57,6 +63,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatButtonModule,
     NgIf,
     MatDialogModule,
+    MatListModule,
+    MatButtonModule,
+    MatBottomSheetModule
+    
   ],
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
@@ -81,7 +91,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatToolbarModule,    
     MatMenuModule,
     MatGridListModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatListModule,
+    MatButtonModule,
+    MatBottomSheetModule
   ],
 })
 export class SharedModule {}

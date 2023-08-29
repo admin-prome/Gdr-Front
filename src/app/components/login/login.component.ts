@@ -1,141 +1,98 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
-import * as CryptoJS from 'crypto-js';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { LoginService } from 'src/app/services/userHandler/login/login.service';
 
 declare var google: any;
 
-import { EncryptionServiceService } from '../../services/EncryptionService/encryption-service.service';
-import { LoginJiraService } from 'src/app/services/userHandler/loginJira/login-jira.service';
+import { userSession } from 'src/app/interfaces/userSession-interface';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit {
 
   pathTriangles = "../../assets/triangulosbackII@4x.png";
-  
-    
-  constructor(private router: Router,
-              private encryptionService: EncryptionServiceService,
-              private loginService: LoginService,
-              private loginJiraService: LoginJiraService) { }
+  userData: userSession;
+  googleAuth: boolean = false;
+  backendAuth: boolean = false;
 
-  ngAfterViewInit(): void {
-    const userCredential = localStorage.getItem('userCredentialGDR');
-    if(userCredential){
-       this.router.navigate(['/home']);
-    }
-    else{
-      google.accounts.id.initialize({
-        client_id: environment.googleClientId,
-        callback: this.handleCredentialResponse
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large" }  // customization attributes
-      );
-      google.accounts.id.prompt(); // also display the One Tap dialog
-      }
-      
+  constructor(
+    private router: Router,
+    private loginService: LoginService,
+    private ngZone: NgZone
+  ) {
+    this.userData = {} as userSession;
   }
 
   ngOnInit(): void {
+    const userCredential = localStorage.getItem('userCredentialGDR');
+
+    if (userCredential) {
+      this.router.navigate(['/home']);
+    } else {
+      google.accounts.id.initialize({
+        client_id: environment.googleClientId,
+        callback: this.handleCredentialResponse.bind(this)
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        { theme: "outline", size: "large" }
+      );
+      google.accounts.id.prompt();
+    }
   }
 
-  handleCredentialResponse = (response: any) => {
-    console.log('--------------------------------');
-    
-    console.log('--------------------------------');
-    if(response.credential){      
+  handleCredentialResponse(response: any): void {
+    if (response.credential) {
+      const base64Url = response.credential.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
       
-    
-      var base64Url = response.credential.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g,'/');
-      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c){
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
 
       const responsePayload = JSON.parse(jsonPayload);
-      
-      sessionStorage.setItem('PayloadGDRBack', JSON.stringify(responsePayload));
-      
-      
-      if (responsePayload.email_verified){
-       
-        if(responsePayload.hd === environment.domain){
-             
-          const userData = {            
-            "email": responsePayload.email,
-            "name": responsePayload.name,
-            "picture": responsePayload.picture,
-            "exp": responsePayload.exp,
-            "credential": response.credential
-          };
-          const userDataJson = userData;
-          
-         
-          localStorage.setItem("userCredentialGDR",JSON.stringify(userDataJson));
-          
-          this.router.navigate(['/home']);
-        
-        }
-        else{
-          
-          this.router.navigate(['/login']);
-        }
+      this.userData.email = responsePayload.email;
+      this.userData.name = responsePayload.name;
+      this.userData.exp = responsePayload.exp;
+      this.userData.picture = responsePayload.picture;
 
-      }
-      else{
-        this.router.navigate(['/login']);
-      }
+      if (responsePayload.email_verified && responsePayload.hd === environment.domain) {
+        this.googleAuth = true;
+        console.log(this.googleAuth);
 
-      
-      // this.router.navigate(['/home']);
-      // sessionStorage.setItem("username", responsePayload.given_name);
-      // localStorage.setItem("userCredentialGDR",JSON.stringify(responsePayload));
-      // sessionStorage.setItem("userCredentialGDR",JSON.stringify(responsePayload));
-      // Encriptar los datos utilizando una clave secreta
-      // localStorage.setItem("userCredentialGDREncrypt",JSON.stringify(responsePayload));           
-      
-      document.location.href = "home";      
-      this.router.navigate(['/home']);
-      // sessionStorage.setItem('token',response.credential);
-   }
+        if (this.googleAuth) {
+          this.loginToBackend();
+        }
+      }
+    }
   }
 
-  loginBackend(credential: any): any{
-    const response = this.loginService.loginBack(credential);
-    response.subscribe(
-      (data) => {
-       
-        sessionStorage.setItem('CredentialJira', JSON.stringify(data));
-        localStorage.setItem('CredentialJira', JSON.stringify(data));
-    },
-    (error) => {
-      console.log('Ocurrio un error al loguearse en el back :',error);
-    }
-      
+  loginToBackend(): void {
+    this.loginService.loginBack(this.userData).subscribe(
+      (data: any) => {
+        this.userData = { ...this.userData, ...data };
+        localStorage.setItem('userCredentialGDR', JSON.stringify(this.userData));
+        this.backendAuth = true;
+        console.log('esto es dentro de login services: ', this.backendAuth);
+
+        if (this.backendAuth && this.googleAuth) {
+          this.ngZone.run(() => { // Envuelve la navegación con ngZone.run()
+            this.router.navigate(['/home']);
+          });
+        }
+      },
+      (error) => {
+        console.log('Ocurrio un error al loguearse en el back:', error);
+      }
     );
   }
 
-  getToken(credentialUser: any) {
-    this.loginJiraService.getToken(credentialUser)
-      .subscribe(
-        (data: any) => {
-          // console.log(data);
-          // Aquí puedes realizar acciones adicionales con la respuesta exitosa
-        },
-        (error: any) => {
-          // console.error(error);
-          // Aquí puedes manejar el error de acuerdo a tus necesidades
-        }
-      );
-  }
-  
 
 }

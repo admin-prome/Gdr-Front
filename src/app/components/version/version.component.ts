@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { VersionData } from 'src/app/interfaces/version-data-interface';
-
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',
@@ -10,7 +9,7 @@ export class VersionComponent implements OnInit {
 
   versionData: VersionData = {
     name: 'Gestor de Requerimientos',
-    version: '1.0.3',
+    version: '1.0.4',
     author: 'Millan Maximiliano',
     gerencia:'Tecnología',
     contactEmail: 'mmillan@provinciamicrocreditos.com',

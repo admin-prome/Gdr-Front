@@ -19,6 +19,10 @@ body{
   z-index: 100;
 }
 
+.inputFile{
+  display: none;
+}
+
 ::ng-deep .mat-progress-spinner circle,
 .mat-spinner circle {
   stroke: #26BAC3 !important;

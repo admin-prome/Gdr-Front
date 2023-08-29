@@ -24,7 +24,9 @@ import { VersionComponent } from './components/version/version.component';
 import { IssuesListComponent } from './components/issues-list/issues-list.component';
 import { CardComponent } from './components/card/card.component';
 import { JiraErrorsComponent } from './components/errors/jira-errors/jira-errors.component';
+import { IssueStepperCreateComponent } from './components/issue-stepper-create/issue-stepper-create.component';
 
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 @NgModule({
@@ -36,7 +38,11 @@ import { JiraErrorsComponent } from './components/errors/jira-errors/jira-errors
     IssueCreateFormComponent,
     AuthGoogleComponent,    
     LoginComponent, 
-    VersionComponent, IssuesListComponent, CardComponent, JiraErrorsComponent,
+    VersionComponent, 
+    IssuesListComponent, 
+    CardComponent, 
+    JiraErrorsComponent, 
+    IssueStepperCreateComponent, 
   ],
   imports: [
     BrowserModule,
@@ -44,6 +50,7 @@ import { JiraErrorsComponent } from './components/errors/jira-errors/jira-errors
     HttpClientModule,
     BrowserAnimationsModule,
     SharedModule,
+    MatStepperModule,
   ],
   providers: [
     ApiConnectionService,
