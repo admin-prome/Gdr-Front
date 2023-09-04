@@ -7,13 +7,15 @@ body {
     overflow: hidden;
 }
 
-buttonDiv {
+#buttonDiv {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-   
+    width: 50%;
+    background-color: #fff;
+    border-style: none;
 }
+
 
 h1 {
     margin: 0;
@@ -23,26 +25,43 @@ h1 {
     height: 100vh;
     display: flex;
     align-items: flex-end;
+    z-index: -100;
 }
 
 .triangles-top {
     width: 25vw;
     min-width: 250px;
     transform: translateX(0%);
-    animation: slide-in-bottom 1s forwards;
+    animation: slide-in-bottom 3s forwards;
+  
 }
 
 .triangles-bottom-box {
     height: 100vh;
     display: flex-start;
+    z-index: -150;
 }
 
 .triangles-bottom {
     width: 25vw;
     min-width: 250px;
     transform: translateX(-100%);
-    animation: slide-in-top 1s forwards;
+    animation: slide-in-top 3s forwards;
 }
+
+.login-img- {
+    width: 50vw;
+    margin: auto;
+    }
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 
 @keyframes slide-in-top {
     0% {
@@ -64,25 +83,25 @@ h1 {
 
 
 .login-div {
-    display: block;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
-    width: 50vw;
+    text-align: center;   
     height: 30vh;
     align-content: space-between;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    
-    transform: scale(1);
-    animation: fade-in 1s ease-in;
+    width: 100vw;   
+    height: 10px;
+    background: linear-gradient(to right, #fff, #279d2e);  /* #007bff al color deseado */
+    background-size: 200% 100%; /* Controla la dirección de la animación (izquierda a derecha) */
+    animation: gradientAnimation 8s linear infinite; /* Ajusta la duración de la animación según tus necesidades */
+ 
+
   }
   
-  .login-div:hover {
-    transform: scale(1.1);
-  }
+
   
   @keyframes fade-in {
     0% {
@@ -147,9 +166,17 @@ h1 {
     .login-img {
         height: 8rem;
     }
+    .login-img- {
+        width: 40vw;
+    }
 }
 
 @media (max-width: 720px) {
+
+    .logos{
+        width: 60vw;
+        padding: 1rem;
+    }
 
     .triangles-top-box {
         height: 100vh;
@@ -172,6 +199,10 @@ h1 {
 
     .login-img {
         height: 6rem;
+    }
+    .login-img- {
+       
+        width: 50vw;
     }
 
     .login-title-provincia {
@@ -210,5 +241,9 @@ h1 {
 
     .login-img {
         height: 4rem;
+    }
+
+    .login-img-{
+        width: 50vw;
     }
 }
