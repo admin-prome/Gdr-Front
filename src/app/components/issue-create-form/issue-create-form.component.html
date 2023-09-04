@@ -31,10 +31,10 @@
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div> -->
-
-              
-          
-          
+       
+   
+           
+       
           
           
           <!-- <div *ngIf="requestForm.get('priority').value === 'Normativa'">
@@ -74,6 +74,18 @@
             </mat-error>
           </mat-form-field>
 
+       
+          <div class="radioButton"  *ngIf="this.tecnologia">
+            <mat-label>¿Es un requerimiento interno de Tecnología?</mat-label>            
+            <mat-radio-group aria-label="¿Es incidente de Tecnología?" formControlName="isInternalTecno" (change)="onPriorityChange()">              
+              <mat-radio-button value="si">Si</mat-radio-button>
+              <mat-radio-button value="no" checked>No</mat-radio-button>
+            </mat-radio-group>  
+          </div>
+
+
+          <!-- <mat-checkbox [formControl]="hideRequiredControl">¿Es un requerimiento interno de Tecnología?</mat-checkbox> -->
+           
           <!-- <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Proyecto</mat-label>
             <mat-select

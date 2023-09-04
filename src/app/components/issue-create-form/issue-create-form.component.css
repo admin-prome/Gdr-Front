@@ -156,6 +156,47 @@ mat-form-field{
   background-color: #fff;
 }
 
+.mat-mdc-radio-button ~ .mat-mdc-radio-button {
+  margin-left: 46px;
+  display:flex;
+  background-color: #26BAC3;
+}
+
+.radioButton {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0,0,0,.04);
+  border-top: 0.84375em solid rgba(0,0,0,0);
+  border-radius: 4px 4px 0 0;
+  /* padding: 0.75em 0.5em 0 0.75em; */
+  padding: 0.25em 0.5em 0.75em 0.75em;
+  
+  color: rgb(118, 118, 118);
+  margin-bottom: 1.34375em;
+}
+
+
+.radioButton mat-label{
+  padding: 0.25em 0 0.75em 0; 
+  
+  
+  max-width: 100%;
+  color: currentColor;
+  color: currentColor;
+}
+.radioButton mat-radio-button{
+  min-width: 80px;
+  margin: 5px;
+
+}
+
+.radioButton mat-radio-group{
+  
+  justify-content: center;
+}
+
+
+
 
 
 /* 
@@ -185,6 +226,9 @@ mat-form-field{
   
   footer{
     margin-top: 50px;
+  }
+  .radioButton mat-radio-button{
+    margin: 5px;
   }
 }
 
@@ -226,4 +270,22 @@ mat-form-field{
     position: unset;    
     max-width: unset;
   }
+
+  
+.radioButton mat-label{
+  padding: 0.25em 0 0.75em 0;
+  white-space:normal; 
+  color: currentColor;
+}
+
+/* .radioButton mat-radio-group{
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+} */
+
+.radioButton mat-radio-button{
+  margin: 5px;
+}
 }

@@ -27,6 +27,9 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 import {
   MatBottomSheet,
@@ -65,7 +68,9 @@ import {
     MatDialogModule,
     MatListModule,
     MatButtonModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatRadioModule,
+    MatCheckboxModule
     
   ],
   providers: [
@@ -94,7 +99,9 @@ import {
     MatTooltipModule,
     MatListModule,
     MatButtonModule,
-    MatBottomSheetModule
+    MatBottomSheetModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
 })
 export class SharedModule {}

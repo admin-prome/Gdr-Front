@@ -51,11 +51,13 @@ export class IssueCreateFormComponent implements OnInit {
   projects!: Project;
   normativeRequirement = null;
   disableButton : boolean = true;
-  user: string | null = localStorage.getItem('userCredentialGDR');
+  user: string | null = localStorage.getItem('credentialGDR');
   email: string | null = '';
   selectedFile: File | null = null;
   selectedFileName: string = '';
   reporter: string | null = '';
+  // isInternalTecno: string | null = '';
+  tecnologia: boolean = false;
 
   optionsPriority = [
     { value: 'Normativa', label: 'Normativa' },
@@ -106,12 +108,9 @@ export class IssueCreateFormComponent implements OnInit {
     { email: "srosanovich@provinciamicrocreditos.co", value: "6228d870a1245000688b1065", name: "Sergio Andres Rosanovich", management: "Investigacion y Capacitacion"}
   ];
   
-
-
   
   userCredential = '';
   approversList: any;
-
   private fileTmb: any;
 
   constructor(
@@ -122,12 +121,10 @@ export class IssueCreateFormComponent implements OnInit {
     private encryptionService: EncryptionServiceService,
     private sharedDataService: SharedDataService,  
   ) {
-    // this.loadSpinner();
+    
    
     this.projectsList = [];   
-    this.dataJsonNewIssue = {};
-    // this.getAllProjects;
-    
+    this.dataJsonNewIssue = {};   
     this.dataJsonNewIssue = new IssueCreate();
     this.dataEntry = '';
 
@@ -147,6 +144,8 @@ export class IssueCreateFormComponent implements OnInit {
       initiative: new FormControl(''),
       normativeRequirement: new FormControl(false),
       userCredential: new FormControl(''),
+      isInternalTecno:new FormControl('no')
+      
     });
   }
 
@@ -158,15 +157,24 @@ export class IssueCreateFormComponent implements OnInit {
         const userObject = JSON.parse(this.user);
         this.user = userObject;
         this.email = userObject.email;
-        this.reporter = userObject.userIdJIRA;
-        
+        this.reporter = userObject.idJIRA;
+    
+        if(userObject.idJIRA = null){     
+          console.log('No se hallo el idJIRA')    
+          localStorage.clear();
+          this.router.navigate(['/login']);
+        };     
         // if (this.reporter == "6228d8734160640069ca5686"){
         //   localStorage.removeItem("userCredentialGDR");
         //   this.displaySnackbar("Intentando obtener usuario de JIRA")
         //   this.router.navigate(['/login']);
 
-        // }        
-        
+        // }     
+
+        if (this.isTecno(userObject.email)){
+          this.tecnologia = true;
+        }
+
         if (this.enableINC(userObject.email)){            
           this.optionsIssue = this.optionsIssue.concat(this.optionsTecnoIssue);      
         }
@@ -179,6 +187,8 @@ export class IssueCreateFormComponent implements OnInit {
     } 
     else {
       console.log("No se encontró ningún valor en el almacenamiento local para la clave especificada");
+      localStorage.clear();
+      this.router.navigate(["/login"]);
       }
 
     this.getAllProjects();    
@@ -194,7 +204,7 @@ export class IssueCreateFormComponent implements OnInit {
 
   onFileSelected($event: any) {
     const file = $event.target.files[0];
-    console.log(file)
+   
    
     if (file) {
       const maxSizeInBytes = 2 * 1024 * 1024 * 1024; // 2 GB en bytes
@@ -208,8 +218,7 @@ export class IssueCreateFormComponent implements OnInit {
        
       } 
       else {
-        this.selectedFileName = ''; // Limpia el nombre del archivo
-        // Muestra un mensaje de error o notificación sobre el tamaño máximo
+        this.selectedFileName = '';
         this.displaySnackbar('El archivo excede el tamaño máximo permitido (2 GB)');
       }
     }
@@ -220,23 +229,8 @@ export class IssueCreateFormComponent implements OnInit {
     if (!this.selectedFile) {
       return;
     }
-
     const formData = new FormData();
     formData.append('file', this.selectedFile);
-
-    // const headers = new HttpHeaders();
-    // headers.append('Content-Type', 'multipart/form-data');
-
-    // this.http.post('URL_DEL_ENDPOINT', formData, { headers: headers }).subscribe(
-    //   (response) => {
-    //     console.log('File uploaded successfully!', response);
-    //     // Manejar la respuesta del backend aquí si es necesario
-    //   },
-    //   (error) => {
-    //     console.error('Error uploading file:', error);
-    //     // Manejar el error aquí si es necesario
-    //   }
-    // );
   }
 
 
@@ -270,7 +264,9 @@ export class IssueCreateFormComponent implements OnInit {
 
   sendForm():void {
     this.openSpinner();
-    this.validateForm();   
+    this.validateForm();  
+    
+    
     const body = new FormData();
     if (this.fileTmb != null){
       body.append('myFile', this.fileTmb.fileRaw, this.fileTmb.fileName);
@@ -282,7 +278,7 @@ export class IssueCreateFormComponent implements OnInit {
       this.ConnectionService.PostNewIssue(body).subscribe(
         (response) => {
           this.dataEntry = Object.values(response);
-          console.log("esto es la respuesta del back",this.dataEntry);      
+          //console.log("esto es la respuesta del back",this.dataEntry);      
           
           if (this.dataEntry[2] == "200"){
               this.closeSpinner();
@@ -357,14 +353,12 @@ export class IssueCreateFormComponent implements OnInit {
     this.loading = false;
   }
   
-  // Método para obtener el objeto completo según el índice seleccionado
  
 
   // Método para obtener el objeto completo según el índice seleccionado
   onApproverSelection(event: MatSelectChange): void {
   const selectedApprover = event.value;
-  console.log(selectedApprover); // Aquí tienes el objeto completo seleccionado
-  // Puedes enviar 'selectedApprover' al back-end u operar con él como desees
+ 
   }
 
 
@@ -385,19 +379,28 @@ export class IssueCreateFormComponent implements OnInit {
     this.dataJsonNewIssue.initiative = this.requestForm.value.initiative;
     this.dataJsonNewIssue.type = 'Epic';  
     this.dataJsonNewIssue.normativeRequirement = this.requestForm.value.normativeRequirement;
-    this.dataJsonNewIssue.userCredential = this.user;
+
     this.dataJsonNewIssue.reporter = this.reporter;
- 
+    this.dataJsonNewIssue.isTecno = this.requestForm.get('isInternalTecno').value
+    
+
+    const credentialJson = localStorage.getItem('credentialGDR');
+    if (credentialJson !== null) {
+      this.dataJsonNewIssue.userCredential = JSON.parse(credentialJson);
+    } else {
+      console.log('No se encontraron las credenciales del usuario');
+      localStorage.clear();
+      this.router.navigate(["/login"]);
+    }
+    
     
     if (finalDate != 0) {
-      //console.log("fecha  estimada: ", finalDate.length)
       this.dataJsonNewIssue.finalDate = this.formatDate(finalDate);
       
     }
     else{this.dataJsonNewIssue.finalDate = "None"}
 
     if (normativeDate != 0) {
-      //console.log("fecha normativa: ", normativeDate.length)
       this.dataJsonNewIssue.normativeDate = this.formatDate(normativeDate);
     }
     else{this.dataJsonNewIssue.normativeDate = "None"}
@@ -414,12 +417,12 @@ export class IssueCreateFormComponent implements OnInit {
   }
 
   isTecno(user: string) {
-  let tecno: boolean = false;
+    let tecno: boolean = false;
 
-  if (environment.tecnologia.includes(user)) {
-    tecno = true;  }
+    if (environment.tecnologia.includes(user)) {
+      tecno = true;  }
 
-  return tecno;
+    return tecno;
   }
 
   enableINC(user:string){

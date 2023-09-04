@@ -45,6 +45,7 @@ export class IssueCreate{
     userCredential: JSON | undefined;
     user: JSON | any;
     jiraAttach: any;
+    isTecno: string = 'no';
 
 }
 

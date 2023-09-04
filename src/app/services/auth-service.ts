@@ -10,21 +10,29 @@ export class AuthService {
   }
 
   isAuthenticated() {    
-    if(localStorage.getItem("userCredentialGDR")){
-      return true;
-    }
-    if (localStorage.getItem("userCredentialGDREncrypted")){
-      
 
 
-      return true
+    const userCredential = localStorage.getItem('credentialGDR');
+   
+    if (userCredential) {      
+      const userObject = JSON.parse(userCredential);
+
+      if(userObject.idJIRA){
+             
+        return true; 
+      }      
+      localStorage.clear();   
+    
+      return false;
     }
+
     return false;
   }
 
   logout() {
-    return sessionStorage.setItem("userCredentialGDR", '');
-    // return localStorage.removeItem('username');
+    localStorage.clear();
+    sessionStorage.clear();
+    return true;
   }
 
 }

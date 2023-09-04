@@ -3,29 +3,28 @@
     flex-direction: column;
     justify-content: center;
     margin: auto;
-    margin-top: 30px;
-    text-align: center;
+    padding: 1rem;
     font-family: ansangeLight;
-    width: 40%;
+    width: 30%;
+    text-align: left;
     background-color: #ebebebb5;   
-    border-radius: 6px 6px 0 0;
+    border-radius: 0 6px 0 0;
     
 }
 
 .info h2 {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     
 }
 
 
 .info img {
-    margin-top: 1rem;
-    background-color: rgba(21, 18, 18, 0.696);
+    margin-top: 0;    
     width:100%;
-    padding: 1rem;
+   
 }
 .imgFooter{
-   
+    margin:0;
     display: flex;
     justify-content: center;
     width:100%;

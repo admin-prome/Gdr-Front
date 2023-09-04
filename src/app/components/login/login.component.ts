@@ -27,12 +27,9 @@ export class LoginComponent implements OnInit {
     this.userData = {} as userSession;
   }
 
+  
   ngOnInit(): void {
-    const userCredential = localStorage.getItem('userCredentialGDR');
 
-    if (userCredential) {
-      this.router.navigate(['/home']);
-    } else {
       google.accounts.id.initialize({
         client_id: environment.googleClientId,
         callback: this.handleCredentialResponse.bind(this)
@@ -42,8 +39,9 @@ export class LoginComponent implements OnInit {
         { theme: "outline", size: "large" }
       );
       google.accounts.id.prompt();
-    }
+   
   }
+
 
   handleCredentialResponse(response: any): void {
     if (response.credential) {
@@ -61,10 +59,17 @@ export class LoginComponent implements OnInit {
       this.userData.email = responsePayload.email;
       this.userData.name = responsePayload.name;
       this.userData.exp = responsePayload.exp;
-      this.userData.picture = responsePayload.picture;
-
+      
+      if(responsePayload.picture){
+        this.userData.picture = responsePayload.picture;
+      }
+      else{
+        this.userData.picture = 'https://requerimientos.prome.ar/assets/logoColorP.png'
+      }      
+     
       if (responsePayload.email_verified && responsePayload.hd === environment.domain) {
         this.googleAuth = true;
+        console.log('email y dominio verificado');
         console.log(this.googleAuth);
 
         if (this.googleAuth) {
@@ -74,14 +79,14 @@ export class LoginComponent implements OnInit {
     }
   }
 
+
   loginToBackend(): void {
     this.loginService.loginBack(this.userData).subscribe(
       (data: any) => {
         this.userData = { ...this.userData, ...data };
-        localStorage.setItem('userCredentialGDR', JSON.stringify(this.userData));
+        localStorage.setItem('credentialGDR', JSON.stringify(this.userData));
         this.backendAuth = true;
-        console.log('esto es dentro de login services: ', this.backendAuth);
-
+       
         if (this.backendAuth && this.googleAuth) {
           this.ngZone.run(() => { // Envuelve la navegación con ngZone.run()
             this.router.navigate(['/home']);
