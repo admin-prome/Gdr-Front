@@ -1,0 +1,21 @@
+<form [formGroup]="myForm">
+
+    <div class="radioButton">    
+        <mat-label>{{input.name}}: {{input.label}}</mat-label>
+        <mat-radio-group aria-label="input.name" [formControlName]="input.key">              
+        <mat-radio-button 
+        *ngFor="let option of optionsButtons; let i = index"  
+        [value]="values[i].value" 
+        (click)="onOpcionElegidaChange(values[i].value)"
+        [required]="input.required" 
+      >  {{values[i].label}}</mat-radio-button>   
+           
+        </mat-radio-group>  
+        <mat-error *ngIf="myForm?.get(input.key)?.hasError('required')">
+            Este campo es obligatorio. {{input.name}}
+        </mat-error>
+        
+    </div> 
+</form>
+
+

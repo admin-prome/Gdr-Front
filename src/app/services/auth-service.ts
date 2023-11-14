@@ -9,6 +9,17 @@ export class AuthService {
   constructor() {
   }
 
+
+  getCredential(){
+    
+    const userCredential = localStorage.getItem('credentialGDR');
+    if (userCredential) {      
+      const userObject = JSON.parse(userCredential);    
+      return userObject
+    }
+  }
+
+
   isAuthenticated() {    
 
 

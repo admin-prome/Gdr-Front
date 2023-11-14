@@ -204,6 +204,7 @@ mat-form-field{
   background-color: #ffffffef;
 } */
 
+
 ::ng-deep .mat-focused .mat-form-field-label {
   color: #3c3c3b !important;
 }
@@ -213,13 +214,12 @@ mat-form-field{
 }
 
 ::ng-deep.mat-focused .mat-form-field-ripple {
-  background-color: #279d2e !important;
+  background-color: var(--color-primario) !important;
 }
 
 ::ng-deep.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-  color: #279d2e !important;
+  color: var(--color-primario) !important;
 }
-
 
 
 @media only screen and (max-width: 1067px) { 

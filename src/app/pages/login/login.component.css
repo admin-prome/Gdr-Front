@@ -172,7 +172,10 @@ h1 {
 }
 
 @media (max-width: 720px) {
-
+    #buttonDiv{
+        margin-top: 2rem;
+    }
+    
     .logos{
         width: 60vw;
         padding: 1rem;
@@ -215,7 +218,7 @@ h1 {
 }
 
 @media (max-width: 380px) {
-
+    
     .login-img {
         height: 4rem;
     }

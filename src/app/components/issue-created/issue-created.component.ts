@@ -22,9 +22,7 @@ export class IssueCreatedComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.issueData = this.sharedDataService.getReceivedData();
-    console.log('Esto es la info recibida', this.issueData);
-    console.log('data: ', this.issueData[0])
+    this.issueData = this.childMessage;
 
   }
 

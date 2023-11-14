@@ -23,8 +23,8 @@ export class IssueCreate{
     summary:string = '';
     description: string = '';
     type: string = '';
-    issueType: string = '';
-    subIssueType: string = '';
+    issuetype: string = '';
+    subissuetype: string = '';
     //assignee:string = '';
     //reporter:string = '';
     //labels: string = '';

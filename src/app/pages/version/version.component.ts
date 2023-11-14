@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VersionData } from 'src/app/interfaces/version-data-interface';
+import { VersionData } from 'src/app/data/interfaces/version-data-interface';
 @Component({
   selector: 'app-version',
   templateUrl: './version.component.html',

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,7 +12,11 @@ export class NavbarComponent implements OnInit {
   firstName: string | undefined; // Declaración de la propiedad firstName
   imgUser: string | undefined;
   showDropdown: boolean = false;
+  showFiller = false;
   constructor(private router: Router) { }
+  
+  mode = new FormControl('over' as MatDrawerMode);
+  // shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
 
   ngOnInit(): void {
     const userCredential = localStorage.getItem('credentialGDR');
@@ -42,4 +48,15 @@ export class NavbarComponent implements OnInit {
     this.showDropdown = !this.showDropdown;
   }
   
+  navigateToInformacion() {
+    this.router.navigate(['home/version']);
+  }
+
+   navigateToHome() {
+    this.router.navigate(['home']);
+  }
+
+  navigateTo(site: string){
+    this.router.navigate([site]);
+  }
 }

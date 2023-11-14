@@ -1,0 +1,15 @@
+<form [formGroup]="myForm">
+
+  <mat-form-field class="full-width margin-top" appearance="fill">
+      <mat-label>{{ input.label }} {{ input.name }}</mat-label>
+      <input matInput [matDatepicker]="picker1" (dateInput)="addEvent('input', $event)"/> 
+      <mat-hint>Cargar solo para requerimientos normativos</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker touchUi #picker1 locale="es-la"></mat-datepicker>
+      <mat-error *ngIf="myForm?.get(input.key)?.hasError('required')">
+        Este campo es obligatorio. {{input.name}}
+      </mat-error>
+    </mat-form-field>
+
+</form>
+  

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { IssueCreate, IssuesInformation} from '../interfaces/issueCreate-interface';
+import { IssueCreate, IssuesInformation} from '../data/interfaces/issueCreate-interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
-import { DataForm } from '../models/issue-create-form.models';
+import { DataForm } from '../data/models/issue-create-form.models';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
 import { of } from 'rxjs';
 @Injectable({

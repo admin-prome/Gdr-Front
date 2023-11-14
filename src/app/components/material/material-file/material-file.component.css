@@ -1,0 +1,11 @@
+.full-width {
+    width: 100%;
+    font-size: 13px;
+    padding: 0.5rem;
+  }
+
+
+.inputFile{
+    display: none;
+  }
+  

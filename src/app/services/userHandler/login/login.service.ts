@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/internal/Observable';
-import { userSession } from 'src/app/interfaces/userSession-interface';
+import { userSession } from 'src/app/data/interfaces/userSession-interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({

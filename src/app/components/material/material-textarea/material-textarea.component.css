@@ -1,0 +1,12 @@
+p{
+    background-color: yellowgreen;
+}
+.full-width {
+    width: 100%;
+    font-size: 13px;
+    padding: 0.5rem;
+  }
+
+textarea{
+    height: 3rem;
+}

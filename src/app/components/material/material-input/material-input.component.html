@@ -1,0 +1,22 @@
+
+
+<ng-container>
+  <form [formGroup]="myForm">
+    <mat-form-field class="full-width margin-top" appearance="fill">
+      <mat-label>por favor, {{ input.label }} {{ input.name }}</mat-label>
+      <input
+        matInput
+        autocomplete="off"
+        (input)="onOpcionElegidaChange($event)"
+        [placeholder]="input.placeholder"
+        [required]="input.required"
+        [formControlName]="input.key"
+        matTooltip="por favor, {{ input.label }} {{ input.name }} breve"
+      />    
+      <mat-error *ngIf="myForm?.get(input.key)?.hasError('required')">
+        Este campo es obligatorio. {{input.name}}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</ng-container>
+

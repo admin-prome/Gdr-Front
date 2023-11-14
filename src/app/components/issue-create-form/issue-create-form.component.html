@@ -105,50 +105,50 @@
           <!-- Tipo de Requerimiento -->
           <mat-form-field class="full-width margin-top" appearance="fill">
             <mat-label>Tipo del requerimiento</mat-label>
-            <mat-select [(value)]="requestForm.value.issueType" formControlName="issueType"  (selectionChange)="onPriorityChange()">
+            <mat-select [(value)]="requestForm.value.issuetype" formControlName="issuetype"  (selectionChange)="onPriorityChange()">
               <mat-option *ngFor="let option of optionsIssue" [value]="option.value">
                 {{option.label}} - [{{option.value}}]
               </mat-option>
             </mat-select>
-            <mat-error *ngIf="requestForm.get('issueType').errors?.required">Seleccione una opción.
+            <mat-error *ngIf="requestForm.get('issuetype').errors?.required">Seleccione una opción.
             </mat-error>
           </mat-form-field>
 
 
           <!-- subTipo de requerimiento REQ Ó INC -->
-          <div *ngIf="requestForm.get('issueType').value == 'REQ' || requestForm.get('issueType').value == 'INC'">
+          <div *ngIf="requestForm.get('issuetype').value == 'REQ' || requestForm.get('issuetype').value == 'INC'">
               <mat-form-field class="full-width margin-top" appearance="fill">
                 <mat-label>Subtipo del requerimiento</mat-label>
-                <mat-select [(value)]="requestForm.value.subIssueType" formControlName="subIssueType"  (selectionChange)="onPriorityChange()">
+                <mat-select [(value)]="requestForm.value.subissuetype" formControlName="subissuetype"  (selectionChange)="onPriorityChange()">
                   <mat-option  *ngFor="let option of subOptionsIssueREQ" [value]="option.value">
                     {{option.label}} - [{{option.value}}]
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Seleccione una opción.
+                <mat-error *ngIf="requestForm.get('subissuetype').errors?.required">Seleccione una opción.
                 </mat-error>
               </mat-form-field>         
           </div>
           
           <!-- subTipo de requerimiento INF -->
-          <div *ngIf="requestForm.get('issueType').value == 'INF'">
+          <div *ngIf="requestForm.get('issuetype').value == 'INF'">
             <mat-form-field class="full-width margin-top" appearance="fill">
               <mat-label>Subtipo del requerimiento</mat-label>
-              <mat-select [(value)]="requestForm.value.subIssueType" formControlName="subIssueType"  (selectionChange)="onPriorityChange()">
+              <mat-select [(value)]="requestForm.value.subissuetype" formControlName="subissuetype"  (selectionChange)="onPriorityChange()">
                 <mat-option *ngFor="let option of subOptionsIssueINF" [value]="option.value">
                   {{option.label}} - [{{option.value}}]
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Seleccione una opción.
+              <mat-error *ngIf="requestForm.get('subissuetype').errors?.required">Seleccione una opción.
               </mat-error>
             </mat-form-field>         
           </div>
 
           <!-- subTipo de requerimiento FIX -->      
-          <mat-form-field *ngIf="requestForm.get('issueType').value == '' || requestForm.get('issueType').value == 'FIX'" class="full-width margin-top" appearance="fill">
-            <mat-label *ngIf="requestForm.get('issueType').value ==''">Seleccione Primero el tipo de Requerimiento</mat-label>
-            <mat-label *ngIf="requestForm.get('issueType').value =='FIX'">Ingrese el numero ID del requerimiento asociado (Ej:REQ-123)</mat-label>
-            <input matInput autocomplete="off"  formControlName="subIssueType"/>
-            <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Este campo es obligatorio.
+          <mat-form-field *ngIf="requestForm.get('issuetype').value == '' || requestForm.get('issuetype').value == 'FIX'" class="full-width margin-top" appearance="fill">
+            <mat-label *ngIf="requestForm.get('issuetype').value ==''">Seleccione Primero el tipo de Requerimiento</mat-label>
+            <mat-label *ngIf="requestForm.get('issuetype').value =='FIX'">Ingrese el numero ID del requerimiento asociado (Ej:REQ-123)</mat-label>
+            <input matInput autocomplete="off"  formControlName="subissuetype"/>
+            <mat-error *ngIf="requestForm.get('subissuetype').errors?.required">Este campo es obligatorio.
             </mat-error> 
           </mat-form-field>
 
@@ -370,6 +370,7 @@
       </div>
       
     </form>
+    
     <footer *ngIf="(!loading || formError) && !receivedData">
       <button
           type="submit"

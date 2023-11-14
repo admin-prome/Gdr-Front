@@ -1,0 +1,22 @@
+ <!--Adjunto para JIRA documentación -->
+
+ <form [formGroup]="myForm">
+ <mat-form-field class="full-width margin-top" appearance="fill">
+    <mat-label>Adjuntar documentación en JIRA</mat-label>
+    <input type="file" class="inputFile"  #fileInput (change)="onFileSelected($event)" accept="{{input.accept}}" /> 
+    <!-- formControlName="jiraAttach" -->
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Example home icon"
+      fontIcon="attach_file_add"
+      matSuffix
+      (click)="fileInput.click()"
+    >
+      attach_file_add
+    </mat-icon>
+    <input matInput [formControlName]="input.key" [value]="selectedFileName" 
+    autocomplete="off"                   
+    matTooltip="Maximo permitido {{input.maxFileSize}}" readonly 
+    />
+  </mat-form-field>
+</form>

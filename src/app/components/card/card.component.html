@@ -1,1 +1,24 @@
-<p>card works!</p>
+<div class="ag-format-container">
+    <div class="ag-courses_box">
+        
+            <ng-container >
+              <div *ngFor="let course of data" class="ag-courses_item">
+                <a href="#" class="ag-courses-item_link">
+                  <div class="ag-courses-item_bg"></div>
+          
+                  <div class="ag-courses-item_title">
+                    {{ course.title }}
+                  </div>
+          
+                  <div class="ag-courses-item_date-box">
+                    Start:
+                    <span class="ag-courses-item_date">
+                      {{ course.startDate | date: 'dd.MM.yyyy' }}
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </ng-container>
+          
+    </div>
+</div>

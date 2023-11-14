@@ -2,15 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup,FormBuilder,Validators,FormControl} from '@angular/forms';
 import { ApiConnectionService } from 'src/app/services/api-connection-service.service';
 import { SharedDataService } from 'src/app/services/sharedData/shared-data.service'
-import { IssueCreate } from 'src/app/interfaces/issueCreate-interface';
+import { IssueCreate } from 'src/app/data/interfaces/issueCreate-interface';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { SharedModule } from '../../modules/material/shared.module';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
-import { Project } from '../../models/projects.models';
-import { Initiatives } from '../../models/initiatives.models';
+import { Project } from '../../data/models/projects.models';
+import { Initiatives } from '../../data/models/initiatives.models';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
 import { EncryptionServiceService } from 'src/app/services/EncryptionService/encryption-service.service';
@@ -56,7 +56,7 @@ export class IssueCreateFormComponent implements OnInit {
   selectedFile: File | null = null;
   selectedFileName: string = '';
   reporter: string | null = '';
-  // isInternalTecno: string | null = '';
+  //isInternalTecno: string | null = '';
   tecnologia: boolean = false;
 
   optionsPriority = [
@@ -131,8 +131,8 @@ export class IssueCreateFormComponent implements OnInit {
     this.requestForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
       project: new FormControl(''),
-      issueType: new FormControl('', [Validators.required]),
-      subIssueType: new FormControl('', [Validators.required]),
+      issuetype: new FormControl('', [Validators.required]),
+      subissuetype: new FormControl('', [Validators.required]),
       priority: new FormControl('', [Validators.required]),
       approvers: new FormControl('', [Validators.required]),
       managment: new FormControl('', [Validators.required]),
@@ -151,7 +151,7 @@ export class IssueCreateFormComponent implements OnInit {
 
   ngOnInit(): void {
     // this.loadSpinner();
-   
+
     if (this.user) {
       try {
         const userObject = JSON.parse(this.user);
@@ -270,9 +270,11 @@ export class IssueCreateFormComponent implements OnInit {
     const body = new FormData();
     if (this.fileTmb != null){
       body.append('myFile', this.fileTmb.fileRaw, this.fileTmb.fileName);
+      
     }
       
     body.append('myJson', JSON.stringify(this.dataJsonNewIssue));
+
 
     if (this.requestForm.invalid != true) {
       this.ConnectionService.PostNewIssue(body).subscribe(
@@ -367,8 +369,8 @@ export class IssueCreateFormComponent implements OnInit {
     const finalDate = this.requestForm.value.finalDate;
     const normativeDate = this.requestForm.value.normativeDate;
     this.dataJsonNewIssue.key = this.requestForm.value.project;
-    this.dataJsonNewIssue.issueType = this.requestForm.value.issueType;
-    this.dataJsonNewIssue.subIssueType = this.requestForm.value.subIssueType;
+    this.dataJsonNewIssue.issuetype = this.requestForm.value.issuetype;
+    this.dataJsonNewIssue.subissuetype = this.requestForm.value.subissuetype;
     this.dataJsonNewIssue.summary = this.requestForm.value.title;
     this.dataJsonNewIssue.priority = this.requestForm.value.priority;
     this.dataJsonNewIssue.approvers = this.requestForm.value.approvers;    

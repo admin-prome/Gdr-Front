@@ -1,0 +1,66 @@
+
+    <ng-container>  
+        <form [formGroup]="myForm">  
+            <ng-container *ngIf="input.type == 'select' && input.condition === true">
+                
+                <ng-container *ngIf="getDependientes()=== false && getDependentOn()"> 
+                    <mat-form-field class="full-width margin-top" appearance="fill">
+                        <mat-label>{{input.name}}</mat-label>
+                        <mat-select 
+                        [(value)]="selected" 
+                        (selectionChange)="onOpcionElegidaChange(selected)" 
+                        [required]="input.required" 
+                        [formControlName]="input.key">
+                            <mat-option *ngFor="let element of this.input.options[this.sharedState[getDependentOn()]]" [value]="element">
+                                <b>{{element.label}}</b> - [{{element.value}}]
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="myForm?.get(input.key)?.hasError('required')">
+                            Este campo es obligatorio. {{input.name}}
+                        </mat-error>
+                    </mat-form-field>
+                </ng-container>
+
+                <ng-container *ngIf="getDependientes() !==false">
+                    <mat-form-field class="full-width margin-top" appearance="fill">
+                        <mat-label>{{input.name}}</mat-label>
+                        <mat-select 
+                        [(value)]="selected" 
+                        (selectionChange)="onOpcionElegidaChange(selected)" 
+                        [required]="input.required" 
+                        [formControlName]="input.key"> 
+                            <mat-option *ngFor="let element of opcionesArray; let i = index" [value]="element[0]">
+                                <b>{{element[0].label}}</b> - [{{element[0].value}}]
+                            </mat-option> 
+                        </mat-select>
+                        <mat-error *ngIf="myForm?.get(input.key)?.hasError('required')">
+                            Este campo es obligatorio. {{input.name}}
+                        </mat-error>
+                    </mat-form-field>                
+                </ng-container>
+
+                <ng-container *ngIf="getDependientes() === false &&  getDependentOn() === false">            
+                    <mat-form-field class="full-width margin-top" appearance="fill">
+                        <mat-label>{{input.name}}</mat-label>
+                        <mat-select 
+                        [(value)]="selected" 
+                        (selectionChange)="onOpcionElegidaChange(selected)" 
+                        [required]="input.required" 
+                        [formControlName]="input.key">
+                        <ng-container>
+                            <mat-option *ngFor="let element of input.options.key; let i = index" [value]="element">
+                                <b>{{element.label}}</b> 
+                                <ng-container *ngIf="element.management"> - {{element.management}}</ng-container> <!--esto ya es regla de negocio-->
+                                <ng-container *ngElse> - [{{element.value}}]</ng-container>
+                            </mat-option>
+                        </ng-container>                   
+                        </mat-select>
+                        <mat-error *ngIf="myForm?.get(input.key)?.hasError('required')">
+                            Este campo es obligatorio. {{input.name}}
+                        </mat-error>
+                    </mat-form-field>               
+                </ng-container>
+
+            </ng-container>
+        </form>
+    </ng-container>

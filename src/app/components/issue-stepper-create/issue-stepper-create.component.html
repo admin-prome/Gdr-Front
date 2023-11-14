@@ -1,41 +1,86 @@
-<p>issue-stepper-create works!</p>
-<button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
-    {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
-  </button>
-  <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
-    <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Fill out your name</ng-template>
-        <mat-form-field>
-          <mat-label>Name</mat-label>
-          <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step [stepControl]="secondFormGroup">
-      <form [formGroup]="secondFormGroup">
-        <ng-template matStepLabel>Fill out your address</ng-template>
-        <mat-form-field>
-          <mat-label>Address</mat-label>
-          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                 required>
-        </mat-form-field>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
-        </div>
-      </form>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Done</ng-template>
-      <p>You are now done.</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button (click)="stepper.reset()">Reset</button>
-      </div>
-    </mat-step>
-  </mat-stepper>
+
+<body>
+
+  <mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
+
+  <app-issue-card *ngIf="(!loading || formError) && !receivedData" [input]="dataServices" [sharedState]="sharedState"></app-issue-card>
   
+
+
+  <div *ngIf="(!loading || formError) && !receivedData" class="formulario">
+    
+      <mat-stepper  [orientation]="(stepperOrientation | async)!" #stepper  [formGroup]="myForm">
+
+
+        <ng-container *ngFor="let group of serviceGroups; let k = index;">
+          <p>hola {{serviceGroups[k]}} |||</p>        
+              <mat-step>
+                <ng-template matStepLabel class="stepHeader">Paso {{k+1}}</ng-template>
+              <ng-container *ngFor="let key of serviceGroups[k]; let i = index;" >
+
+                <!-- <ng-container><mat-step *ngIf="i % 4 === 0 || i == 0">{{i}}</mat-step></ng-container>
+                  -->
+                                                     
+
+                    <ng-container *ngIf="dataServices[key].type == 'select' && dataServices[key].condition === true">
+                        <ng-template matStepLabel>{{ dataServices[key].label }} {{ dataServices[key].name }}</ng-template>
+                        <app-material-select [input]="dataServices[key]" [sharedState]="sharedState" [requestForm]="myForm"></app-material-select>
+                    </ng-container>
+
+                    <ng-container *ngIf="dataServices[key].type == 'input'">         
+                      <ng-template matStepLabel>{{dataServices[key].label}} {{dataServices[key].name}}</ng-template>  
+                      <app-material-input [input] = "dataServices[key]" [sharedState]="sharedState" [requestForm]="myForm"></app-material-input>     
+                    </ng-container>
+
+                    <ng-container *ngIf="dataServices[key].type == 'textarea'">         
+                      <ng-template matStepLabel>{{dataServices[key].label}} {{dataServices[key].name}}</ng-template>  
+                      <app-material-textarea [input] = "dataServices[key]" [sharedState]="sharedState" [requestForm]="myForm"></app-material-textarea>     
+                    </ng-container>
+
+                    <ng-container *ngIf="dataServices[key].type == 'datepicker'" >         
+                      <ng-template matStepLabel>{{dataServices[key].label}} {{dataServices[key].name}}</ng-template>  
+                      <app-material-datepicker [input] = "dataServices[key]" [sharedState]="sharedState" [requestForm]="myForm"></app-material-datepicker>     
+                    </ng-container>
+
+                    <ng-container *ngIf="dataServices[key].type == 'radio'">         
+                      <ng-template matStepLabel>{{dataServices[key].label}} {{dataServices[key].name}}</ng-template>  
+                      <app-material-radio [input] = "dataServices[key]" [sharedState]="sharedState" [requestForm]="myForm"></app-material-radio>     
+                    </ng-container>
+                    
+
+                    <ng-container *ngIf="dataServices[key].type == 'file'">         
+                      <ng-template matStepLabel>{{dataServices[key].label}} {{dataServices[key].name}}</ng-template>  
+                      <app-material-file [input] = "dataServices[key]" [sharedState]="sharedState"  [requestForm]="myForm"></app-material-file>     
+                    </ng-container>
+                    
+                    
+                    
+
+              </ng-container>
+              <div class="stepButtons">
+                <button mat-button matStepperPrevious type="button" *ngIf="k>0 && k < serviceGroups.length-1">Volver</button>
+                <button mat-button matStepperNext  type="button"  *ngIf="k < serviceGroups.length -1">Continuar</button>  
+                <button mat-button (click)="stepper.reset()" *ngIf="k === serviceGroups.length-1">Reiniciar</button>
+                <button mat-button 
+                    (click)="sendForm(); clicked = true;" 
+                    *ngIf="k === serviceGroups.length-1" 
+                    [disabled]="(!myForm.valid && !clicked) || (clicked && !formError)">
+                    Enviar
+                </button>
+              </div>
+              <!-- [disabled]="(!myForm.valid && !clicked) || (clicked && !formError)" -->
+              </mat-step>
+
+          </ng-container>
+          
+   
+      </mat-stepper>
+  </div>
+
+  <app-issue-created
+      *ngIf="!formError && receivedData && !loading"
+      [childMessage]="dataEntry"
+    >
+    </app-issue-created>
+
+</body>

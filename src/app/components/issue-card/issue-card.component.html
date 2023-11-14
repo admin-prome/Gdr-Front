@@ -1,0 +1,24 @@
+
+<div class="issueCardBox">
+      <div class="issueCard">
+     
+          <div class="front">
+              
+              <div class="issueText">    
+                <ng-container *ngIf="sharedState.title; else defaultTitle">
+                  <h3>{{sharedState.title}}</h3>
+                </ng-container>
+                <ng-template #defaultTitle>
+                  <h3>Mi Requerimiento ó Incidente</h3>
+                </ng-template>                
+                  <ng-container *ngFor="let key of keysServices; let i = index">  
+                    <ng-container *ngIf="sharedState[dataServices[key].key] && sharedState[dataServices[key].key].length && sharedState[dataServices[key].key][0].type !== 'Object'">
+                      <p *ngIf="dataServices[key].key !== 'title'"><b>{{dataServices[key].name}}: </b>{{sharedState[dataServices[key].key]}}</p>
+                    </ng-container>          
+                  </ng-container>
+              </div>
+          </div>
+          <div class="back">
+              </div>
+      </div>
+  </div>

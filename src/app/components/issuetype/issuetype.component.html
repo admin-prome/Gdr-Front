@@ -1,0 +1,28 @@
+<!-- 
+ <mat-form-field class="full-width margin-top" appearance="fill">
+    <mat-label>Tipo del requerimiento</mat-label>
+    <mat-select [(value)]="requestForm.value.issueType" formControlName="issueType" [(ngModel)]="issuetype">
+      <mat-option *ngFor="let option of optionsIssue" [value]="option.value">
+        {{option.label}} - [{{option.value}}]
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="requestForm.get('issueType').errors?.required">Seleccione una opción.
+    </mat-error>
+  </mat-form-field>
+  <p>{{issuetype}}</p>
+  
+  
+  <div *ngIf="requestForm.get('issueType').value == 'REQ' || requestForm.get('issueType').value == 'INC'">
+      <mat-form-field class="full-width margin-top" appearance="fill">
+        <mat-label>Subtipo del requerimiento</mat-label>
+        <mat-select [(value)]="requestForm.value.subIssueType" formControlName="subIssueType"  (selectionChange)="onPriorityChange()">
+          <mat-option  *ngFor="let option of subOptionsIssueREQ" [value]="option.value">
+            {{option.label}} - [{{option.value}}]
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="requestForm.get('subIssueType').errors?.required">Seleccione una opción.
+        </mat-error>
+      </mat-form-field>         
+  </div>
+  
+   -->

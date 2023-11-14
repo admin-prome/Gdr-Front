@@ -9,13 +9,51 @@
 
 @font-face {
   font-family: ansangeLight;
-  src: url(../src/assets/font/ansage/Ansage-Light.otf) format("opentype");
+  src: url('./assets/font/ttf/Ansage-Light.ttf');
+  
 }
-
 @font-face {
   font-family: ansangeRegular;
-  src: url(../src/assets/font/ansage/Ansage-Regular.otf) format("opentype");
+  src: url('./assets/font/ttf/Ansage-Regular.ttf');
 }
+
+
+@font-face {
+  font-family: ansangeLight;
+  src: url('./assets/font/ttf/Ansage-Light.ttf');
+  
+}
+@font-face {
+  font-family: ansangeRegular;
+  src: url('./assets/font/ttf/Ansage-Regular.ttf');
+}
+
+@font-face{
+  font-family: encodeSans-Regular;
+  src:url('./assets/font/ttf/EncodeSans-Regular.ttf');
+}
+@font-face{
+  font-family: encodeSans-SemiBold;
+  src:url('./assets/font/ttf/EncodeSans-SemiBold.ttf');
+}
+
+:root {
+  --color-gradiente: linear-gradient(90deg, rgba(39, 157, 46, 1) 0%,rgba(38, 186, 195, 1) 88%); /* Aquí asignamos un color azul como valor */
+  --color-primario: #279d2e;
+  --color-secundario: #25B4BD;
+  --color-terciario: #3c3c3b;
+  --color-rojo: #aa1840;
+  --color-amarillo: #c6a100;
+  --color-azul: #0560ab;
+  --color-violeta: #59358b;
+  --color-lima: #afca0f;
+  --color-blanco: white;
+  --color-negro: black;
+}
+
+
+
+
 
 html,
 
@@ -28,19 +66,31 @@ button.mat-raised-button:hover {
   background-color: #26bac3;
 }
 
-button.mat-raised-button,.mat-radio-button.mat-accent .mat-radio-inner-circle{
-  background-color: #279d2e;
+button.mat-raised-button,.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color:var(--color-primario);
  
 }
 .mat-radio-outer-circle,.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #279d2e;
+  border-color: var(--color-primario);
 }
 
 button.mat-raised-button::before {
-  background-color: #3c3c3b;
+  background-color: var(--color-terciario);
 }
+
+.mat-step-header .mat-step-icon-selected{
+  background-color:var(--color-secundario);
+
+}
+.mat-step-header .mat-step-icon-state-edit{
+  background-color:var(--color-primario);
+
+}
+
 
 
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+

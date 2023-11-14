@@ -29,13 +29,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {
   MatBottomSheet,
   MatBottomSheetModule,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet'
+import { MatStepperModule } from '@angular/material/stepper';
 
 
 @NgModule({
@@ -70,9 +71,11 @@ import {
     MatButtonModule,
     MatBottomSheetModule,
     MatRadioModule,
-    MatCheckboxModule
-    
+    MatCheckboxModule,
+    MatStepperModule,   
+    MatSidenavModule     
   ],
+  
   providers: [
     {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'fill'}},
   ],
@@ -101,7 +104,9 @@ import {
     MatButtonModule,
     MatBottomSheetModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatStepperModule,
+    MatSidenavModule 
   ],
 })
 export class SharedModule {}

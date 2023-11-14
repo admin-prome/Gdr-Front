@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { LoginService } from 'src/app/services/userHandler/login/login.service';
 
+
 declare var google: any;
 
-import { userSession } from 'src/app/interfaces/userSession-interface';
+import { userSession } from 'src/app/data/interfaces/userSession-interface';
 
 @Component({
   selector: 'app-login',
@@ -54,6 +55,7 @@ export class LoginComponent implements OnInit {
           .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
           .join('')
       );
+      
 
       const responsePayload = JSON.parse(jsonPayload);
       this.userData.email = responsePayload.email;
@@ -70,7 +72,6 @@ export class LoginComponent implements OnInit {
       if (responsePayload.email_verified && responsePayload.hd === environment.domain) {
         this.googleAuth = true;
         console.log('email y dominio verificado');
-        console.log(this.googleAuth);
 
         if (this.googleAuth) {
           this.loginToBackend();
