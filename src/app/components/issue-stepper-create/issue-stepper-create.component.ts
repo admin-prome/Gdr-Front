@@ -198,7 +198,7 @@ export class IssueStepperCreateComponent implements OnInit {
       this.user = userObject;
       this.email = userObject.email;
       this.reporter = userObject.idJIRA;
-      console.log(this.user);
+    
   
       if (userObject.idJIRA === null) { 
         //localStorage.clear();
@@ -260,14 +260,13 @@ export class IssueStepperCreateComponent implements OnInit {
   }
   
   sendForm(): void {
+    this.openSpinner();
     if (!this.myForm.valid) {
       this.displaySnackbar('Por favor, complete los campos requeridos para enviar');
       return;
     }
   
     this.disableButton = true;
-    this.openSpinner();
-  
     const body = new FormData();
   
     if (this.sharedState.file) {
@@ -282,20 +281,19 @@ export class IssueStepperCreateComponent implements OnInit {
     this.ConnectionService.PostNewIssue(body).subscribe(
       (response) => {
         this.handleSuccessResponse(response);
+        this.closeSpinner();
       },
       (error) => {
         this.handleError(error);
+        this.closeSpinner();
       }
     );
-    this.closeSpinner();
   }
   
   private handleSuccessResponse(response: any): void {
     this.dataEntry = Object.values(response);
-    console.log(this.dataEntry);
     
     if (this.dataEntry[2] === '201') {
-      this.closeSpinner();
       this.receivedData = true;
       this.sharedDataService.setReceivedData(this.dataEntry);
       
@@ -306,6 +304,8 @@ export class IssueStepperCreateComponent implements OnInit {
       }
       this.myForm.clearAsyncValidators();
     } else {
+      this.receivedData = false;
+      this.formError = true;
       this.handleError('Error en la respuesta del servidor');
     }
   }
@@ -316,7 +316,7 @@ export class IssueStepperCreateComponent implements OnInit {
     this.formError = true;
     this.displaySnackbar('Su requerimiento no pudo ser creado. Por favor, reenvíe el formulario');
     this.enableButton();
-    this.closeSpinner();
+    
   }
   
   displaySnackbar(message: string) {
