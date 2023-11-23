@@ -1,0 +1,7 @@
+#helpButton{
+    color: white;
+    background-color:var(--color-azul) ;
+    position: absolute;
+    bottom: 1%;
+    left:80vw;
+}

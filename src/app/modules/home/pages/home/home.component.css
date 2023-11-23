@@ -1,0 +1,30 @@
+*{
+    display: block;
+    margin: 0;
+    padding: 0;
+    
+    background-color: rgb(242, 242, 242);
+}
+header{
+    padding-top:1rem;
+    text-align: center;    
+    background-color: rgb(242, 242, 242);
+}
+header h1{
+    margin: 0;
+}
+body{
+    display: flex;
+    flex:wrap;
+    column-gap: auto;
+    flex: strech;
+    background-color: rgb(242, 242, 242);
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+app-img-card{
+    max-width: 250px;
+    max-height: 60vh;
+    margin: 1rem;
+}

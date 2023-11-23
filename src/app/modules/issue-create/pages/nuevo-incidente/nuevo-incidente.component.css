@@ -1,0 +1,21 @@
+header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: center;
+    margin-top:1rem;
+}
+header h3{
+    justify-content: center;
+    font-family: encodeSans-SemiBold;
+    font-size: 1.5rem;
+    color: var(--color-terciario);
+}
+body{
+    display: flex;
+    justify-content: center;
+
+}
+app-card{
+    width:80%;
+}

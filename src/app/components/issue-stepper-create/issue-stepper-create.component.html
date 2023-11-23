@@ -3,11 +3,11 @@
 
   <mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
 
-  <app-issue-card *ngIf="(!loading || formError) && !receivedData" [input]="dataServices" [sharedState]="sharedState"></app-issue-card>
+  <app-issue-card *ngIf="!loading && !receivedData" [input]="dataServices" [sharedState]="sharedState"></app-issue-card>
   
 
 
-  <div *ngIf="(!loading || formError) && !receivedData" class="formulario">
+  <div *ngIf="!loading  && !receivedData" class="formulario">
     
       <mat-stepper  [orientation]="(stepperOrientation | async)!" #stepper  [formGroup]="myForm">
 

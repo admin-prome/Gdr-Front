@@ -1,3 +1,6 @@
+button{
+    z-index: 10;
+}
 .issueCardBox{
     display: flex;
     justify-content: center;

@@ -40,6 +40,7 @@
 :root {
   --color-gradiente: linear-gradient(90deg, rgba(39, 157, 46, 1) 0%,rgba(38, 186, 195, 1) 88%); /* Aquí asignamos un color azul como valor */
   --color-primario: #279d2e;
+  --color-primario-claro:#93ce96;
   --color-secundario: #25B4BD;
   --color-terciario: #3c3c3b;
   --color-rojo: #aa1840;

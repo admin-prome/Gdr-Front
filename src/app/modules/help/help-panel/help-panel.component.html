@@ -1,0 +1,81 @@
+<header>
+
+  <h1>Sección de ayuda</h1>
+</header>
+
+<body>
+  <p>
+    <b>Bienvenido al Gestor de Requerimientos:</b> <br> Tu Herramienta Personalizada para una Gestión Eficiente
+
+    En nuestro Gestor de Requerimientos, no solo encontrarás una plataforma para cargar y gestionar requerimientos, sino
+    una herramienta diseñada pensando en ti. Nos complace ofrecerte una experiencia personalizada que se adapta a las
+    necesidades específicas de tu perfil dentro de la empresa.
+  </p>
+
+  <mat-divider></mat-divider><br>
+  <mat-accordion>
+    
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ¿Qué hace único a nuestro Gestor de Requerimientos?
+        </mat-panel-title>
+        <mat-panel-description>
+          Presiona para expandir o contraer
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3>Sobre el G.D.R</h3>
+      <p> Con nuestra plataforma, cargar un requerimiento en Jira se vuelve más sencillo que nunca. Olvídate de procesos
+        complicados; ahora, tu contribución al desarrollo del proyecto es rápida y sin complicaciones.
+      </p>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ¿Existen roles diferenciados dentro de la aplicación?
+        </mat-panel-title>
+        <mat-panel-description>
+          Presiona para expandir o contraer
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3>Perfil y roles</h3>
+      <p> 
+        Reconocemos que cada usuario tiene roles y responsabilidades únicas. Nuestro gestor se adapta a tu perfil dentro
+        de la empresa, proporcionándote las funciones y accesos que necesitas, sin complicaciones innecesarias. 
+        Por ejemplo, los perfiles autorizados para cargar incidentes son los usuarios pertenecientes al área de <b>Tecnología,
+        Gobierno de Riesgo y Cumplimiento, y Soporte al Negocio</b>
+      </p>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ¿Cuáles son los tipos de requerimientos o incidentes?
+        </mat-panel-title>
+        <mat-panel-description>
+          Presiona para expandir o contraer
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3>Tipos</h3>
+      <app-card [dataCards]="issuetype"></app-card>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ¿Cuáles son los subtipos de requerimiento o Incidente?
+        </mat-panel-title>
+        <mat-panel-description>
+          Presiona para expandir o contraer
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3>Subtipos</h3>
+      <app-card [dataCards]="subissuetype"></app-card>
+    </mat-expansion-panel>
+
+   
+
+
+  </mat-accordion>
+</body>

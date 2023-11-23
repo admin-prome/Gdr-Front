@@ -25,7 +25,7 @@
       <!-- <span><mat-icon>note_add</mat-icon></span> -->
     </li>
     <li class="rightItems"> 
-      <button mat-button (click)="navigateTo('/home')">Crear Requerimiento</button>     
+      <button mat-button (click)="navigateTo('/home')">Volver al inicio</button>     
       <span class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario" ></span>
        
       <h5> Hola, {{firstName}}.</h5>
@@ -41,7 +41,7 @@
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #create="matMenu" class="menuRight">
-        <button mat-menu-item (click)="navigateTo('/home/version')">
+        <button mat-menu-item (click)="navigateTo('/version')">
           <mat-icon>information</mat-icon>
           <span>Más Información</span>          
         </button>     
@@ -79,13 +79,30 @@
         Volver al home
       </button>
 
-      <button mat-menu-item (click)="navigateTo('/home/newIssue')">
+     
+    
+        <button mat-menu-item  (click)="navigateTo('/help')">
+          <hr>
+          <mat-icon>help</mat-icon>
+          <span>Ayuda</span>        
+        </button>  
+
+         
+  
+        
+        
+       
+        
+     
+
+      <button mat-menu-item (click)="navigateTo('/issue-create/newIssue')">
         <hr>
         <mat-icon>add_task</mat-icon>
         <span>Crear nuevo</span>        
       </button>  
 
-      <button mat-menu-item (click)="navigateTo('/home/version')">
+
+      <button mat-menu-item (click)="navigateTo('/version')">
         <hr>
         <mat-icon>information</mat-icon>
         <span>Más Información</span>        

@@ -1,4 +1,7 @@
 <ng-container *ngIf="traditional !== null">
     <app-issue-stepper-create [dataForm]="traditional"></app-issue-stepper-create>
-  </ng-container>
+    <button mat-fab id="helpButton" (click)="navigateTo('/ayuda')">
+      <mat-icon>help</mat-icon>
+   </button>
+</ng-container>
   

@@ -3,10 +3,6 @@ import { FormGroup,FormBuilder,Validators,FormControl} from '@angular/forms';
 import { ApiConnectionService } from 'src/app/services/api-connection-service.service';
 import { SharedDataService } from 'src/app/services/sharedData/shared-data.service'
 import { IssueCreate } from 'src/app/data/interfaces/issueCreate-interface';
-import { HttpErrorResponse } from '@angular/common/http';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-
-import { SharedModule } from '../../modules/material/shared.module';
 import { Router } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { Project } from '../../data/models/projects.models';
@@ -17,9 +13,6 @@ import { EncryptionServiceService } from 'src/app/services/EncryptionService/enc
 import { MatSelectChange } from '@angular/material/select';
 import { catchError, timeout } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
-
-
 
 
 
@@ -118,7 +111,6 @@ export class IssueCreateFormComponent implements OnInit {
     private ConnectionService: ApiConnectionService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private encryptionService: EncryptionServiceService,
     private sharedDataService: SharedDataService,  
   ) {
     

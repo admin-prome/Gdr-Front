@@ -8,8 +8,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -25,11 +25,13 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogTitle} from '@angular/material/dialog';
 import {MatListModule} from '@angular/material/list';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatSidenavModule} from '@angular/material/sidenav';
+
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import {
   MatBottomSheet,
@@ -73,7 +75,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatRadioModule,
     MatCheckboxModule,
     MatStepperModule,   
-    MatSidenavModule     
+    MatSidenavModule,
+    MatExpansionModule,
+    MatDialogModule,
   ],
   
   providers: [
@@ -106,7 +110,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatRadioModule,
     MatCheckboxModule,
     MatStepperModule,
-    MatSidenavModule 
+    MatSidenavModule,
+    MatExpansionModule,
+    MatDialogModule
+    
   ],
 })
-export class SharedModule {}
+export class MaterialSharedModule {}

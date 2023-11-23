@@ -15,14 +15,12 @@ export class NavbarComponent implements OnInit {
   showFiller = false;
   constructor(private router: Router) { }
   
+  
   mode = new FormControl('over' as MatDrawerMode);
   // shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
 
   ngOnInit(): void {
     const userCredential = localStorage.getItem('credentialGDR');
-    
-
-  
       
     if (userCredential !== null) {
       const credentialObj = JSON.parse(userCredential);

@@ -1,0 +1,9 @@
+<header>
+    <h1>Elija una opción para comenzar</h1>
+
+</header>
+<body>
+    <ng-container *ngFor="let card of optionCards; let i = index">
+        <app-img-card [pagina]="card"></app-img-card>
+    </ng-container>
+</body>

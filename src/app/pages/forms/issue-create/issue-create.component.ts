@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { OrderedForm } from 'src/app/data/interfaces/formStepper-interface';
 import { DataForm } from 'src/app/data/models/issue-create-form.models';
 import { AuthService } from 'src/app/services/auth-service';
@@ -10,14 +11,16 @@ import { GetFormsService } from 'src/app/services/forms/getForms.service';
   styleUrls: ['./issue-create.component.css']
 })
 export class IssueCreateComponent implements OnInit {
-
+  
+  
   traditional: any = null;
   //traditional: any = { order: {}, form: {} };
   orderedForm: OrderedForm = {}; // Definimos el tipo de inte
   userCredential: any;
 
   constructor( private getFormsService: GetFormsService,
-               private authServices: AuthService) { }
+               private authServices: AuthService,
+               private router: Router) { }
 
   ngOnInit(): void {
 
@@ -77,6 +80,9 @@ export class IssueCreateComponent implements OnInit {
     
   }
 
-  
+  navigateTo(site: string){
+    this.router.navigate([site]);
+  }
+
 
 }

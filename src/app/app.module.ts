@@ -11,7 +11,7 @@ import { IssueCreateFormComponent } from './components/issue-create-form/issue-c
 import { IssueCreatedComponent } from './components/issue-created/issue-created.component';
 
 import { HttpClientModule } from '@angular/common/http';
-import { SharedModule } from './modules/material/shared.module';
+import { MaterialSharedModule } from './modules/material/material-shared.module';
 
 import { ApiConnectionService } from './services/api-connection-service.service';
 import { KeyvaultServicesServices } from './services/keyvault/keyvault-services.service';
@@ -22,7 +22,6 @@ import { EncryptionServiceService } from './services/EncryptionService/encryptio
 import { LoginService } from './services/userHandler/login/login.service';
 import { VersionComponent } from './pages/version/version.component';
 import { IssuesListComponent } from './components/issues-list/issues-list.component';
-import { CardComponent } from './components/card/card.component';
 import { JiraErrorsComponent } from './components/errors/jira-errors/jira-errors.component';
 import { IssueStepperCreateComponent } from './components/issue-stepper-create/issue-stepper-create.component';
 
@@ -40,7 +39,7 @@ import { IssueCardComponent } from './components/issue-card/issue-card.component
 import { IssueCreateComponent } from './pages/forms/issue-create/issue-create.component';
 import { CoreModule } from './core/core.module';
 import { DataModule } from './data/data.module';
-
+import { HelpPanelComponent } from './modules/help/help-panel/help-panel.component';
 
 
 @NgModule({
@@ -54,7 +53,6 @@ import { DataModule } from './data/data.module';
     LoginComponent, 
     VersionComponent, 
     IssuesListComponent, 
-    CardComponent, 
     JiraErrorsComponent, 
     IssuetypeComponent,
     IssueStepperCreateComponent,
@@ -64,9 +62,10 @@ import { DataModule } from './data/data.module';
     MaterialDatepickerComponent, 
     MaterialFileComponent, 
     MaterialRadioComponent, 
-    MaterialCheckboxComponent, IssueCardComponent, IssueCreateComponent, 
-    
-    
+    MaterialCheckboxComponent, 
+    IssueCardComponent, 
+    IssueCreateComponent
+      
   ],
 
   imports: [
@@ -74,10 +73,10 @@ import { DataModule } from './data/data.module';
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    SharedModule,
+    MaterialSharedModule,
     MatStepperModule,
     CoreModule,
-    DataModule
+    DataModule,
   ],
 
   providers: [
@@ -87,6 +86,8 @@ import { DataModule } from './data/data.module';
     LoginService,
     {provide: MAT_DATE_LOCALE, useValue: 'es-la'}
   ],
+
+  exports: [],
 
   bootstrap: [AppComponent]
   
