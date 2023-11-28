@@ -11,13 +11,13 @@ export class HelpPanelComponent implements OnInit {
   issuetype = [
     {
       "name": "Requerimiento de Desarrollo",
-      "description": "Especificación detallada de una función, característica o capacidad que un software debe tener para satisfacer las necesidades del usuario. Guía el proceso de desarrollo de software y sirve como base para el diseño, la implementación y las pruebas.",
+      "description": "Necesidad del usuario final específicamente detallada de una funcionalidad, característica o capacidad que un software (CRM, Bases Negativas, desarrollo, etc), debe tener para satisfacer las necesidades del usuario. Esta especificación solicitada tiene como finalidad guiar en el proceso de desarrollo de software y sirve como base para el análisis, diseño,implementación y las pruebas, con su posterior pasaje a producción",
       "id": 1,
       "code": "REQ"
     },
     {
       "name": "Requerimiento de Infraestructura",
-      "description": "Especificaciones y condiciones necesarias para respaldar la ejecución de aplicaciones o sistemas. Incluye hardware, software, redes y otros componentes necesarios para garantizar el rendimiento, la seguridad y la disponibilidad de la infraestructura tecnológica.",
+      "description": "Necesidad del usuario final para respaldar la ejecución de aplicaciones o sistemas. Incluye hardware, software, redes y otros componentes necesarios para garantizar el rendimiento, la seguridad y la disponibilidad de la infraestructura tecnológica.",
       "id": 2,
       "code": "INF"
     },

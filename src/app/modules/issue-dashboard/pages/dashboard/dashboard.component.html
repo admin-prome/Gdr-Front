@@ -1,0 +1,27 @@
+<p>Estado de mis requerimientos e incidentes</p>
+
+
+<mat-accordion>
+
+    <ng-container *ngFor="let issue of issueData; let i = index">
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{issue.summary}}
+            </mat-panel-title>
+            <mat-panel-description>
+                <p>Estado actual: {{issue.status}}</p>                
+            
+            </mat-panel-description>
+            </mat-expansion-panel-header>      
+            
+            <p>Descripción: {{issue.description}}</p>  
+            
+            <p>Fecha de alta: {{issue.created}}</p>
+            <p>Ultima actualización: {{issue.last_update}}</p>
+            <p>Aprovado por: {{issue.approvers}}</p>
+            <p>Asignado a: {{issue.assignee}}</p>
+        </mat-expansion-panel>
+    </ng-container>
+
+</mat-accordion> 

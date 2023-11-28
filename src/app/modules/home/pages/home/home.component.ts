@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
       'id': 'Cuenta_cdni_comercios_referidos',
       'imagenSrc': '../../../../../assets/cardImgs/traditionalForm.png',
       'titulo': 'Formulario Tradicional',
-      'descripcion': 'Experimente la familiaridad del formulario clásico que ha estado utilizando en esta sección hasta ahora.'
+      'descripcion': 'Experimente la familiaridad del formulario clásico que ha estado utilizando en esta sección, vigente hasta el 01/01/2024'
       },
       {
       'url': '../issue-create/new-issue',
@@ -31,7 +31,14 @@ export class HomeComponent implements OnInit {
       'imagenSrc': '../../../../../assets/cardImgs/help.png',
       'titulo': 'Ayuda',
       'descripcion': 'Acceda a toda la información necesaria para aprender a realizar su primera carga. Consulte nuestra sección de ayuda para obtener orientación detallada.'
-      }
+      },
+      {
+        'url': '../dashboard',
+        'id': 'Cuenta_cdni_comercios_referidos',
+        'imagenSrc': '../../../../../assets/cardImgs/help.png',
+        'titulo': 'Mi Tablero',
+        'descripcion': 'Acceda a toda la información de los estados de sus requerimientos e incidentes cargados (versión de prueba)'
+        }
   ];
   ngOnInit(): void {
   }
