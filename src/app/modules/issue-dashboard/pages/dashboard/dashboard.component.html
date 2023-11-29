@@ -14,13 +14,14 @@
             
             </mat-panel-description>
             </mat-expansion-panel-header>      
+            <p>Descripción:<br> <span [innerHTML]="mostrarConSaltosDeLinea(issue.description)"></span></p>  
             
-            <p>Descripción: {{issue.description}}</p>  
-            
-            <p>Fecha de alta: {{issue.created}}</p>
-            <p>Ultima actualización: {{issue.last_update}}</p>
-            <p>Aprovado por: {{issue.approvers}}</p>
+            <p>Fecha de alta: {{convertirFormatoFecha(issue.created)}}</p>
+            <p>Ultima actualización: {{convertirFormatoFecha(issue.last_updated)}}</p>
+            <p>Responsable: {{issue.responsible}}</p>
+            <p>Aprobado por: {{issue.approver}}</p>
             <p>Asignado a: {{issue.assignee}}</p>
+            <ng-container *ngIf="this.management === 'Gerencias de Tecnología'"><a href="https://provinciamicroempresas.atlassian.net/browse/{{issue.key}}">Ver Incidente</a></ng-container>
         </mat-expansion-panel>
     </ng-container>
 

@@ -64,7 +64,7 @@ import { HelpPanelComponent } from './modules/help/help-panel/help-panel.compone
     MaterialRadioComponent, 
     MaterialCheckboxComponent, 
     IssueCardComponent, 
-    IssueCreateComponent
+    IssueCreateComponent, 
       
   ],
 

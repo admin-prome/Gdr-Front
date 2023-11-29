@@ -9,7 +9,8 @@ import { MaterialSharedModule } from '../material/material-shared.module';
 
 @NgModule({
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    
   ],
   imports: [
     CommonModule,
