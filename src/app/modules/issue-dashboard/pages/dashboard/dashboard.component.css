@@ -1,0 +1,49 @@
+/* *{
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+header{
+    margin: auto;
+    align-items: center;
+    text-align: center;
+    padding-top: 1rem;
+} */
+body{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    padding: 1rem;
+    max-width: 80%;
+}
+
+.mat-elevation-z8{
+    background-color: red;
+    width: 100%;
+}
+
+table {
+    width: 100%;
+  }
+  
+  .mat-form-field {
+    font-size: 10px;
+    width: 100%;
+  }
+  
+  td, th {
+    width: 15%;
+  }
+  
+.mat-column-id{
+    max-width: 15px; 
+    padding: 5px;   
+    margin-left: 20px;
+}
+
+.mat-column-status{
+    max-width: 20px;
+}
+.mat-column-summary{
+    width: 40%;
+}

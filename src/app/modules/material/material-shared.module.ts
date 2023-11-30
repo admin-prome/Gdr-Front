@@ -33,12 +33,17 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 
 import {MatExpansionModule} from '@angular/material/expansion';
 
+
 import {
   MatBottomSheet,
   MatBottomSheetModule,
   MatBottomSheetRef,
 } from '@angular/material/bottom-sheet'
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+
 
 
 @NgModule({
@@ -78,6 +83,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatSidenavModule,
     MatExpansionModule,
     MatDialogModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
+    
   ],
   
   providers: [
@@ -112,7 +121,10 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatStepperModule,
     MatSidenavModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule,
     
   ],
 })

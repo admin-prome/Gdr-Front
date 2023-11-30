@@ -3,6 +3,29 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-services.service';
 
+
+import {AfterViewInit, ViewChild} from '@angular/core';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
+import { userSession } from 'src/app/data/interfaces/userSession-interface';
+
+
+
+export interface UserIssueData{
+  id: string;
+  summary: string;
+  approver: string;
+  assignee: string;
+  created: string;
+  key: string;
+  last_updated: string;
+  responsible: string;
+  status: string;
+}
+
+
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -11,30 +34,62 @@ import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-s
 })
 export class DashboardComponent implements OnInit {
   
+  displayedColumns: string[] = [ 'summary','id', 'status', 'last_updated', 'created', 'key'];
+  dataSource: MatTableDataSource<UserIssueData>;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   userCredential: any;
   orderedForm: any;
   panelOpenState = false;
-  issueData: any[] = [];  // Asegúrate de que issueData esté inicializado como un array vacío.
+  issueData: UserIssueData[] = [];  // Asegúrate de que issueData esté inicializado como un array vacío.
   management: string = '';
 
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
             private router: Router
-            ) { }
+            )
+            {
+                this.dataSource = new MatTableDataSource(this.issueData);
+            }
+
+  ngAfterViewInit() {
+    if (this.paginator && this.sort) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+    }
+  
 
   ngOnInit(): void {
 
     this.userCredential = this.authServices.getCredential();
     this.management = this.userCredential.userDetails.management;
-   
+    
   
     const payload = {      
       "email": this.userCredential.email,
-      "maxResult": 40
+      "max_result": 50,
+      "projects":['GDD', 'TSTGDR', 'GT', 'GGDI']
     }
     
     this.getIssueData(payload);
+
+    if (this.sort) {
+    this.dataSource.sort = this.sort;
+    this.dataSource.sort.active = 'created';
+    this.dataSource.sort.direction = 'asc';
+  }
 
   }
 
@@ -43,11 +98,14 @@ export class DashboardComponent implements OnInit {
       (response) => {
         console.log('Respuesta del backend:', response);
 
-        this.issueData = response
+        this.issueData = response;  
+        this.dataSource = new MatTableDataSource(this.issueData);
+        console.log(this.dataSource)
+        if (this.paginator && this.sort) {
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
         
-      
-        
-       
       },
 
       (error) => {
@@ -146,5 +204,3 @@ export class DashboardComponent implements OnInit {
       return cadena.replace(/\n/g, '<br>');
     }
   }
-
-
