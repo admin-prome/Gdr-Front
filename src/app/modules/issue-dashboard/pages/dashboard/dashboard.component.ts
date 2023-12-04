@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-services.service';
@@ -15,6 +15,7 @@ import { userSession } from 'src/app/data/interfaces/userSession-interface';
 export interface UserIssueData{
   id: string;
   summary: string;
+  internal_identifier: string;
   approver: string;
   assignee: string;
   created: string;
@@ -33,22 +34,33 @@ export interface UserIssueData{
   
 })
 export class DashboardComponent implements OnInit {
-  
-  displayedColumns: string[] = [ 'summary','id', 'status', 'last_updated', 'created', 'key'];
+
+  standartColumns: string[] = [ 'internal_identifier','summary', 'status', 'last_updated', 'created'];
+  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status', 'last_updated', 'created', 'key']; 
+  displayedColumns: string[] = this.standartColumns;
   dataSource: MatTableDataSource<UserIssueData>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  length = 50;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
 
-  userCredential: any;
+  isCheckedFullInfo = false;  
   orderedForm: any;
   panelOpenState = false;
-  issueData: UserIssueData[] = [];  // Asegúrate de que issueData esté inicializado como un array vacío.
+  issueData: UserIssueData[] = [];  // Asegúrate de que issueData esté inicializado como un array vacío. 
+  userCredential: any;
   management: string = '';
-
+  userType: string = '';
+  loading: boolean = true;
+  dataError: boolean = false;
+  payload: any;
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
-            private router: Router
+            private router: Router,
+            private changeDetectorRef: ChangeDetectorRef
             )
             {
                 this.dataSource = new MatTableDataSource(this.issueData);
@@ -72,17 +84,25 @@ export class DashboardComponent implements OnInit {
   
 
   ngOnInit(): void {
-
+    
     this.userCredential = this.authServices.getCredential();
     this.management = this.userCredential.userDetails.management;
     
-  
+
+    if (this.management === 'Gerencias de Tecnología' && this.isCheckedFullInfo) {
+      this.displayedColumns = this.fullColumns;
+    } else {
+      this.displayedColumns = this.standartColumns;
+    }
+
+    this.setUserType();
+    
     const payload = {      
       "email": this.userCredential.email,
       "max_result": 50,
       "projects":['GDD', 'TSTGDR', 'GT', 'GGDI']
     }
-    
+    this.payload = payload;
     this.getIssueData(payload);
 
     if (this.sort) {
@@ -90,31 +110,61 @@ export class DashboardComponent implements OnInit {
     this.dataSource.sort.active = 'created';
     this.dataSource.sort.direction = 'asc';
   }
+    
+  }
 
+  setUserType(){
+    if(this.management === 'Gerencias de Tecnología'){
+      this.userType = 'A'
+    }
+    else{
+      this.userType = ''
+    }
   }
 
   getIssueData(userData: any) {
+    this.loading = true;
     this.issueService.getDataIssues(userData).subscribe(
       (response) => {
         console.log('Respuesta del backend:', response);
 
         this.issueData = response;  
         this.dataSource = new MatTableDataSource(this.issueData);
+        this.dataSource.paginator = this.paginator;
+
         console.log(this.dataSource)
         if (this.paginator && this.sort) {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
-        
+        this.loading = false;
+        this.dataError = false;
       },
 
       (error) => {
         console.error('Error al enviar el formulario:', error);
         // Maneja errores si es necesario
         this.issueData = [];
+        this.loading = false;
+        this.dataError = true;
+
       }
     );
     
+  }
+
+  expandColumns() {
+    if (!this.isCheckedFullInfo) {
+      this.displayedColumns = this.management === 'Gerencias de Tecnología' ? this.fullColumns : this.standartColumns;
+    } else {
+      this.displayedColumns = this.standartColumns;
+    }
+  
+    if (this.paginator && this.sort) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
+    this.changeDetectorRef.detectChanges();
   }
 
   navigateTo(site: string){
