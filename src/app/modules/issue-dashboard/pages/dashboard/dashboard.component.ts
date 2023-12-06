@@ -9,6 +9,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { userSession } from 'src/app/data/interfaces/userSession-interface';
+import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
 
 
 
@@ -23,6 +24,7 @@ export interface UserIssueData{
   last_updated: string;
   responsible: string;
   status: string;
+  priority: string;
 }
 
 
@@ -35,8 +37,8 @@ export interface UserIssueData{
 })
 export class DashboardComponent implements OnInit {
 
-  standartColumns: string[] = [ 'internal_identifier','summary', 'status', 'last_updated', 'created'];
-  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status', 'last_updated', 'created', 'key']; 
+  standartColumns: string[] = [ 'internal_identifier','summary', 'status','priority', 'last_updated', 'created','assignee'];
+  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status','priority', 'last_updated', 'created', 'key', 'assignee']; 
   displayedColumns: string[] = this.standartColumns;
   dataSource: MatTableDataSource<UserIssueData>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -45,7 +47,7 @@ export class DashboardComponent implements OnInit {
   pageSize = 10;
   pageIndex = 0;
   pageSizeOptions = [5, 10, 25];
-
+  colorSlide: string = '#fff'
   isCheckedFullInfo = false;  
   orderedForm: any;
   panelOpenState = false;
@@ -56,11 +58,13 @@ export class DashboardComponent implements OnInit {
   loading: boolean = true;
   dataError: boolean = false;
   payload: any;
+  botonDesactivado: boolean = false;
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
             private router: Router,
-            private changeDetectorRef: ChangeDetectorRef
+            private changeDetectorRef: ChangeDetectorRef,
+            private storageService: SessionStorageService
             )
             {
                 this.dataSource = new MatTableDataSource(this.issueData);
@@ -103,7 +107,19 @@ export class DashboardComponent implements OnInit {
       "projects":['GDD', 'TSTGDR', 'GT', 'GGDI']
     }
     this.payload = payload;
-    this.getIssueData(payload);
+
+    const storedData = this.obtenerDelLocalStorage('requerimientos');
+
+    if (storedData) {
+      // Si hay datos en sessionStorage, utiliza esos datos
+      this.issueData = storedData;
+      this.dataSource = new MatTableDataSource(this.issueData);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.loading = false;
+    } else {
+      this.getIssueData(payload);
+    }  
 
     if (this.sort) {
     this.dataSource.sort = this.sort;
@@ -123,6 +139,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getIssueData(userData: any) {
+    this.botonDesactivado = true;
     this.loading = true;
     this.issueService.getDataIssues(userData).subscribe(
       (response) => {
@@ -137,8 +154,11 @@ export class DashboardComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
+
+        this.guardarEnLocalStorage(this.issueData);
         this.loading = false;
         this.dataError = false;
+        this.botonDesactivado = false;
       },
 
       (error) => {
@@ -147,7 +167,7 @@ export class DashboardComponent implements OnInit {
         this.issueData = [];
         this.loading = false;
         this.dataError = true;
-
+        this.botonDesactivado = false;
       }
     );
     
@@ -189,7 +209,7 @@ export class DashboardComponent implements OnInit {
       zonaHoraria = match[1] === '-0300' ? 'GMT-03 Bs. As.' : match[1];
     }
   
-    return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos} Hs ${zonaHoraria}`;
+    return `${dia}/${mes}/${anio} ${horas}:${minutos}:${segundos} Hs`;
     }
     
 
@@ -252,5 +272,26 @@ export class DashboardComponent implements OnInit {
     mostrarConSaltosDeLinea(cadena: string): string {
       // Reemplaza los saltos de línea con la etiqueta <br> para el formato HTML
       return cadena.replace(/\n/g, '<br>');
+    }
+
+
+    guardarEnLocalStorage(datos:any): void {
+      // const datos = { nombre: 'Ejemplo', edad: 25 };  
+      // Guardar en sessionStorage
+      this.storageService.guardarEnSessionStorage('requerimientos', datos);
+      
+   
+    }
+
+    obtenerDelLocalStorage(clave: string){
+      const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);      
+      console.log(datosObtenidos);  // Mostrará el objeto JSON guardado
+      return datosObtenidos 
+    }
+  
+    // Ejemplo de cómo borrar un objeto JSON de sessionStorage
+    borrarDatos(clave: string): void {
+      this.storageService.borrarDesdeSessionStorage(clave);
+      console.log('datos borrados del session storage')
     }
   }

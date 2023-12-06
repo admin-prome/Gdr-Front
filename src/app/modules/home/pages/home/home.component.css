@@ -1,18 +1,19 @@
 *{
     display: block;
     margin: 0;
-    padding: 0;
-    
+    padding: 0;        
     background-color: rgb(242, 242, 242);
 }
 header{
     padding-top:1rem;
     text-align: center;    
-    background-color: rgb(242, 242, 242);
 }
 header h1{
-    margin: 0;
+    margin: 0;    
+    font-family: encodeSans-SemiBold;
+    color:var(--color-terciario);
 }
+
 body{
     display: flex;
     flex:wrap;
@@ -23,8 +24,33 @@ body{
     margin: 0;
     padding: 0;
 }
+.cards{
+    display: flex;
+    flex-direction: row;
+    padding: 2rem;
+
+}
 app-img-card{
     max-width: 250px;
     max-height: 60vh;
     margin: 1rem;
+}
+
+
+@media (max-width: 1023px) {
+    body{
+        height: 100%;
+    }
+    
+    .cards{
+        flex-direction: column;
+        row-gap: 1rem;
+    }
+
+    app-img-card{
+        max-width: inherit;
+        width:80%;
+        margin: auto;
+    }
+
 }

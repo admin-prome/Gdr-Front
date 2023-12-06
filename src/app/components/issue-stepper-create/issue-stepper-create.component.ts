@@ -14,6 +14,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiConnectionService } from 'src/app/services/api-connection-service.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SharedDataService } from 'src/app/services/sharedData/shared-data.service';
+import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
 
 @Component({
   selector: 'app-issue-stepper-create',
@@ -71,6 +72,7 @@ export class IssueStepperCreateComponent implements OnInit {
               private ConnectionService: ApiConnectionService,            
               private snackBar: MatSnackBar,
               private sharedDataService: SharedDataService,    
+              private storageService: SessionStorageService
               ) 
 
               {
@@ -261,6 +263,7 @@ export class IssueStepperCreateComponent implements OnInit {
   
   sendForm(): void {
     this.openSpinner();
+    
     if (!this.myForm.valid) {
       this.displaySnackbar('Por favor, complete los campos requeridos para enviar');
       return;
@@ -277,11 +280,13 @@ export class IssueStepperCreateComponent implements OnInit {
     this.sharedState['key'] = 'GDD';
     this.sharedState['type'] = 'Epic';
     body.append('myJson', JSON.stringify(this.sharedState));
-  
+    this.guardarEnLocalStorage(JSON.stringify(this.sharedState));
     this.ConnectionService.PostNewIssue(body).subscribe(
       (response) => {
+        
         this.handleSuccessResponse(response);
         this.closeSpinner();
+        this.borrarDatosDelSessionStorage('miRequerimiento');
       },
       (error) => {
         this.handleError(error);
@@ -335,5 +340,24 @@ export class IssueStepperCreateComponent implements OnInit {
     this.loading = false;
   }
   
+  guardarEnLocalStorage(datos:any): void {
+    // const datos = { nombre: 'Ejemplo', edad: 25 };  
+    // Guardar en sessionStorage
+    this.storageService.guardarEnSessionStorage('miRequerimiento', datos);
+    
+ 
+  }
+
+  obtenerDelLocalStorage(clave: string){
+    const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);      
+    console.log(datosObtenidos);  // Mostrará el objeto JSON guardado
+    return datosObtenidos 
+  }
+
+  // Ejemplo de cómo borrar un objeto JSON de sessionStorage
+  borrarDatosDelSessionStorage(clave: string): void {
+    this.storageService.borrarDesdeSessionStorage(clave);
+    console.log('datos borrados del session storage')
+  }
 
 }

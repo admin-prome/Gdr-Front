@@ -1,124 +1,133 @@
-
-
 <nav>
-  
-<mat-toolbar>
-  <ul>
 
-    <li class="leftItems">
-      <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon" >
-          <mat-icon>menu</mat-icon> 
-      </button>
-    </li>
+  <mat-toolbar>
+    <ul>
 
-    <li class="centerItems">      
-      <span class="example-spacer">
-          <a href="#" class="menu-logo">          
-              <img src="../../../assets/Recurso 6@0.75x.png" alt="Gestor de Requerimientos"/>
+      <li class="leftItems">
+        <button mat-icon-button (click)="drawer.toggle()" class="example-icon"
+          aria-label="Example icon-button with menu icon">
+          <mat-icon>menu</mat-icon>
+        </button>
+      </li>
+
+      <li class="centerItems">
+        <span class="example-spacer">
+          <a href="#" class="menu-logo">
+            <img src="../../../assets/Recurso 6@0.75x.png" alt="Gestor de Requerimientos" />
           </a>
-      </span>      
-    </li>
+        </span>
+      </li>
 
-    <li>
-      
-     
-      <!-- <span><mat-icon>note_add</mat-icon></span> -->
-    </li>
-    <li class="rightItems"> 
-      <button mat-button (click)="navigateTo('/home')">Volver al inicio</button>     
-      <span class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario" ></span>
-       
-      <h5> Hola, {{firstName}}.</h5>
-      
-      <!-- <button mat-icon-button (click)="this.clearLocalStorage()">
+      <li>
+
+
+        <!-- <span><mat-icon>note_add</mat-icon></span> -->
+      </li>
+      <li class="rightItems">
+        <button mat-button (click)="navigateTo('/home')">Volver al inicio</button>
+        <span class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario"></span>
+
+        <h5> Hola, {{firstName}}.</h5>
+
+        <!-- <button mat-icon-button (click)="this.clearLocalStorage()">
         <mat-icon>note_add</mat-icon>
       </button>  -->
-      <!-- <button mat-icon-button (click)="this.clearLocalStorage()">
+        <!-- <button mat-icon-button (click)="this.clearLocalStorage()">
         <mat-icon>logout</mat-icon>
       </button> -->
-      
-      <button mat-icon-button [matMenuTriggerFor]="create" aria-label="Example icon-button with a menu">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <mat-menu #create="matMenu" class="menuRight">
-        <button mat-menu-item (click)="navigateTo('/version')">
-          <mat-icon>information</mat-icon>
-          <span>Más Información</span>          
-        </button>     
 
-        <button mat-menu-item (click)="this.clearLocalStorage()">
-          <mat-icon>logout</mat-icon>
-          <span>Cerrar sesión</span>
+        <button mat-icon-button [matMenuTriggerFor]="create" aria-label="Example icon-button with a menu">
+          <mat-icon>more_vert</mat-icon>
         </button>
-        
-      </mat-menu>
-         
-    </li>
+        <mat-menu #create="matMenu" class="menuRight">
+          <button mat-menu-item (click)="navigateTo('/version')">
+            <mat-icon>information</mat-icon>
+            <span>Más Información</span>
+          </button>
 
-  </ul>
+          <button mat-menu-item (click)="this.clearLocalStorage()">
+            <mat-icon>logout</mat-icon>
+            <span>Cerrar sesión</span>
+          </button>
 
-</mat-toolbar>
+        </mat-menu>
+
+      </li>
+
+    </ul>
+
+  </mat-toolbar>
 
 </nav>
 
 <mat-drawer-container class="example-container" autosize>
-    <mat-drawer #drawer class="example-sidenav" mode="side">
-      
-      <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+
+    <!-- <p *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</p>
       <button (click)="showFiller = !showFiller" mat-raised-button>
         Toggle extra text (click)="drawer.toggle()"
       </button> -->
 
-      <button mat-menu-item class="sidenav"  (click)="drawer.close()">        
-        <mat-icon>close</mat-icon>
-        Cerrar
-      </button>
+    <button mat-menu-item class="sidenav" (click)="drawer.close()">
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
 
-      <button mat-menu-item  (click)="navigateTo('/home')">        
-        <mat-icon>home</mat-icon>
-        Volver al home
-      </button>
+    <button mat-menu-item (click)="navigateTo('/home')">
+      <mat-icon>home</mat-icon>
+      Volver al home
+    </button>
 
-     
-    
-        <button mat-menu-item  (click)="navigateTo('/help')">
-          <hr>
-          <mat-icon>help</mat-icon>
-          <span>Ayuda</span>        
-        </button>  
-
-         
-  
-        
-        
-       
-        
-     
-
-      <button mat-menu-item (click)="navigateTo('/issue-create/new-issue')">
-        <hr>
-        <mat-icon>add_task</mat-icon>
-        <span>Crear nuevo</span>        
-      </button>  
+    <button mat-menu-item (click)="navigateTo('/issue-create')">
+      <hr>
+      <mat-icon>add_circle</mat-icon>
+      <span>Formulario Tradicional</span>
+    </button>
 
 
-      <button mat-menu-item (click)="navigateTo('/version')">
-        <hr>
-        <mat-icon>information</mat-icon>
-        <span>Más Información</span>        
-      </button>            
-      
-      
-      <button mat-menu-item (click)="this.clearLocalStorage()"  id="sesionClose">
-        <hr>
-        <mat-icon>logout</mat-icon>
-        <span>Cerrar sesión</span>
-      </button>
-
-      
 
 
-    </mat-drawer>
+
+
+    <button mat-menu-item (click)="navigateTo('/issue-create/new-issue')">
+      <hr>
+      <mat-icon>add_task</mat-icon>
+      <span>Crear nuevo</span>
+    </button>
+
+
+
+
+
+
+    <button mat-menu-item (click)="navigateTo('/help')">
+      <hr>
+      <mat-icon>help</mat-icon>
+      <span>Ayuda</span>
+    </button>
+
+    <button mat-menu-item (click)="navigateTo('/dashboard')">
+      <hr>
+      <mat-icon>dashboard</mat-icon>
+      <span>Mi tablero</span>
+    </button>
+
+    <button mat-menu-item (click)="navigateTo('/version')">
+      <hr>
+      <mat-icon>information</mat-icon>
+      <span>Más Información</span>
+    </button>
+
+    <button mat-menu-item (click)="this.clearLocalStorage()" id="sesionClose">
+      <hr>
+      <mat-icon>logout</mat-icon>
+      <span>Cerrar sesión</span>
+    </button>
+
+
+
+
+  </mat-drawer>
 
   <!-- <div class="example-sidenav-content">
     <button type="button" mat-button (click)="drawer.toggle()">
@@ -127,4 +136,3 @@
   </div> -->
 
 </mat-drawer-container>
-

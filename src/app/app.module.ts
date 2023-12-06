@@ -40,6 +40,7 @@ import { IssueCreateComponent } from './pages/forms/issue-create/issue-create.co
 import { CoreModule } from './core/core.module';
 import { DataModule } from './data/data.module';
 import { HelpPanelComponent } from './modules/help/help-panel/help-panel.component';
+import { SessionStorageService } from './services/storage/session-storage.service';
 
 
 @NgModule({
@@ -84,6 +85,7 @@ import { HelpPanelComponent } from './modules/help/help-panel/help-panel.compone
     KeyvaultServicesServices,
     EncryptionServiceService,
     LoginService,
+    SessionStorageService,
     {provide: MAT_DATE_LOCALE, useValue: 'es-la'}
   ],
 

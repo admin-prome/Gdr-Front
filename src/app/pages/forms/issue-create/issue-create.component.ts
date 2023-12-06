@@ -4,6 +4,7 @@ import { OrderedForm } from 'src/app/data/interfaces/formStepper-interface';
 import { DataForm } from 'src/app/data/models/issue-create-form.models';
 import { AuthService } from 'src/app/services/auth-service';
 import { GetFormsService } from 'src/app/services/forms/getForms.service';
+import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
 
 @Component({
   selector: 'app-issue-create',
@@ -46,7 +47,7 @@ export class IssueCreateComponent implements OnInit {
         console.log('Respuesta del backend:', response.formData);
         console.log('Respuesta del backend:', response.formData.order);
 
-        
+       
         //const order = response.formData.order;
         const jsonData = response.formData.form;
 
@@ -83,6 +84,8 @@ export class IssueCreateComponent implements OnInit {
   navigateTo(site: string){
     this.router.navigate([site]);
   }
+
+
 
 
 }

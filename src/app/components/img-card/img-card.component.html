@@ -1,9 +1,18 @@
 
 <div *ngIf="pagina" [id]="pagina.id" (click)="navigateTo(pagina.url)" class="paginas">
    
-    <div class="paginas__imagen" [style.background-image]="'url(' + pagina.imagenSrc + ')'"></div>
+    <div class="paginas__imagen" [style.background-color]="'#'+ pagina.color">
+      
+        
+        <mat-icon>{{pagina.icon}}</mat-icon>
+        <p>{{pagina.titulo}}</p>
+              
+    
+    </div>
+    <!-- <div class="paginas__imagen" [style.background-image]="'url(' + pagina.imagenSrc + ')'"></div> -->
     <div class="paginas__contenido">
-      <p class="paginas__titulo">{{ pagina.titulo }}</p>
+    
+      <!-- <p class="paginas__titulo">{{ pagina.titulo }}</p> -->
       <p class="paginas__descripcion">{{ pagina.descripcion }}</p>
     </div>
   </div>

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 

@@ -2,6 +2,6 @@
     color: white;
     background-color:var(--color-azul) ;
     position: absolute;
-    bottom: 1%;
+    bottom: 80px;
     left:80vw;
 }
