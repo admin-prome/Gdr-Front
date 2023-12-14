@@ -274,7 +274,7 @@ export class IssueCreateFormComponent implements OnInit {
           this.dataEntry = Object.values(response);
           //console.log("esto es la respuesta del back",this.dataEntry);      
           
-          if (this.dataEntry[2] == "200"){
+          if (this.dataEntry[2] == "201"){
               this.closeSpinner();
               this.receivedData = true; 
               this.sharedDataService.setReceivedData(this.dataEntry)

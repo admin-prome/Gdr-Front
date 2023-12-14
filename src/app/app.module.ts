@@ -41,57 +41,55 @@ import { CoreModule } from './core/core.module';
 import { DataModule } from './data/data.module';
 import { HelpPanelComponent } from './modules/help/help-panel/help-panel.component';
 import { SessionStorageService } from './services/storage/session-storage.service';
+import { SharedModule } from "./modules/shared/shared.module";
+import { ImgCardModule } from "./components/spinner/spinner.component";
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent,
-    NavbarComponent,
-    IssueCreatedComponent,
-    IssueCreateFormComponent,
-    AuthGoogleComponent,    
-    LoginComponent, 
-    VersionComponent, 
-    IssuesListComponent, 
-    JiraErrorsComponent, 
-    IssuetypeComponent,
-    IssueStepperCreateComponent,
-    MaterialInputComponent, 
-    MaterialSelectComponent, 
-    MaterialTextareaComponent, 
-    MaterialDatepickerComponent, 
-    MaterialFileComponent, 
-    MaterialRadioComponent, 
-    MaterialCheckboxComponent, 
-    IssueCardComponent, 
-    IssueCreateComponent, 
-      
-  ],
-
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MaterialSharedModule,
-    MatStepperModule,
-    CoreModule,
-    DataModule,
-  ],
-
-  providers: [
-    ApiConnectionService,
-    KeyvaultServicesServices,
-    EncryptionServiceService,
-    LoginService,
-    SessionStorageService,
-    {provide: MAT_DATE_LOCALE, useValue: 'es-la'}
-  ],
-
-  exports: [],
-
-  bootstrap: [AppComponent]
-  
+    declarations: [
+        AppComponent,
+        HomeComponent,
+        NavbarComponent,
+        IssueCreatedComponent,
+        IssueCreateFormComponent,
+        AuthGoogleComponent,
+        LoginComponent,
+        VersionComponent,
+        IssuesListComponent,
+        JiraErrorsComponent,
+        IssuetypeComponent,
+        IssueStepperCreateComponent,
+        MaterialInputComponent,
+        MaterialSelectComponent,
+        MaterialTextareaComponent,
+        MaterialDatepickerComponent,
+        MaterialFileComponent,
+        MaterialRadioComponent,
+        MaterialCheckboxComponent,
+        IssueCardComponent,
+        IssueCreateComponent,
+    ],
+    providers: [
+        ApiConnectionService,
+        KeyvaultServicesServices,
+        EncryptionServiceService,
+        LoginService,
+        SessionStorageService,
+        { provide: MAT_DATE_LOCALE, useValue: 'es-la' }
+    ],
+    exports: [],
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MaterialSharedModule,
+        MatStepperModule,
+        CoreModule,
+        DataModule,
+        SharedModule,
+        ImgCardModule
+    ]
 })
 export class AppModule { }

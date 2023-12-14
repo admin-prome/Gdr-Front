@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-services.service';
-
-
 import {AfterViewInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -71,6 +69,7 @@ export class DashboardComponent implements OnInit {
             }
 
   ngAfterViewInit() {
+    
     if (this.paginator && this.sort) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
@@ -98,7 +97,7 @@ export class DashboardComponent implements OnInit {
     } else {
       this.displayedColumns = this.standartColumns;
     }
-
+    console.log('seteando usuario')
     this.setUserType();
     
     const payload = {      
@@ -130,8 +129,9 @@ export class DashboardComponent implements OnInit {
   }
 
   setUserType(){
-    if(this.management === 'Gerencias de Tecnología'){
+    if(this.management == 'Gerencias de Tecnologia'){
       this.userType = 'A'
+      console.log('Es de tecno')
     }
     else{
       this.userType = ''
