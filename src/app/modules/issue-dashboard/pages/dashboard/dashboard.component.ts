@@ -23,6 +23,7 @@ export interface UserIssueData{
   responsible: string;
   status: string;
   priority: string;
+  description: string;
 }
 
 
@@ -35,8 +36,8 @@ export interface UserIssueData{
 })
 export class DashboardComponent implements OnInit {
 
-  standartColumns: string[] = [ 'internal_identifier','summary', 'status','priority', 'last_updated', 'created','assignee'];
-  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status','priority', 'last_updated', 'created', 'key', 'assignee']; 
+  standartColumns: string[] = [ 'internal_identifier','summary', 'status','priority', 'last_updated', 'created','assignee','description'];
+  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status','priority', 'last_updated', 'created', 'key', 'assignee','description']; 
   displayedColumns: string[] = this.standartColumns;
   dataSource: MatTableDataSource<UserIssueData>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -57,6 +58,8 @@ export class DashboardComponent implements OnInit {
   dataError: boolean = false;
   payload: any;
   botonDesactivado: boolean = false;
+  selectedDescription: string | undefined;
+  selectedRow: any | undefined;
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
@@ -92,7 +95,8 @@ export class DashboardComponent implements OnInit {
     this.management = this.userCredential.userDetails.management;
     
 
-    if (this.management === 'Gerencias de Tecnología' && this.isCheckedFullInfo) {
+    if (this.management === 'Gerencias de Tecnologia' && this.isCheckedFullInfo) {
+      console.log('es de tecno')
       this.displayedColumns = this.fullColumns;
     } else {
       this.displayedColumns = this.standartColumns;
@@ -128,8 +132,34 @@ export class DashboardComponent implements OnInit {
     
   }
 
+
+  openModal(row : any) {
+    this.selectedDescription = row.description;
+    this.selectedRow = row;
+  }
+
+  formatToHtml(text: string): string {
+    const lines = text.split('\n');
+    let html = '';
+  
+    lines.forEach((line) => {
+      const [label, value] = line.split(':');
+  
+      if (label && value) {
+        const formattedLabel = label.trim();
+        const formattedValue = value.trim();
+  
+        // Agregar estilos o clases según tus necesidades
+        html += `<p><strong>${formattedLabel}:</strong> ${formattedValue}</p>`;
+      }
+    });
+  
+    return html;
+  }
+  
   setUserType(){
-    if(this.management == 'Gerencias de Tecnologia'){
+    if(this.management == 'Gerencias de Tecnologia' || this.management == 'Gerencias de Tecnología'){
+      this.management = 'Gerencias de Tecnologia';
       this.userType = 'A'
       console.log('Es de tecno')
     }
@@ -175,7 +205,7 @@ export class DashboardComponent implements OnInit {
 
   expandColumns() {
     if (!this.isCheckedFullInfo) {
-      this.displayedColumns = this.management === 'Gerencias de Tecnología' ? this.fullColumns : this.standartColumns;
+      this.displayedColumns = this.management == 'Gerencias de Tecnologia' ? this.fullColumns : this.standartColumns;
     } else {
       this.displayedColumns = this.standartColumns;
     }

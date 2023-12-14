@@ -18,6 +18,24 @@ body{
     max-width: 80%;
 }
 
+.buttonDescription {
+  /* Estilos específicos para .buttonDescription */
+  background-color: inherit;
+  border: inherit;
+  box-sizing: inherit;
+  box-shadow: none;
+}
+
+
+.buttonDescription mat-icon{
+  color: var(--color-terciario);
+}
+
+.noData{
+  text-align: center;
+  margin-top: 3rem;
+}
+
 button{
   background-color:var(--color-secundario);
   color: white;
@@ -35,6 +53,14 @@ button:disabled {
   -webkit-text-fill-color: white !important;
 }
 
+.modal-header{
+  text-align: center;
+}
+.modal-header h1{
+  font-family: encodeSans-SemiBold !important;
+  color: var(--color-terciario);
+  text-align: center !important;
+}
 
 .spinner {
     width: 100vw;
