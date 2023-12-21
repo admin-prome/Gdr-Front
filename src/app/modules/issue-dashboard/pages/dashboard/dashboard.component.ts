@@ -1,4 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit,  Renderer2 } from '@angular/core';
+
+
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-services.service';
@@ -8,7 +10,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { userSession } from 'src/app/data/interfaces/userSession-interface';
 import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
-
+import html2canvas from 'html2canvas';
 
 
 export interface UserIssueData{
@@ -42,6 +44,8 @@ export class DashboardComponent implements OnInit {
   dataSource: MatTableDataSource<UserIssueData>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('modalContent', { static: false })
+  modalContent!: ElementRef;
   length = 50;
   pageSize = 10;
   pageIndex = 0;
@@ -60,6 +64,11 @@ export class DashboardComponent implements OnInit {
   botonDesactivado: boolean = false;
   selectedDescription: string | undefined;
   selectedRow: any | undefined;
+  tecno: boolean = false;
+  
+  imgcreada: boolean = false;
+  imagenCreada: any;
+  
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
@@ -78,7 +87,56 @@ export class DashboardComponent implements OnInit {
       this.dataSource.sort = this.sort;
     }
   }
+  modalShown(): void {
+    // Esta función se ejecutará cuando el modal esté completamente visible
+    // Puedes llamar a descargarComoImagen() aquí para asegurarte de que el modalContent esté inicializado.
 
+  }
+
+  crearImagen() {
+    // Buscar el elemento con el id "contenido"
+    const contenidoElement = document.querySelector<HTMLElement>("#contenido");
+  
+    if (contenidoElement) {
+      // El elemento fue encontrado, proceder con html2canvas
+      html2canvas(contenidoElement, {
+        ignoreElements: (element: Element) => {
+          // Devolver true si el elemento debe ser ignorado
+          return (element as HTMLElement).className === 'panelButtons';
+        }
+      }).then(canvas => {
+        this.imagenCreada = canvas.toDataURL();
+        this.imgcreada = true;
+        this.descargarComoImagen();
+      });
+    } else {
+      // El elemento con id "contenido" no fue encontrado
+      console.error('Elemento con id "contenido" no encontrado.');
+    }
+  }
+  
+  
+  
+  descargarComoImagen(): void {
+    // Verificar si hay una imagen creada
+    if (this.imagenCreada) {
+      // Crear un enlace temporal
+      const enlace = document.createElement('a');
+      
+      // Configurar el enlace con los datos de la imagen
+      enlace.href = this.imagenCreada;
+      enlace.download = '['+this.selectedRow.internal_identifier+'].png';
+  
+      // Simular un clic en el enlace para iniciar la descarga
+      enlace.click();
+    } else {
+      console.error('No hay imagen para descargar.');
+    }
+  }
+  
+  
+  
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -87,21 +145,24 @@ export class DashboardComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
     }
-  
+
+  isTecno(){
+    if (this.management === 'Gerencias de Tecnologia' && this.isCheckedFullInfo) {
+      
+      this.tecno = true;
+      this.displayedColumns = this.fullColumns;
+    } else {
+      this.displayedColumns = this.standartColumns;
+    }
+    
+  }
 
   ngOnInit(): void {
     
     this.userCredential = this.authServices.getCredential();
     this.management = this.userCredential.userDetails.management;
+    this.isTecno();
     
-
-    if (this.management === 'Gerencias de Tecnologia' && this.isCheckedFullInfo) {
-      console.log('es de tecno')
-      this.displayedColumns = this.fullColumns;
-    } else {
-      this.displayedColumns = this.standartColumns;
-    }
-    console.log('seteando usuario')
     this.setUserType();
     
     const payload = {      
@@ -161,7 +222,6 @@ export class DashboardComponent implements OnInit {
     if(this.management == 'Gerencias de Tecnologia' || this.management == 'Gerencias de Tecnología'){
       this.management = 'Gerencias de Tecnologia';
       this.userType = 'A'
-      console.log('Es de tecno')
     }
     else{
       this.userType = ''
@@ -173,22 +233,21 @@ export class DashboardComponent implements OnInit {
     this.loading = true;
     this.issueService.getDataIssues(userData).subscribe(
       (response) => {
-        console.log('Respuesta del backend:', response);
 
         this.issueData = response;  
         this.dataSource = new MatTableDataSource(this.issueData);
         this.dataSource.paginator = this.paginator;
 
-        console.log(this.dataSource)
         if (this.paginator && this.sort) {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
-
+        this.displayedColumns = this.standartColumns;
         this.guardarEnLocalStorage(this.issueData);
         this.loading = false;
         this.dataError = false;
         this.botonDesactivado = false;
+        this.changeDetectorRef.detectChanges();
       },
 
       (error) => {
@@ -314,14 +373,12 @@ export class DashboardComponent implements OnInit {
     }
 
     obtenerDelLocalStorage(clave: string){
-      const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);      
-      console.log(datosObtenidos);  // Mostrará el objeto JSON guardado
+      const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);     
       return datosObtenidos 
     }
   
     // Ejemplo de cómo borrar un objeto JSON de sessionStorage
     borrarDatos(clave: string): void {
       this.storageService.borrarDesdeSessionStorage(clave);
-      console.log('datos borrados del session storage')
     }
   }
