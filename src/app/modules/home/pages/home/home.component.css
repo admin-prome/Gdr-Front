@@ -2,7 +2,6 @@
     display: block;
     margin: 0;
     padding: 0;        
-    background-color: rgb(242, 242, 242);
 }
 header{
     padding-top:1rem;
@@ -19,28 +18,31 @@ body{
     flex:wrap;
     column-gap: auto;
     flex: strech;
-    background-color: rgb(242, 242, 242);
     justify-content: center;
     margin: 0;
     padding: 0;
+    max-height: 500px;
 }
 .cards{
     display: flex;
     flex-direction: row;
     padding: 2rem;
+    max-height: 500px;
 
 }
 app-img-card{
     max-width: 250px;
-    max-height: 60vh;
+    max-height: 400px;
     margin: 1rem;
+    
+}
+app-img-card:hover{
+    cursor: pointer;
 }
 
 
 @media (max-width: 1023px) {
-    body{
-        height: 100%;
-    }
+   
     
     .cards{
         flex-direction: column;
@@ -49,7 +51,6 @@ app-img-card{
 
     app-img-card{
         max-width: inherit;
-        width:80%;
         margin: auto;
     }
 

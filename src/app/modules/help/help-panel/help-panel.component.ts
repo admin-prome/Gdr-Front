@@ -34,6 +34,39 @@ export class HelpPanelComponent implements OnInit {
       "code": "SEG"
     },
   ];
+  detail: any[] = [
+    {
+      "name": "Acceso Web Seguro",
+      "description": "La plataforma proporciona un acceso web seguro mediante autenticación de usuarios. Los usuarios pueden ingresar a la plataforma con sus credenciales correspondientes, lo que garantiza un entorno protegido y controlado.",
+      "id": 1,
+      "code": ""
+    },
+    {
+      "name": "Integración con Jira",
+      "description": "Aprovechando la potencia de Jira, el Gestor de Requerimientos se conecta de manera transparente con la API de Jira. Esto permite la carga y visualización de requerimientos sin que los usuarios necesiten acceso directo o permisos en la plataforma Jira.",
+      "id": 2,
+      "code": ""
+    },
+    {
+      "name": "Carga de Requerimientos Simplificada",
+      "description": "Los usuarios pueden cargar nuevos requerimientos de manera sencilla a través de una interfaz intuitiva en la plataforma. La información ingresada se sincroniza automáticamente con Jira, eliminando la necesidad de ingresar manualmente los datos en ambas plataformas.",
+      "id": 3,
+      "code": ""
+    },
+    {
+      "name": "Gestión Integral de Proyectos",
+      "description": "Además de la carga de requerimientos, el Gestor de Requerimientos ofrece funciones para la gestión completa de proyectos. Los usuarios pueden asignar tareas, dar seguimiento al progreso y colaborar de manera eficiente, todo ello respaldado por las funcionalidades avanzadas de Jira.",
+      "id": 4,
+      "code": ""
+    },
+    {
+      "name": "Seguimiento en Tiempo Real",
+      "description": "La plataforma proporciona un tablero de control que permite a los usuarios realizar un seguimiento en tiempo real del estado de los requerimientos y proyectos. Gráficos y métricas visuales facilitan la toma de decisiones informadas.",
+      "id": 5,
+      "code": ""
+    }
+
+    ]
   
   constructor(
           private connectionService: ApiConnectionService,

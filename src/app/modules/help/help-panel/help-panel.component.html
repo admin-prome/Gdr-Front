@@ -88,8 +88,19 @@
     </mat-expansion-panel>
 
 
+    <mat-expansion-panel  (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Descripción del Gestor de Requerimientos</b>
+        </mat-panel-title>
+        <mat-panel-description>
+          
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>El Gestor de Requerimientos es una plataforma integral diseñada para simplificar y optimizar el proceso de gestión de requerimientos, brindando a los usuarios una experiencia intuitiva y eficiente. Esta herramienta se distingue por su integración directa con Jira, un robusto motor de gestión de proyectos y seguimiento de incidencias.</p>
+      <app-card  [dataCards]="detail"></app-card>
+    </mat-expansion-panel>
     
-
 
   </mat-accordion>
 </body>

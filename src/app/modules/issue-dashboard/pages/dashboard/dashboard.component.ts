@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, NgZone, OnInit,  Renderer2 } from '@angular/core';
 
+
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-services.service';
@@ -10,7 +11,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { userSession } from 'src/app/data/interfaces/userSession-interface';
 import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
 import html2canvas from 'html2canvas';
-
+import { Color, ScaleType } from '@swimlane/ngx-charts';
 
 export interface UserIssueData{
   id: string;
@@ -68,6 +69,39 @@ export class DashboardComponent implements OnInit {
   imgcreada: boolean = false;
   imagenCreada: any;
   
+  
+  view: [number,number] = [700, 400];
+
+  // options
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+  isDoughnut: boolean = false;
+
+
+
+  single = [
+    {
+      "name": "Germany",
+      "value": 8940000
+    },
+    {
+      "name": "USA",
+      "value": 5000000
+    },
+    {
+      "name": "France",
+      "value": 7200000
+    },
+      {
+      "name": "UK",
+      "value": 6200000
+    }
+  ];
+
+
+ 
+
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
@@ -79,6 +113,19 @@ export class DashboardComponent implements OnInit {
             {
                 this.dataSource = new MatTableDataSource(this.issueData);
             }
+
+
+  onSelect(data:any): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
+
+  onActivate(data:any): void {
+    console.log('Activate', JSON.parse(JSON.stringify(data)));
+  }
+
+  onDeactivate(data:any): void {
+    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
 
   ngAfterViewInit() {
     
