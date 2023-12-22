@@ -15,10 +15,14 @@ export interface Approver {
     systemName: string;
   }
 
-  export interface ProjectsData{
+export interface ProjectsData {
+  data: {
     approvers: Record<string, Approver>;
     systems: Record<string, System>;
-  }
+  };
+  timestamp: number;
+}
+
   
 export interface SystemsData {
     data: {

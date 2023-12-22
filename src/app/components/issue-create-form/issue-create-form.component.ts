@@ -71,15 +71,19 @@ export class IssueCreateFormComponent implements OnInit {
   ]
 
   subOptionsIssueREQ = [
-    {value: "CRM", label: "C.R.M"}, 
-    {value: "SCP", label: "Score PROME"}, 
-    {value: "NLO", label: "Calculadora/Nosis lote"}, 
-    {value: "WWW", label: "Web institucional"}, 
-    {value: "REN", label: "Rendición de viáticos"},
-    {value: "GDR", label: "Gestor de requerimientos"},
-    {value: "PPR", label: "Portal PROME"},
-    {value: "CPR", label: "Comunidad PROME"},
-    {value: "HLC", label: "Hace la Cuenta"}
+    { value: 'GDD', label: 'Gestión de la Demanda' },
+    { value: 'CRM', label: 'C.R.M' },
+    { value: 'SCP', label: 'Score PROME' },
+    { value: 'NLO', label: 'Calculadora/Nosis lote' },
+    { value: 'WWW', label: 'Web institucional' },
+    { value: 'REN', label: 'Rendición de viáticos' },
+    { value: 'GDR', label: 'Gestor de requerimientos' },
+    { value: 'PPR', label: 'Portal PROME' },
+    { value: 'CPR', label: 'Comunidad PROME' },
+    { value: 'IMP', label: 'Importación de Prospectos' },
+    { value: 'VDM', label: 'Validador de Metas' },
+    { value: 'IMM', label: 'Importación Ministerios' },
+    { value: 'PDM', label: 'Portal de Finanzas' }
   ];
   
   subOptionsIssueINF = [

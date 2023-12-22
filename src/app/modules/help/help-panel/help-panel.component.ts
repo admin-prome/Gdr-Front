@@ -14,16 +14,39 @@ export class HelpPanelComponent implements OnInit {
   
   private unsubscribe$ = new Subject<void>();
   
+  infra: any[] = [
+    {
+      "name": "ABM (Alta, Baja y Modificación)",
+      "description": "Requerimientos relacionados con la administración de usuarios dentro de sistemas específicos. Incluye actividades de Alta, Baja y Modificación (ABM) de cuentas de usuario, así como la gestión de permisos, roles y privilegios asociados. Este subtipo abarca solicitudes para crear, actualizar o eliminar cuentas de usuario.",
+      "id": 1,
+      "code": "ABM"
+    },
+    {
+      "name": "Seguridad Informática",
+      "description": "Requerimientos centrados en la seguridad de la infraestructura informática. Esto abarca aspectos como la implementación de medidas de seguridad, la gestión de accesos, la protección contra amenazas cibernéticas y la aplicación de políticas de seguridad.",
+      "id": 2,
+      "code": "INF"
+    },
+    {
+      "name": "Infraestructura General",
+      "description": "Requerimientos que no se clasifican específicamente en las categorías anteriores. Pueden abarcar aspectos generales de la infraestructura que no se limitan a la administración o la seguridad. Esto puede incluir cambios, mejoras o solicitudes que no caen en las categorías más específicas.",
+      "id": 3,
+      "code": "SEG"
+    },
+  ];
+  
   constructor(
           private connectionService: ApiConnectionService,
           private cdr: ChangeDetectorRef
 
-          ) { }
+          ) {
+            
+           }
 
   panelOpenState = false;
   data= localStorage.getItem('projectsData');
   systemsData: ProjectsData | undefined;
- 
+  
   issuetype = [
     {
       "name": "Requerimiento de Desarrollo",
@@ -53,17 +76,18 @@ export class HelpPanelComponent implements OnInit {
   systemsList: any[] = [];
 
   subissuetype: any[] = [];
-  ngOnInit(): void {
-    const localStorageData = localStorage.getItem('projectsData');
 
-    if (localStorageData) {
-      this.systemsData = JSON.parse(localStorageData) as ProjectsData;
-      console.log('esto es sytemsData: ',this.systemsData);
-      console.log(this.systemsList);
+
+  ngOnInit(): void {
+
+    if (this.data) {
+      this.systemsData = JSON.parse(this.data) as ProjectsData;
+      console.log('esto es sytemsData: ',this.systemsData);     
       this.transformarDatos(); 
       this.subissuetype = this.systemsList
       console.log(this.systemsList);
-      console.log(this.subissuetype)
+      console.log(this.subissuetype);
+
     } else {
 
       console.log('No existe projectsData, llamando al servicio...');
@@ -72,33 +96,44 @@ export class HelpPanelComponent implements OnInit {
     }
 
     this.connectionService.data$
-    .pipe(takeUntil(this.unsubscribe$))
-    .subscribe((data: any | undefined) => {
-      this.systemsData = data;
-      this.transformarDatos();
-      localStorage.setItem('projectsData', JSON.stringify(data));
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(
+        (data: SystemsData | undefined) => {
+          this.systemsData = data;
+          if (this.systemsData) {
+            this.transformarDatos();
+            localStorage.setItem('projectsData', JSON.stringify(data));
+            this.cdr.detectChanges();
+          }
+        },
+        error => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      );
 
-      // Forzar la detección de cambios
-      this.cdr.detectChanges();
-    });
+
 
     }
 
     transformarDatos() {
-      console.log('transformando datos', this.systemsData)
-      // Verifica si existe la propiedad 'systems' en this.systemsData.data
-      if (this.systemsData?.systems) {
-        // Convierte el JSON original a la lista deseada
-        this.systemsList = Object.values(this.systemsData?.systems).map(system => ({
+      const systemsData = this.systemsData as SystemsData;
+      console.log('transformando datos', systemsData?.data?.systems);
+    
+      if (systemsData?.data?.systems) {
+        this.systemsList = Object.values(systemsData.data.systems).map(system => ({
           id: system.id,
           code: system.code,
           description: system.systemDescription,
           name: system.systemName
         }));
       }
-      console.log(this.systemsList)
-      this.subissuetype = this.systemsList
+    
+      console.log('Esto es systems list: ', this.systemsList);
+      this.subissuetype = this.systemsList;
     }
+    
+    
+    
 
     llamarAlServicio() {
       // Llama al método de tu servicio para obtener datos
@@ -110,6 +145,7 @@ export class HelpPanelComponent implements OnInit {
           localStorage.setItem('projectsData', JSON.stringify(data));
           this.cdr.detectChanges();
           this.subissuetype = this.systemsList;
+          window.location.reload()
         },
         error => {
           console.error('Error al llamar al servicio:', error);
