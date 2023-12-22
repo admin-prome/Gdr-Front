@@ -15,7 +15,7 @@ import { userSession } from 'src/app/data/interfaces/userSession-interface';
 })
 export class LoginComponent implements OnInit {
 
-  pathTriangles = "../../assets/triangulosbackII@4x.png";
+  pathTriangles = "../../../assets/triangulosback@4x.png";
   userData: userSession;
   googleAuth: boolean = false;
   backendAuth: boolean = false;
@@ -85,6 +85,7 @@ export class LoginComponent implements OnInit {
 
 
   loginToBackend(): void {
+
     this.loading=true;
     this.loginService.loginBack(this.userData).subscribe(
       (data: any) => {

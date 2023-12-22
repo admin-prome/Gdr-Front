@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit,  Renderer2 } from '@angular/core';
-
+import { ChangeDetectorRef, Component, ElementRef, NgZone, OnInit,  Renderer2 } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
@@ -65,7 +64,7 @@ export class DashboardComponent implements OnInit {
   selectedDescription: string | undefined;
   selectedRow: any | undefined;
   tecno: boolean = false;
-  
+  someValue: string = '';
   imgcreada: boolean = false;
   imagenCreada: any;
   
@@ -74,7 +73,8 @@ export class DashboardComponent implements OnInit {
             private authServices: AuthService,
             private router: Router,
             private changeDetectorRef: ChangeDetectorRef,
-            private storageService: SessionStorageService
+            private storageService: SessionStorageService,
+            private ngZone: NgZone
             )
             {
                 this.dataSource = new MatTableDataSource(this.issueData);
@@ -158,7 +158,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    console.log('recargando componente')
     this.userCredential = this.authServices.getCredential();
     this.management = this.userCredential.userDetails.management;
     this.isTecno();
@@ -228,6 +228,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+ 
+
+  
+
   getIssueData(userData: any) {
     this.botonDesactivado = true;
     this.loading = true;
@@ -244,10 +248,12 @@ export class DashboardComponent implements OnInit {
         }
         this.displayedColumns = this.standartColumns;
         this.guardarEnLocalStorage(this.issueData);
-        this.loading = false;
+       
         this.dataError = false;
         this.botonDesactivado = false;
         this.changeDetectorRef.detectChanges();
+        this.loading = false;
+        window.location.reload()
       },
 
       (error) => {

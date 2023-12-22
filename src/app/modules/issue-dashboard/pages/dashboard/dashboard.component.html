@@ -171,9 +171,9 @@
 
   </div>
   <div  *ngIf="!issueData" class="noData"><h2>No se encontraron requerimientos o incidentes</h2>
-    <p>Si cargaste recientemente un requerimiento, escribinos a <b> analisis@provinciamicrocreditos.com</b></p></div>
+    <p>Si cargaste recientemente un requerimiento puede demorar algunos minutos en impactar. Si continuas con problemas puedes escribir a <b> san@provinciamicrocreditos.com</b></p></div>
   <div *ngIf="!loading && dataError">
-    <h1>Ocurrio un error al obtener la data</h1>
+    <h1>Ocurrio un error al obtener los requerimientos e incidentes</h1>
     <button mat-button (click)="getIssueData(payload)">Gerencias</button>
   </div>
 </body>

@@ -1,13 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ProjectsData, System, SystemsData } from 'src/app/data/interfaces/systemsData-inteface';
+import { ApiConnectionService } from 'src/app/services/api-connection-service.service';
 
 @Component({
   selector: 'app-help-panel',
   templateUrl: './help-panel.component.html',
   styleUrls: ['./help-panel.component.css']
 })
+
+
 export class HelpPanelComponent implements OnInit {
+  
+  private unsubscribe$ = new Subject<void>();
+  
+  constructor(
+          private connectionService: ApiConnectionService,
+          private cdr: ChangeDetectorRef
+
+          ) { }
+
   panelOpenState = false;
-  constructor() { }
+  data= localStorage.getItem('projectsData');
+  systemsData: ProjectsData | undefined;
+ 
   issuetype = [
     {
       "name": "Requerimiento de Desarrollo",
@@ -34,83 +50,76 @@ export class HelpPanelComponent implements OnInit {
       "code": "FIX"
     }
   ]
+  systemsList: any[] = [];
 
-  subissuetype = [
-    
-    {
-      "name": "Gestión de la Demanda",
-      "description": "Este sistema sirve como la puerta de entrada para todos los requerimientos de desarrollo, predictivos y correctivos que la empresa demanda del área de Tecnología. Si no reconoce el sistema asociado a su incidencia o si aún no existe, puede y debe seleccionar este subtipo.",
-      "code": "GDD"
-    },
-    {
-      "name": "C.R.M",
-      "description": "Sistema de Gestión de Relaciones con el Cliente. Permite gestionar interacciones con clientes, seguimiento de ventas y análisis de datos para mejorar las relaciones comerciales.",
-      "code": "CRM"
-    },
-    {
-      "name": "Score PROME",
-      "description": "Plataforma que calcula y evalúa el rendimiento y la eficacia de los procesos internos, proporcionando métricas clave para la toma de decisiones.",
-      "code": "SCP"
-    },
-    {
-      "name": "Calculadora/Nosis lote",
-      "description": "Herramienta que facilita el cálculo y análisis masivo de datos relacionados con la información crediticia y financiera, utilizando la base de datos de Nosis.",
-      "code": "NLO"
-    },
-    {
-      "name": "Web institucional",
-      "description": "Página web principal de la empresa que brinda información sobre la organización, sus servicios y actividades.",
-      "code": "WWW"
-    },
-    {
-      "name": "Rendición de viáticos",
-      "description": "Sistema para registrar y gestionar los gastos y reembolsos asociados a los viajes y viáticos de los empleados.",
-      "code": "REN"
-    },
-    {
-      "name": "Gestor de requerimientos",
-      "description": "Plataforma para la gestión eficiente de los requerimientos del proyecto, desde su creación hasta su implementación.",
-      "code": "GDR"
-    },
-    {
-      "name": "Portal PROME",
-      "description": "Plataforma online que proporciona acceso a todos los sistemas y recursos de la empresa.",
-      "code": "PPR"
-    },
-    {
-      "name": "Comunidad PROME",
-      "description": "Espacio virtual que disponibiliza medios de contacto comerciales de los clientes PROME, disponible al público en el sitio institucional.",
-      "code": "CPR"
-    },
-    {
-      "name": "Hace la Cuenta",
-      "description": "Herramienta destinada a la promoción ‘Hace la cuenta’ que facilita la gestión de pago a los beneficiarios del programa .",
-      "code": "HLC"
-    },
-    {
-      "name": "Importación de Prospectos",
-      "description": "Facilita la entrada de nuevos prospectos al sistema, simplificando el proceso de importación de datos.",
-      "code": "IMP"
-    },
-     {
-      "name": "Validador de Metas",
-      "description": "Herramienta que verifica y valida metas según los criterios establecidos, asegurando la precisión y consistencia de los objetivos definidos de los ejecutivos comerciales.",
-      "code": "VDM"
-    },  
-    {
-      "name": "Importación Ministerios",
-      "description": "Simplifica el proceso de importación de datos relacionados con Ministerios, mejorando la eficiencia en la gestión de la información.",
-      "code": "IMM"
-    },    
-    {
-      "name": "Portal de Finanzas",
-      "description": "Portal del área de Finanzas que proporciona diversas herramientas con desarrollos nativos para agilizar las tareas diarias y eliminar procesos repetitivos.",
-      "code": "PDM"
-    }
-    
-  ]
-  
+  subissuetype: any[] = [];
   ngOnInit(): void {
-  }
+    const localStorageData = localStorage.getItem('projectsData');
+
+    if (localStorageData) {
+      this.systemsData = JSON.parse(localStorageData) as ProjectsData;
+      console.log('esto es sytemsData: ',this.systemsData);
+      console.log(this.systemsList);
+      this.transformarDatos(); 
+      this.subissuetype = this.systemsList
+      console.log(this.systemsList);
+      console.log(this.subissuetype)
+    } else {
+
+      console.log('No existe projectsData, llamando al servicio...');
+      this.llamarAlServicio();
+      
+    }
+
+    this.connectionService.data$
+    .pipe(takeUntil(this.unsubscribe$))
+    .subscribe((data: any | undefined) => {
+      this.systemsData = data;
+      this.transformarDatos();
+      localStorage.setItem('projectsData', JSON.stringify(data));
+
+      // Forzar la detección de cambios
+      this.cdr.detectChanges();
+    });
+
+    }
+
+    transformarDatos() {
+      console.log('transformando datos', this.systemsData)
+      // Verifica si existe la propiedad 'systems' en this.systemsData.data
+      if (this.systemsData?.systems) {
+        // Convierte el JSON original a la lista deseada
+        this.systemsList = Object.values(this.systemsData?.systems).map(system => ({
+          id: system.id,
+          code: system.code,
+          description: system.systemDescription,
+          name: system.systemName
+        }));
+      }
+      console.log(this.systemsList)
+      this.subissuetype = this.systemsList
+    }
+
+    llamarAlServicio() {
+      // Llama al método de tu servicio para obtener datos
+      this.connectionService.GetAllProjects().subscribe(
+        (data: ProjectsData) => {
+          this.systemsData = data;
+
+          this.transformarDatos();
+          localStorage.setItem('projectsData', JSON.stringify(data));
+          this.cdr.detectChanges();
+          this.subissuetype = this.systemsList;
+        },
+        error => {
+          console.error('Error al llamar al servicio:', error);
+        }
+      );
+    }
+
+    ngOnDestroy(): void {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
+    }
 
 }

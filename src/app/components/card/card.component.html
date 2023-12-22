@@ -14,6 +14,7 @@
             <span class="ag-courses-item_date">
               <!-- {{ course.startDate | date: 'dd.MM.yyyy' }} -->
               {{ course.description }}
+              <p *ngIf="course.code">Codigo interno: <b>[{{course.code}}]</b></p>
             </span>
           </div>
         </a>

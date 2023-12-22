@@ -2,7 +2,7 @@ import { Component, NgModule, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDrawerMode } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -14,8 +14,8 @@ export class NavbarComponent implements OnInit {
   imgUser: string | undefined;
   showDropdown: boolean = false;
   showFiller = false;
-  constructor(private router: Router) { }
-  
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) { }
+  showButtons: boolean = false;
   
   mode = new FormControl('over' as MatDrawerMode);
   // shouldRun = /(^|.)(stackblitz|webcontainer).(io|com)$/.test(window.location.host);
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
     if (userCredential !== null) {
       const credentialObj = JSON.parse(userCredential);
       const name = credentialObj.name;
-      
+      this.showButtons = true;
       
       const [firstName] = name.split(" ");
       this.imgUser = credentialObj.picture;
@@ -36,6 +36,10 @@ export class NavbarComponent implements OnInit {
     } else {
       // El valor en el Local Storage es nulo, maneja este caso según tus necesidades
     }
+    const currentUrl = this.activatedRoute.snapshot.url.map(segment => segment.path).join('/');
+    console.log('Ruta actual:', currentUrl);
+
+    
   }
 
   clearLocalStorage() {

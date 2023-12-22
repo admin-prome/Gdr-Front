@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { DataForm } from '../data/models/issue-create-form.models';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Subject, of } from 'rxjs';
+import { SystemsData } from '../data/interfaces/systemsData-inteface';
 @Injectable({
   providedIn: 'root',
 })
@@ -15,6 +16,9 @@ export class ApiConnectionService {
 
   private urlApi = environment.baseUrl;
   public loading = false;
+  
+  private dataSubject = new Subject<SystemsData>();
+  data$: Observable<SystemsData> = this.dataSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -28,23 +32,7 @@ export class ApiConnectionService {
   ): Observable<IssuesInformation> {
     return this.http.get<IssuesInformation>(this.urlApi + 'Issues');
   }
-  
-  //Obtener todos los nombres y keys de proyectos en jira
-  // public GetAllProjects(): Observable<any> { 
-  //   const response =  this.http.get<any>(this.urlApi + 'GetAllProjects');
-  //   response.subscribe(
-  //     (data) => {
 
-  //     },
-  //     (error) => {
-  //         console.log('Ocurrio un error al mostrar los proyectos')
-          
-  //     }
-  // );
-    
-  //   return response;
-
-  // }
 
   public GetAllProjects(): Observable<any> {
     const localStorageKey = 'projectsData'; // Clave para almacenar los datos en el localStorage

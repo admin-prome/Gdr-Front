@@ -60,8 +60,7 @@
     
       <app-card [dataCards]="issuetype"></app-card>
     </mat-expansion-panel>
-
-    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel *ngIf="subissuetype.length > 0" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
           ¿Cuáles son los subtipos de requerimiento o Incidente?
@@ -71,7 +70,7 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
      
-      <app-card [dataCards]="subissuetype"></app-card>
+      <app-card  [dataCards]="subissuetype"></app-card>
     </mat-expansion-panel>
 
    
