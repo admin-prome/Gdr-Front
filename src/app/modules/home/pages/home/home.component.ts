@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
       'imagenSrc': '../../../../../assets/cardImgs/traditionalForm.png',
       'titulo': 'Formulario Tradicional',
       'icon': 'add_circle',
-      'descripcion': 'Experimente la familiaridad del formulario clásico que ha estado utilizando en esta sección, vigente hasta el 01/01/2024',
+      'descripcion': 'Experimente la familiaridad del formulario clásico que ha estado utilizando en esta sección, vigente hasta el 01/02/2024',
       'color':'279D2E'
       },
       {

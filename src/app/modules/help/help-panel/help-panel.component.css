@@ -18,7 +18,7 @@ header h1{
 body{
     display: flex;
     flex-direction: column;
-    margin: auto;
+    margin: 0 auto;
     padding: 1rem;
     max-width: 80%;
 }
@@ -36,3 +36,8 @@ body{
     margin-left: 8px;
   }
   
+.spinner{
+  justify-content: center;
+  margin: auto;
+  z-index: 1000;
+}

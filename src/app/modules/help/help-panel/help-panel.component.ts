@@ -67,6 +67,7 @@ export class HelpPanelComponent implements OnInit {
     }
 
     ]
+  loading: boolean = true;
   
   constructor(
           private connectionService: ApiConnectionService,
@@ -78,7 +79,7 @@ export class HelpPanelComponent implements OnInit {
 
   panelOpenState = false;
   data= localStorage.getItem('projectsData');
-  systemsData: ProjectsData | undefined;
+  systemsData: SystemsData | undefined;
   
   issuetype = [
     {
@@ -114,12 +115,11 @@ export class HelpPanelComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.data) {
-      this.systemsData = JSON.parse(this.data) as ProjectsData;
-      console.log('esto es sytemsData: ',this.systemsData);     
+      this.systemsData = JSON.parse(this.data) as SystemsData;
+      
       this.transformarDatos(); 
       this.subissuetype = this.systemsList
-      console.log(this.systemsList);
-      console.log(this.subissuetype);
+      this.loading = false;
 
     } else {
 
@@ -128,40 +128,38 @@ export class HelpPanelComponent implements OnInit {
       
     }
 
-    this.connectionService.data$
-      .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(
-        (data: SystemsData | undefined) => {
-          this.systemsData = data;
-          if (this.systemsData) {
-            this.transformarDatos();
-            localStorage.setItem('projectsData', JSON.stringify(data));
-            this.cdr.detectChanges();
-          }
-        },
-        error => {
-          console.error('Error al llamar al servicio:', error);
-        }
-      );
+    // this.connectionService.data$
+    //   .pipe(takeUntil(this.unsubscribe$))
+    //   .subscribe(
+    //     (data: SystemsData | undefined) => {
+    //       this.systemsData = data;
+    //       if (this.systemsData) {
+    //         this.transformarDatos();
+    //         localStorage.setItem('projectsData', JSON.stringify(data));
+    //         this.cdr.detectChanges();
+    //         this.loading = false;
+    //       }
+    //     },
+    //     error => {
+    //       console.error('Error al llamar al servicio:', error);
+    //     }
+    //   );
 
 
 
     }
 
     transformarDatos() {
-      const systemsData = this.systemsData as SystemsData;
-      console.log('transformando datos', systemsData?.data?.systems);
+      const systemsData = this.systemsData as unknown as SystemsData;
     
-      if (systemsData?.data?.systems) {
-        this.systemsList = Object.values(systemsData.data.systems).map(system => ({
+      if (systemsData?.systems) {
+        this.systemsList = Object.values(systemsData.systems).map(system => ({
           id: system.id,
           code: system.code,
           description: system.systemDescription,
           name: system.systemName
         }));
       }
-    
-      console.log('Esto es systems list: ', this.systemsList);
       this.subissuetype = this.systemsList;
     }
     
@@ -171,17 +169,18 @@ export class HelpPanelComponent implements OnInit {
     llamarAlServicio() {
       // Llama al método de tu servicio para obtener datos
       this.connectionService.GetAllProjects().subscribe(
-        (data: ProjectsData) => {
+        (data: SystemsData) => {
           this.systemsData = data;
-
           this.transformarDatos();
           localStorage.setItem('projectsData', JSON.stringify(data));
           this.cdr.detectChanges();
           this.subissuetype = this.systemsList;
-          window.location.reload()
+          this.loading = false;
+          //window.location.reload()
         },
         error => {
           console.error('Error al llamar al servicio:', error);
+          this.loading = false;
         }
       );
     }

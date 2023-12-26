@@ -25,10 +25,10 @@ export interface ProjectsData {
 
   
 export interface SystemsData {
-    data: {
+  
       approvers: Record<string, Approver>;
       systems: Record<string, System>;
-    };
-    timestamp: number;
+    
+   
   }
 

@@ -37,7 +37,7 @@ export class NavbarComponent implements OnInit {
       // El valor en el Local Storage es nulo, maneja este caso según tus necesidades
     }
     const currentUrl = this.activatedRoute.snapshot.url.map(segment => segment.path).join('/');
-    console.log('Ruta actual:', currentUrl);
+    
 
     
   }

@@ -20,9 +20,8 @@ import { BrowserModule } from '@angular/platform-browser';
     IssueDashboardRoutingModule,
     SharedModule,
     MaterialSharedModule,
-    NgxChartsModule,
-    BrowserAnimationsModule,
-    BrowserModule
+ 
+   
   ]
 })
 export class IssueDashboardModule { }

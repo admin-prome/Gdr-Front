@@ -11,7 +11,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { userSession } from 'src/app/data/interfaces/userSession-interface';
 import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
 import html2canvas from 'html2canvas';
-import { Color, ScaleType } from '@swimlane/ngx-charts';
+// import { Color, ScaleType } from '@swimlane/ngx-charts';
 
 export interface UserIssueData{
   id: string;
@@ -69,36 +69,6 @@ export class DashboardComponent implements OnInit {
   imgcreada: boolean = false;
   imagenCreada: any;
   
-  
-  view: [number,number] = [700, 400];
-
-  // options
-  gradient: boolean = true;
-  showLegend: boolean = true;
-  showLabels: boolean = true;
-  isDoughnut: boolean = false;
-
-
-
-  single = [
-    {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
-      "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
-    },
-      {
-      "name": "UK",
-      "value": 6200000
-    }
-  ];
-
 
  
 
@@ -115,17 +85,6 @@ export class DashboardComponent implements OnInit {
             }
 
 
-  onSelect(data:any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  }
-
-  onActivate(data:any): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
-  }
-
-  onDeactivate(data:any): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  }
 
   ngAfterViewInit() {
     
@@ -194,7 +153,7 @@ export class DashboardComponent implements OnInit {
     }
 
   isTecno(){
-    if (this.management === 'Gerencias de Tecnologia' && this.isCheckedFullInfo) {
+    if (this.management == 'Gerencias de Tecnologia'|| this.management == 'Gerencias de Tecnología'  && this.isCheckedFullInfo) {
       
       this.tecno = true;
       this.displayedColumns = this.fullColumns;
@@ -205,11 +164,9 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('recargando componente')
     this.userCredential = this.authServices.getCredential();
     this.management = this.userCredential.userDetails.management;
     this.isTecno();
-    
     this.setUserType();
     
     const payload = {      

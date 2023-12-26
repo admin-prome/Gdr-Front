@@ -13,7 +13,7 @@
       <mat-label><mat-icon matSuffix class="searchIcon">search</mat-icon></mat-label>
 
       <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese lo que desea buscar" #input>
-      <mat-slide-toggle *ngIf="isTecno" [color]="'primary'" [(ngModel)]="isCheckedFullInfo" matSuffix (click)="expandColumns()"
+      <mat-slide-toggle *ngIf="this.tecno" [color]="'primary'" [(ngModel)]="isCheckedFullInfo" matSuffix (click)="expandColumns()"
         class="custom-slide-toggle">{{ isCheckedFullInfo ? 'ocultar':'mostrar' }}</mat-slide-toggle>
 
     </mat-form-field>
@@ -174,16 +174,7 @@
     <p>Si cargaste recientemente un requerimiento puede demorar algunos minutos en impactar. Si continuas con problemas puedes escribir a <b> san@provinciamicrocreditos.com</b></p></div>
   <div *ngIf="!loading && dataError">
     <h1>Ocurrio un error al obtener los requerimientos e incidentes</h1>
-    <button mat-button (click)="getIssueData(payload)">Gerencias</button>
+    <!-- <button mat-button (click)="getIssueData(payload)"></button> -->
   </div>
 </body>
 
-<ngx-charts-advanced-pie-chart
-  [view]="view"
-  [results]="single"
-  [gradient]="gradient"
-  (select)="onSelect($event)"
-  (activate)="onActivate($event)"
-  (deactivate)="onDeactivate($event)"
-  >
-</ngx-charts-advanced-pie-chart>

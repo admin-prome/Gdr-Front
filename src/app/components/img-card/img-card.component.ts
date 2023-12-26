@@ -35,7 +35,6 @@ export class ImgCardComponent implements OnInit {
   }
 
   navigateTo(site: string){
-    console.log(site);
     this.router.navigate([site]);
   }
   

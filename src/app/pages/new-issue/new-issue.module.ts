@@ -16,7 +16,6 @@ import { NewIssueRoutingModule } from './new-issue-routing.module';
 })
 export class NewIssueModule {
   constructor() {
-    console.log('NewIssueModule loaded.');  // Agrega este console.log
   }
 }
 

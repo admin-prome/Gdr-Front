@@ -15,20 +15,16 @@ export class CardComponent implements OnInit, OnChanges {
   data: any = [];
 
   ngOnInit(): void {
-    console.log('iniciando app-card')
     this.actualizarDatos();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('detectanto cambios en app-card');
-    console.log(this.dataCards)
     if (changes['dataCards'] && changes['dataCards'].currentValue) {
       this.actualizarDatos();
     }
   }
 
   private actualizarDatos() {
-    console.log('actualizando datos en app-card')
     this.data = this.dataCards;
   }
 

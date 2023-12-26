@@ -3,6 +3,8 @@
   <h1>SECCIÓN DE AYUDA</h1>
 </header>
 
+
+
 <body>
   <p>
     <b>Bienvenido al Gestor de Requerimientos:</b> <br> Tu Herramienta Personalizada para una Gestión Eficiente
@@ -11,9 +13,10 @@
     una herramienta diseñada pensando en ti. Nos complace ofrecerte una experiencia personalizada que se adapta a las
     necesidades específicas de tu perfil dentro de la empresa.
   </p>
-
+  
   <mat-divider></mat-divider><br>
-  <mat-accordion>
+  <mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
+  <mat-accordion *ngIf="!loading">
     
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>

@@ -244,7 +244,6 @@ export class IssueStepperCreateComponent implements OnInit {
     if (credentialJson !== null) {
       this.myForm.value.userCredential = JSON.parse(credentialJson);
     } else {
-      console.log('No se encontraron las credenciales del usuario');
       localStorage.clear();
       this.router.navigate(["/login"]);
     }
@@ -255,7 +254,6 @@ export class IssueStepperCreateComponent implements OnInit {
     if (credentialJson !== null) {
       this.sharedState.userCredential = JSON.parse(credentialJson);
     } else {
-      console.log('No se encontraron las credenciales del usuario');
       localStorage.clear();
       this.router.navigate(["/login"]);
     }
@@ -349,15 +347,13 @@ export class IssueStepperCreateComponent implements OnInit {
   }
 
   obtenerDelLocalStorage(clave: string){
-    const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);      
-    console.log(datosObtenidos);  // Mostrará el objeto JSON guardado
+    const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);   
     return datosObtenidos 
   }
 
   // Ejemplo de cómo borrar un objeto JSON de sessionStorage
   borrarDatosDelSessionStorage(clave: string): void {
     this.storageService.borrarDesdeSessionStorage(clave);
-    console.log('datos borrados del session storage')
   }
 
 }
