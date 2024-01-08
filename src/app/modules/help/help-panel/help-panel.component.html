@@ -4,8 +4,9 @@
 </header>
 
 
+<mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
 
-<body>
+<body *ngIf="!loading">
   <p>
     <b>Bienvenido al Gestor de Requerimientos:</b> <br> Tu Herramienta Personalizada para una Gestión Eficiente
 
@@ -15,8 +16,7 @@
   </p>
   
   <mat-divider></mat-divider><br>
-  <mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
-  <mat-accordion *ngIf="!loading">
+  <mat-accordion>
     
     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>

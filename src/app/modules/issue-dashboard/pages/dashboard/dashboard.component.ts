@@ -153,8 +153,9 @@ export class DashboardComponent implements OnInit {
     }
 
   isTecno(){
-    if (this.management == 'Gerencias de Tecnologia'|| this.management == 'Gerencias de Tecnología'  && this.isCheckedFullInfo) {
-      
+    const containsTecno = this.management.toLowerCase().includes('tecno');
+
+    if (containsTecno) {
       this.tecno = true;
       this.displayedColumns = this.fullColumns;
     } else {
@@ -174,6 +175,7 @@ export class DashboardComponent implements OnInit {
       "max_result": 50,
       "projects":['GDD', 'TSTGDR', 'GT', 'GGDI']
     }
+
     this.payload = payload;
 
     const storedData = this.obtenerDelLocalStorage('requerimientos');
@@ -185,7 +187,8 @@ export class DashboardComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.loading = false;
-    } else {
+    } 
+    else {
       this.getIssueData(payload);
     }  
 
@@ -274,7 +277,7 @@ export class DashboardComponent implements OnInit {
 
   expandColumns() {
     if (!this.isCheckedFullInfo) {
-      this.displayedColumns = this.management == 'Gerencias de Tecnologia' ? this.fullColumns : this.standartColumns;
+      this.displayedColumns = this.tecno  ? this.fullColumns : this.standartColumns;
     } else {
       this.displayedColumns = this.standartColumns;
     }

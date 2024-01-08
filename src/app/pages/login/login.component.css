@@ -1,57 +1,4 @@
-.spinner{
-    background-color:#fff;
-    position: absolute; /* O puedes usar 'fixed' dependiendo de tus necesidades */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
 
-.loader {
-    width: 175px;
-    height: 80px;
-    display: block;
-    margin:auto;
-    background-image: radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), radial-gradient(circle 50px at 50px 50px, #FFF 100%, transparent 0), radial-gradient(circle 25px at 25px 25px, #FFF 100%, transparent 0), linear-gradient(#FFF 50px, transparent 0);
-    background-size: 50px 50px, 100px 76px, 50px 50px, 120px 40px;
-    background-position: 0px 30px, 37px 0px, 122px 30px, 25px 40px;
-    background-repeat: no-repeat;
-    position: relative;
-    box-sizing: border-box;
-  }
-  .loader::before {
-    content: '';  
-    left: 60px;
-    bottom: 18px;
-    position: absolute;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: var(--color-primario);
-    background-image: radial-gradient(circle 8px at 18px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 0px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 0px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 36px 18px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 18px 36px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 30px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 30px, #FFF 100%, transparent 0), radial-gradient(circle 4px at 5px 5px, #FFF 100%, transparent 0);
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-    animation: rotationBack 3s linear infinite;
-  }
-  .loader::after {
-    content: '';  
-    left: 94px;
-    bottom: 15px;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: var(--color-secundario);
-    background-image: radial-gradient(circle 5px at 12px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 0px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 0px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 24px 12px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 12px 24px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 20px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 20px, #FFF 100%, transparent 0), radial-gradient(circle 2.5px at 3px 3px, #FFF 100%, transparent 0);
-    background-repeat: no-repeat;
-    box-sizing: border-box;
-    animation: rotationBack 4s linear infinite reverse;
-  }
-  
   @keyframes rotationBack {
     0% {
       transform: rotate(0deg);
@@ -62,7 +9,6 @@
   }
 
 body {
-    height: 100vh;
     margin: 0;
     display: flex;
     justify-content: center;
@@ -88,7 +34,7 @@ h1 {
     height: 100vh;
     display: flex;
     align-items: flex-end;
-    z-index: -100;
+    
 }
 
 .triangles-top {
@@ -102,7 +48,6 @@ h1 {
 .triangles-bottom-box {
     height: 100vh;
     display: flex-start;
-    z-index: -150;
 }
 
 .triangles-bottom {
@@ -113,18 +58,19 @@ h1 {
 }
 
 .login-img- {
-    width: 50vw;
     margin: auto;
+    width: auto;
+    height: 100%;
     }
   
-  @keyframes gradientAnimation {
-    0% {
-      background-position: 200% 0;
-    }
-    100% {
-      background-position: -200% 0;
-    }
-  }
+@keyframes gradientAnimation {
+0% {
+    background-position: 200% 0;
+}
+100% {
+    background-position: -200% 0;
+}
+}
 
 @keyframes slide-in-top {
     0% {
@@ -180,8 +126,6 @@ h1 {
 .login-title {
     display: flex;
     flex-direction: row;
-    /* width: 100%;
-    height: 70%; */
     justify-content: center;
     align-items: center;
     align-content: center;
@@ -189,10 +133,7 @@ h1 {
     margin: auto;
 }
 
-.login-img {
-    width: auto;
-    height: 100%;
-}
+
 
 .login-title-prome {
     display: flex;
@@ -228,9 +169,10 @@ h1 {
 
     .login-img {
         height: 8rem;
+        
     }
     .login-img- {
-        width: 20vw;
+        width: 400px;
     }
 }
 

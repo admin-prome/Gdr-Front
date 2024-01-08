@@ -25,9 +25,9 @@
       </li>
       <li class="rightItems">
         <button mat-button (click)="navigateTo('/home')">Volver al inicio</button>
-        <span class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario"></span>
+        <span class="imageUser" *ngIf="imgUser"><img src="{{imgUser}}" alt="imagen de usuario"></span>
 
-        <h5> Hola, {{firstName}}.</h5>
+        <h5 *ngIf="firstName"> Hola{{', '+firstName}}.</h5>
 
         <!-- <button mat-icon-button (click)="this.clearLocalStorage()">
         <mat-icon>note_add</mat-icon>

@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
         'imagenSrc': '../../../../../assets/cardImgs/help.png',
         'titulo': 'Mi Tablero',
         'icon': 'dashboard',
-        'descripcion': 'Acceda a toda la información de los estados de sus requerimientos e incidentes cargados (versión de prueba)',
+        'descripcion': 'Acceda a toda la información de los estados de sus requerimientos e incidentes cargados.',
         'color':'59358B'
         }
   ];

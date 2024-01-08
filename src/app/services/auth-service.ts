@@ -33,7 +33,7 @@ export class AuthService {
       const dayDifference: number = Math.floor((currentDate.getTime() - timestampDate.getTime()) / (1000 * 60 * 60 * 24));
 
       // Cerrar la sesión si la diferencia es mayor a 30 días o si no existe idJIRA
-      if (userObject.idJIRA && dayDifference <= 30) {
+      if (userObject.idJIRA && dayDifference <= 15) {
         return true;
       }
 

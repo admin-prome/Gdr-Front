@@ -67,7 +67,7 @@ import { ImgCardModule } from "./components/spinner/spinner.component";
         MaterialRadioComponent,
         MaterialCheckboxComponent,
         IssueCardComponent,
-        IssueCreateComponent,
+        IssueCreateComponent
     ],
     providers: [
         ApiConnectionService,

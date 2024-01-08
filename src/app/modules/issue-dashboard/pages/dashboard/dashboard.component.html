@@ -6,6 +6,7 @@
 </div>
 
 
+
 <body>
   <section class="panel">
     <mat-form-field appearance="outline" class="filter">
@@ -13,9 +14,9 @@
       <mat-label><mat-icon matSuffix class="searchIcon">search</mat-icon></mat-label>
 
       <input matInput (keyup)="applyFilter($event)" placeholder="Ingrese lo que desea buscar" #input>
-      <mat-slide-toggle *ngIf="this.tecno" [color]="'primary'" [(ngModel)]="isCheckedFullInfo" matSuffix (click)="expandColumns()"
-        class="custom-slide-toggle">{{ isCheckedFullInfo ? 'ocultar':'mostrar' }}</mat-slide-toggle>
-
+      <mat-slide-toggle *ngIf="tecno" [color]="'primary'" [(ngModel)]="isCheckedFullInfo" matSuffix (click)="expandColumns()"
+        class="custom-slide-toggle">{{ isCheckedFullInfo ? 'ocultar':'mostrar' }} </mat-slide-toggle>
+      
     </mat-form-field>
   </section>
   <button mat-button appearance="outline" (click)="this.getIssueData(payload)" [disabled]="botonDesactivado">{{ loading

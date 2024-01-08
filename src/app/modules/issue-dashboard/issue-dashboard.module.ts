@@ -12,9 +12,9 @@ import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
-    
+    DashboardComponent    
   ],
+
   imports: [
     CommonModule,
     IssueDashboardRoutingModule,

@@ -88,7 +88,8 @@ export class IssueCreateFormComponent implements OnInit {
   
   subOptionsIssueINF = [
     {value: "INF", label: "Infraestructura"}, 
-    {value: "SEG", label: "Seguridad Informática"}
+    {value: "SEG", label: "Seguridad Informática"},
+    {value: "ABM", label: "Alta Baja Modificación de Usuarios"}
   ];
 
   managersOptions = [    

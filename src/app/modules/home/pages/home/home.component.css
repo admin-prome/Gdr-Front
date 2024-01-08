@@ -40,18 +40,46 @@ app-img-card:hover{
     cursor: pointer;
 }
 
+footer{
+    width: 100%;
+}
+footer img{
+    width: 50%;
+    margin: 1rem;
+}
 
 @media (max-width: 1023px) {
    
+    body{
+        height: auto;
+        max-height: inherit;
+    }
     
     .cards{
+        max-height: inherit;
         flex-direction: column;
         row-gap: 1rem;
+        margin: 3rem;
     }
 
     app-img-card{
         max-width: inherit;
+        width: 600px;
         margin: auto;
     }
 
+    footer{
+        position: fixed;
+        bottom: 0;
+        background-color: #fff;
+    }
+
+
+
+}
+
+@media (max-width: 769px){
+    app-img-card{
+        width: 80%;
+    }
 }

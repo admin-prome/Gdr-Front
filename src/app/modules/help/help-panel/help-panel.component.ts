@@ -68,7 +68,8 @@ export class HelpPanelComponent implements OnInit {
 
     ]
   loading: boolean = true;
-  
+  data= localStorage.getItem('projectsData');
+  projects: any;
   constructor(
           private connectionService: ApiConnectionService,
           private cdr: ChangeDetectorRef
@@ -78,7 +79,7 @@ export class HelpPanelComponent implements OnInit {
            }
 
   panelOpenState = false;
-  data= localStorage.getItem('projectsData');
+  
   systemsData: SystemsData | undefined;
   
   issuetype = [
@@ -109,16 +110,21 @@ export class HelpPanelComponent implements OnInit {
   ]
   systemsList: any[] = [];
 
-  subissuetype: any[] = [];
+  subissuetype: any[] =[];
 
 
   ngOnInit(): void {
+    this.data= localStorage.getItem('projectsData');
+    
+    this.loading = true;
+    
 
     if (this.data) {
-      this.systemsData = JSON.parse(this.data) as SystemsData;
-      
+      this.projects = JSON.parse(this.data) as ProjectsData;      
+      this.systemsData = this.projects
       this.transformarDatos(); 
       this.subissuetype = this.systemsList
+      console.log('cargando datos: ')
       this.loading = false;
 
     } else {
@@ -128,22 +134,6 @@ export class HelpPanelComponent implements OnInit {
       
     }
 
-    // this.connectionService.data$
-    //   .pipe(takeUntil(this.unsubscribe$))
-    //   .subscribe(
-    //     (data: SystemsData | undefined) => {
-    //       this.systemsData = data;
-    //       if (this.systemsData) {
-    //         this.transformarDatos();
-    //         localStorage.setItem('projectsData', JSON.stringify(data));
-    //         this.cdr.detectChanges();
-    //         this.loading = false;
-    //       }
-    //     },
-    //     error => {
-    //       console.error('Error al llamar al servicio:', error);
-    //     }
-    //   );
 
 
 
