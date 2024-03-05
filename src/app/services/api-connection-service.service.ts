@@ -113,5 +113,20 @@ export class ApiConnectionService {
 
     //return this.http.post<JSON>(this.urlApi + 'createissue', newIssue);
   }
+
+  public PostNewHigherAmount(newCredit: any): Observable<any> {
+    
+    const headers = new HttpHeaders({
+      'Authorization-Key': environment.AuthorizationKey,
+      'Content-Type': 'application/json; charset=utf-8'      
+    });
+    
+    return this.http.post<any>(this.urlApi + 'HigherAmount',newCredit,  { headers });
+  
+    //return this.http.post<JSON>(this.urlApi + 'createissue', newIssue);
+  }
 }
  
+
+
+

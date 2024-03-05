@@ -1,0 +1,51 @@
+<!-- amount-million.component.html -->
+
+<div class="form-container centered-column">
+    <form [formGroup]="requestForm" (ngSubmit)="sendForm()">
+        <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-label>DNI del cliente:</mat-label>
+            <input matInput type="number" formControlName="dni" />
+            <mat-error *ngIf="requestForm.get('dni')?.hasError('required')">DNI es requerido.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-label>N° de Solicitud:</mat-label>
+            <input matInput formControlName="opportunity" />
+            <mat-error *ngIf="requestForm.get('opportunity')?.hasError('required')">Oportunidad es
+                requerida.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-label>Valor de cuota:</mat-label>
+            <input matInput type="number" formControlName="quotaValue" max="99999999" />
+            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('required')">Valor de cuota es
+                requerido.</mat-error>
+            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('pattern')">Valor de cuota debe ser un número
+                entero positivo.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-label>Monto de Crédito</mat-label>
+            <input matInput type="number" formControlName="amount" />
+            <mat-error *ngIf="requestForm.get('amount')?.hasError('required')">Cantidad es requerida.</mat-error>
+            <mat-error *ngIf="requestForm.get('amount')?.hasError('pattern')">Cantidad debe ser un número entero
+                positivo.</mat-error>
+        </mat-form-field>
+
+        <!-- <div class="form-group">
+        <mat-checkbox formControlName="notified">Notificado</mat-checkbox>
+      </div> -->
+
+        <div class="form-group mt-4">
+            <button mat-raised-button type="submit" [disabled]="!requestForm.valid || loading">Enviar</button>
+        </div>
+    </form>
+
+    <div *ngIf="formError" class="error-message">
+        por favor reenvie su solicitud, ocurrio un error en el proceso de registro.
+    </div>
+
+    <div *ngIf="receivedData" class="success-message">
+        Sus Solicitud fue cargada Satisfactoriamente
+    </div>
+</div>

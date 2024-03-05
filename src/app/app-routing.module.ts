@@ -32,7 +32,7 @@ const routes: Routes = [
 
   { path: 'home', canActivate: [LoginGuard], loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule) },
 
-  { path: 'new-issue-create', canActivate: [LoginGuard], loadChildren: () => import('./modules/issue-create/issue-create.module').then(m => m.IssueCreateModule) },
+  { path: 'nuevo-incidente', canActivate: [LoginGuard], loadChildren: () => import('./modules/issue-create/issue-create.module').then(m => m.IssueCreateModule) },
  
   { path: 'help', canActivate: [LoginGuard], loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule) },
 

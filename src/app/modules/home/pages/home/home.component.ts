@@ -10,7 +10,8 @@ export class HomeComponent implements OnInit {
 
   constructor() { }
 
-  optionCards: any[] = [
+  optionCards: any[] = []
+  matriz: any[] = [
     {
       'url': '../issue-create',
       'id': 'Cuenta_cdni_comercios_referidos',
@@ -48,8 +49,45 @@ export class HomeComponent implements OnInit {
         'color':'59358B'
         }
   ];
+  sucursal: any[] = [
+    {
+      'url': '../nuevo-incidente/cuota-mayor',
+      'id': 'Cuenta_cdni_comercios_referidos',
+      'imagenSrc': '../../../../../assets/cardImgs/feeAmount.png',
+      'titulo': 'Créditos con cuota mayor a 1 Millón',
+      'icon': 'paid',
+      'descripcion': 'Registre las solicitudes cuyo monto de cuota sean mayores 1 Millon de pesos',
+      'color':'aa1840'
+      },
+      {
+        'url': '../help',
+        'id': 'Cuenta_cdni_comercios_referidos',
+        'imagenSrc': '../../../../../assets/cardImgs/help.png',
+        'titulo': 'Ayuda',
+        'icon': 'question_mark',
+        'descripcion': 'Acceda a toda la información necesaria para aprender a realizar su primera carga. Consulte nuestra sección de ayuda para obtener orientación detallada.',
+        'color':'0360AA'
+      },
+  ]
+  branch: string = ''
   ngOnInit(): void {
+
+    this.branch = this.getCredential();
+    if (this.branch == 'Zona Casa Matriz') {
+      this.optionCards = this.sucursal;
+    }
+    else{
+      this.optionCards = this.matriz;
+    }
   }
 
-
+  getCredential() {
+    const userCredential = localStorage.getItem('credentialGDR');
+    if (userCredential) {      
+      const userObject = JSON.parse(userCredential);
+      return userObject.userDetails.branch_zone;
+      ;
+    }
+  }
+  
 }
