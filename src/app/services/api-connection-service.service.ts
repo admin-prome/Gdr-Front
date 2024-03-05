@@ -69,7 +69,7 @@ export class ApiConnectionService {
       tap((data) => {
         // Verificar si el backend devuelve un objeto con error = true
         if (data.error) {
-          console.log('El backend devolvió un error: ', data.descripcion); // Mostrar el mensaje de error del backend
+         
           return of([]); // Retornar un array vacío u otra información por defecto
         } else {
           // Almacenar los datos en el localStorage junto con la fecha actual
@@ -81,7 +81,7 @@ export class ApiConnectionService {
         }
       }),
       catchError((error) => {
-        console.log('Ocurrió un error al mostrar los proyectos: ', error);
+        
         return of([]); // En caso de error, retornar un array vacío u otra información por defecto
       })
     );

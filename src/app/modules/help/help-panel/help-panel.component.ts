@@ -124,12 +124,12 @@ export class HelpPanelComponent implements OnInit {
       this.systemsData = this.projects
       this.transformarDatos(); 
       this.subissuetype = this.systemsList
-      console.log('cargando datos: ')
+      
       this.loading = false;
 
     } else {
 
-      console.log('No existe projectsData, llamando al servicio...');
+      
       this.llamarAlServicio();
       
     }

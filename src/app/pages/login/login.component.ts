@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
   googleAuth: boolean = false;
   backendAuth: boolean = false;
   loading: boolean = false;
+  
+  title: string = 'microsoft-login';
 
   constructor(
     private router: Router,
@@ -44,6 +46,7 @@ export class LoginComponent implements OnInit {
       google.accounts.id.prompt();
    
   }
+
 
 
   handleCredentialResponse(response: any): void {
@@ -102,7 +105,7 @@ export class LoginComponent implements OnInit {
       },
       (error) => {
         
-        console.log('Ocurrio un error al loguearse en el back:', error);
+        console.log('Ocurrio un error al loguearse en el back:');
       }
     );
   }

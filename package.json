@@ -20,6 +20,8 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@azure/msal-angular": "^3.0.10",
+    "@azure/msal-browser": "^3.7.0",
     "@canvasjs/charts": "^3.7.32",
     "@swimlane/ngx-charts": "^20.5.0",
     "@types/crypto-js": "^4.1.1",

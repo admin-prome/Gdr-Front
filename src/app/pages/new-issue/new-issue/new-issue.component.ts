@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class NewIssueComponent implements OnInit {
 
   constructor() {
-    console.log('NewIssueComponent constructor.');
+    
   }
 
   ngOnInit(): void {
-    console.log('NewIssueComponent initialized.');
+   
   }
 }
