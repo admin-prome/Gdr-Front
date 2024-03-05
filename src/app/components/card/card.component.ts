@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 @Component({
@@ -6,7 +6,7 @@ import {MatButtonModule} from '@angular/material/button';
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.css']
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnChanges {
 
   
   @Input() dataCards: any;
@@ -15,8 +15,17 @@ export class CardComponent implements OnInit {
   data: any = [];
 
   ngOnInit(): void {
-    this.data = this.dataCards;  
-    
+    this.actualizarDatos();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['dataCards'] && changes['dataCards'].currentValue) {
+      this.actualizarDatos();
+    }
+  }
+
+  private actualizarDatos() {
+    this.data = this.dataCards;
   }
 
 

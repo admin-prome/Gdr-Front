@@ -7,9 +7,7 @@
 
   <app-issue-card *ngIf="!loading && !receivedData" [input]="dataServices" [sharedState]="sharedState"></app-issue-card>
   
-
-
-  <div *ngIf="!loading  && !receivedData" class="formulario">
+  <article *ngIf="!loading  && !receivedData" class="formulario">
     
       <mat-stepper  [orientation]="(stepperOrientation | async)!" #stepper  [formGroup]="myForm">
 
@@ -77,8 +75,9 @@
           
    
       </mat-stepper>
-  </div>
+  </article>
 
+  
   <app-issue-created
       *ngIf="!formError && receivedData && !loading"
       [childMessage]="dataEntry"

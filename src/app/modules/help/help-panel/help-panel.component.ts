@@ -1,13 +1,87 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
+import { ProjectsData, System, SystemsData } from 'src/app/data/interfaces/systemsData-inteface';
+import { ApiConnectionService } from 'src/app/services/api-connection-service.service';
 
 @Component({
   selector: 'app-help-panel',
   templateUrl: './help-panel.component.html',
   styleUrls: ['./help-panel.component.css']
 })
+
+
 export class HelpPanelComponent implements OnInit {
+  
+  private unsubscribe$ = new Subject<void>();
+  
+  infra: any[] = [
+    {
+      "name": "ABM (Alta, Baja y Modificación)",
+      "description": "Requerimientos relacionados con la administración de usuarios dentro de sistemas específicos. Incluye actividades de Alta, Baja y Modificación (ABM) de cuentas de usuario, así como la gestión de permisos, roles y privilegios asociados. Este subtipo abarca solicitudes para crear, actualizar o eliminar cuentas de usuario.",
+      "id": 1,
+      "code": "ABM"
+    },
+    {
+      "name": "Seguridad Informática",
+      "description": "Requerimientos centrados en la seguridad de la infraestructura informática. Esto abarca aspectos como la implementación de medidas de seguridad, la gestión de accesos, la protección contra amenazas cibernéticas y la aplicación de políticas de seguridad.",
+      "id": 2,
+      "code": "INF"
+    },
+    {
+      "name": "Infraestructura General",
+      "description": "Requerimientos que no se clasifican específicamente en las categorías anteriores. Pueden abarcar aspectos generales de la infraestructura que no se limitan a la administración o la seguridad. Esto puede incluir cambios, mejoras o solicitudes que no caen en las categorías más específicas.",
+      "id": 3,
+      "code": "SEG"
+    },
+  ];
+  detail: any[] = [
+    {
+      "name": "Acceso Web Seguro",
+      "description": "La plataforma proporciona un acceso web seguro mediante autenticación de usuarios. Los usuarios pueden ingresar a la plataforma con sus credenciales correspondientes, lo que garantiza un entorno protegido y controlado.",
+      "id": 1,
+      "code": ""
+    },
+    {
+      "name": "Integración con Jira",
+      "description": "Aprovechando la potencia de Jira, el Gestor de Requerimientos se conecta de manera transparente con la API de Jira. Esto permite la carga y visualización de requerimientos sin que los usuarios necesiten acceso directo o permisos en la plataforma Jira.",
+      "id": 2,
+      "code": ""
+    },
+    {
+      "name": "Carga de Requerimientos Simplificada",
+      "description": "Los usuarios pueden cargar nuevos requerimientos de manera sencilla a través de una interfaz intuitiva en la plataforma. La información ingresada se sincroniza automáticamente con Jira, eliminando la necesidad de ingresar manualmente los datos en ambas plataformas.",
+      "id": 3,
+      "code": ""
+    },
+    {
+      "name": "Gestión Integral de Proyectos",
+      "description": "Además de la carga de requerimientos, el Gestor de Requerimientos ofrece funciones para la gestión completa de proyectos. Los usuarios pueden asignar tareas, dar seguimiento al progreso y colaborar de manera eficiente, todo ello respaldado por las funcionalidades avanzadas de Jira.",
+      "id": 4,
+      "code": ""
+    },
+    {
+      "name": "Seguimiento en Tiempo Real",
+      "description": "La plataforma proporciona un tablero de control que permite a los usuarios realizar un seguimiento en tiempo real del estado de los requerimientos y proyectos. Gráficos y métricas visuales facilitan la toma de decisiones informadas.",
+      "id": 5,
+      "code": ""
+    }
+
+    ]
+  loading: boolean = true;
+  data= localStorage.getItem('projectsData');
+  projects: any;
+  constructor(
+          private connectionService: ApiConnectionService,
+          private cdr: ChangeDetectorRef
+
+          ) {
+            
+           }
+
   panelOpenState = false;
-  constructor() { }
+  
+  systemsData: SystemsData | undefined;
+  
   issuetype = [
     {
       "name": "Requerimiento de Desarrollo",
@@ -34,83 +108,76 @@ export class HelpPanelComponent implements OnInit {
       "code": "FIX"
     }
   ]
+  systemsList: any[] = [];
 
-  subissuetype = [
+  subissuetype: any[] =[];
+
+
+  ngOnInit(): void {
+    this.data= localStorage.getItem('projectsData');
     
-    {
-      "name": "Gestión de la Demanda",
-      "description": "Este sistema sirve como la puerta de entrada para todos los requerimientos de desarrollo, predictivos y correctivos que la empresa demanda del área de Tecnología. Si no reconoce el sistema asociado a su incidencia o si aún no existe, puede y debe seleccionar este subtipo.",
-      "code": "GDD"
-    },
-    {
-      "name": "C.R.M",
-      "description": "Sistema de Gestión de Relaciones con el Cliente. Permite gestionar interacciones con clientes, seguimiento de ventas y análisis de datos para mejorar las relaciones comerciales.",
-      "code": "CRM"
-    },
-    {
-      "name": "Score PROME",
-      "description": "Plataforma que calcula y evalúa el rendimiento y la eficacia de los procesos internos, proporcionando métricas clave para la toma de decisiones.",
-      "code": "SCP"
-    },
-    {
-      "name": "Calculadora/Nosis lote",
-      "description": "Herramienta que facilita el cálculo y análisis masivo de datos relacionados con la información crediticia y financiera, utilizando la base de datos de Nosis.",
-      "code": "NLO"
-    },
-    {
-      "name": "Web institucional",
-      "description": "Página web principal de la empresa que brinda información sobre la organización, sus servicios y actividades.",
-      "code": "WWW"
-    },
-    {
-      "name": "Rendición de viáticos",
-      "description": "Sistema para registrar y gestionar los gastos y reembolsos asociados a los viajes y viáticos de los empleados.",
-      "code": "REN"
-    },
-    {
-      "name": "Gestor de requerimientos",
-      "description": "Plataforma para la gestión eficiente de los requerimientos del proyecto, desde su creación hasta su implementación.",
-      "code": "GDR"
-    },
-    {
-      "name": "Portal PROME",
-      "description": "Plataforma online que proporciona acceso a todos los sistemas y recursos de la empresa.",
-      "code": "PPR"
-    },
-    {
-      "name": "Comunidad PROME",
-      "description": "Espacio virtual que disponibiliza medios de contacto comerciales de los clientes PROME, disponible al público en el sitio institucional.",
-      "code": "CPR"
-    },
-    {
-      "name": "Hace la Cuenta",
-      "description": "Herramienta destinada a la promoción ‘Hace la cuenta’ que facilita la gestión de pago a los beneficiarios del programa .",
-      "code": "HLC"
-    },
-    {
-      "name": "Importación de Prospectos",
-      "description": "Facilita la entrada de nuevos prospectos al sistema, simplificando el proceso de importación de datos.",
-      "code": "IMP"
-    },
-     {
-      "name": "Validador de Metas",
-      "description": "Herramienta que verifica y valida metas según los criterios establecidos, asegurando la precisión y consistencia de los objetivos definidos de los ejecutivos comerciales.",
-      "code": "VDM"
-    },  
-    {
-      "name": "Importación Ministerios",
-      "description": "Simplifica el proceso de importación de datos relacionados con Ministerios, mejorando la eficiencia en la gestión de la información.",
-      "code": "IMM"
-    },    
-    {
-      "name": "Portal de Finanzas",
-      "description": "Portal del área de Finanzas que proporciona diversas herramientas con desarrollos nativos para agilizar las tareas diarias y eliminar procesos repetitivos.",
-      "code": "PDM"
+    this.loading = true;
+    
+
+    if (this.data) {
+      this.projects = JSON.parse(this.data) as ProjectsData;      
+      this.systemsData = this.projects
+      this.transformarDatos(); 
+      this.subissuetype = this.systemsList
+      
+      this.loading = false;
+
+    } else {
+
+      
+      this.llamarAlServicio();
+      
+    }
+
+
+
+
+    }
+
+    transformarDatos() {
+      const systemsData = this.systemsData as unknown as SystemsData;
+    
+      if (systemsData?.systems) {
+        this.systemsList = Object.values(systemsData.systems).map(system => ({
+          id: system.id,
+          code: system.code,
+          description: system.systemDescription,
+          name: system.systemName
+        }));
+      }
+      this.subissuetype = this.systemsList;
     }
     
-  ]
-  
-  ngOnInit(): void {
-  }
+    
+    
+
+    llamarAlServicio() {
+      // Llama al método de tu servicio para obtener datos
+      this.connectionService.GetAllProjects().subscribe(
+        (data: SystemsData) => {
+          this.systemsData = data;
+          this.transformarDatos();
+          localStorage.setItem('projectsData', JSON.stringify(data));
+          this.cdr.detectChanges();
+          this.subissuetype = this.systemsList;
+          this.loading = false;
+          //window.location.reload()
+        },
+        error => {
+          console.error('Error al llamar al servicio:', error);
+          this.loading = false;
+        }
+      );
+    }
+
+    ngOnDestroy(): void {
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
+    }
 
 }

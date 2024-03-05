@@ -4,7 +4,7 @@
         "key": "title",
         "label": "Ingrese el",
         "name": "Titulo",
-        "placeholder": "Ingrese un titulo descriptivo",
+        "placeholder": "Ingrese un título descriptivo",
         "required": true,
         "validators": {
             "required": true,

@@ -1,17 +1,17 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, NgZone, OnInit,  Renderer2 } from '@angular/core';
+
+
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth-service';
 import { IssuesServicesService } from 'src/app/services/issue-dashboard/issues-services.service';
-
-
 import {AfterViewInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { userSession } from 'src/app/data/interfaces/userSession-interface';
 import { SessionStorageService } from 'src/app/services/storage/session-storage.service';
-
-
+import html2canvas from 'html2canvas';
+// import { Color, ScaleType } from '@swimlane/ngx-charts';
 
 export interface UserIssueData{
   id: string;
@@ -25,6 +25,7 @@ export interface UserIssueData{
   responsible: string;
   status: string;
   priority: string;
+  description: string;
 }
 
 
@@ -37,12 +38,14 @@ export interface UserIssueData{
 })
 export class DashboardComponent implements OnInit {
 
-  standartColumns: string[] = [ 'internal_identifier','summary', 'status','priority', 'last_updated', 'created','assignee'];
-  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status','priority', 'last_updated', 'created', 'key', 'assignee']; 
+  standartColumns: string[] = [ 'internal_identifier','summary', 'status','priority', 'last_updated', 'created','assignee','description'];
+  fullColumns: string[] = [ 'internal_identifier','summary','id', 'status','priority', 'last_updated', 'created', 'key', 'assignee','description']; 
   displayedColumns: string[] = this.standartColumns;
   dataSource: MatTableDataSource<UserIssueData>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('modalContent', { static: false })
+  modalContent!: ElementRef;
   length = 50;
   pageSize = 10;
   pageIndex = 0;
@@ -59,24 +62,87 @@ export class DashboardComponent implements OnInit {
   dataError: boolean = false;
   payload: any;
   botonDesactivado: boolean = false;
+  selectedDescription: string | undefined;
+  selectedRow: any | undefined;
+  tecno: boolean = false;
+  someValue: string = '';
+  imgcreada: boolean = false;
+  imagenCreada: any;
+  
+
+ 
+
   constructor(
             private issueService: IssuesServicesService,
             private authServices: AuthService,
             private router: Router,
             private changeDetectorRef: ChangeDetectorRef,
-            private storageService: SessionStorageService
+            private storageService: SessionStorageService,
+            private ngZone: NgZone
             )
             {
                 this.dataSource = new MatTableDataSource(this.issueData);
             }
 
+
+
   ngAfterViewInit() {
+    
     if (this.paginator && this.sort) {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
     }
   }
+  modalShown(): void {
+    // Esta función se ejecutará cuando el modal esté completamente visible
+    // Puedes llamar a descargarComoImagen() aquí para asegurarte de que el modalContent esté inicializado.
 
+  }
+
+  crearImagen() {
+    // Buscar el elemento con el id "contenido"
+    const contenidoElement = document.querySelector<HTMLElement>("#contenido");
+  
+    if (contenidoElement) {
+      // El elemento fue encontrado, proceder con html2canvas
+      html2canvas(contenidoElement, {
+        ignoreElements: (element: Element) => {
+          // Devolver true si el elemento debe ser ignorado
+          return (element as HTMLElement).className === 'panelButtons';
+        }
+      }).then(canvas => {
+        this.imagenCreada = canvas.toDataURL();
+        this.imgcreada = true;
+        this.descargarComoImagen();
+      });
+    } else {
+      // El elemento con id "contenido" no fue encontrado
+      console.error('Elemento con id "contenido" no encontrado.');
+    }
+  }
+  
+  
+  
+  descargarComoImagen(): void {
+    // Verificar si hay una imagen creada
+    if (this.imagenCreada) {
+      // Crear un enlace temporal
+      const enlace = document.createElement('a');
+      
+      // Configurar el enlace con los datos de la imagen
+      enlace.href = this.imagenCreada;
+      enlace.download = '['+this.selectedRow.internal_identifier+'].png';
+  
+      // Simular un clic en el enlace para iniciar la descarga
+      enlace.click();
+    } else {
+      console.error('No hay imagen para descargar.');
+    }
+  }
+  
+  
+  
+  
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -85,20 +151,23 @@ export class DashboardComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
     }
-  
 
-  ngOnInit(): void {
-    
-    this.userCredential = this.authServices.getCredential();
-    this.management = this.userCredential.userDetails.management;
-    
+  isTecno(){
+    const containsTecno = this.management.toLowerCase().includes('tecno');
 
-    if (this.management === 'Gerencias de Tecnología' && this.isCheckedFullInfo) {
+    if (containsTecno) {
+      this.tecno = true;
       this.displayedColumns = this.fullColumns;
     } else {
       this.displayedColumns = this.standartColumns;
     }
+    
+  }
 
+  ngOnInit(): void {
+    this.userCredential = this.authServices.getCredential();
+    this.management = this.userCredential.userDetails.management;
+    this.isTecno();
     this.setUserType();
     
     const payload = {      
@@ -106,6 +175,7 @@ export class DashboardComponent implements OnInit {
       "max_result": 50,
       "projects":['GDD', 'TSTGDR', 'GT', 'GGDI']
     }
+
     this.payload = payload;
 
     const storedData = this.obtenerDelLocalStorage('requerimientos');
@@ -117,7 +187,8 @@ export class DashboardComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
       this.loading = false;
-    } else {
+    } 
+    else {
       this.getIssueData(payload);
     }  
 
@@ -129,8 +200,34 @@ export class DashboardComponent implements OnInit {
     
   }
 
+
+  openModal(row : any) {
+    this.selectedDescription = row.description;
+    this.selectedRow = row;
+  }
+
+  formatToHtml(text: string): string {
+    const lines = text.split('\n');
+    let html = '';
+  
+    lines.forEach((line) => {
+      const [label, value] = line.split(':');
+  
+      if (label && value) {
+        const formattedLabel = label.trim();
+        const formattedValue = value.trim();
+  
+        // Agregar estilos o clases según tus necesidades
+        html += `<p><strong>${formattedLabel}:</strong> ${formattedValue}</p>`;
+      }
+    });
+  
+    return html;
+  }
+  
   setUserType(){
-    if(this.management === 'Gerencias de Tecnología'){
+    if(this.management == 'Gerencias de Tecnologia' || this.management == 'Gerencias de Tecnología'){
+      this.management = 'Gerencias de Tecnologia';
       this.userType = 'A'
     }
     else{
@@ -138,27 +235,32 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+ 
+
+  
+
   getIssueData(userData: any) {
     this.botonDesactivado = true;
     this.loading = true;
     this.issueService.getDataIssues(userData).subscribe(
       (response) => {
-        console.log('Respuesta del backend:', response);
 
         this.issueData = response;  
         this.dataSource = new MatTableDataSource(this.issueData);
         this.dataSource.paginator = this.paginator;
 
-        console.log(this.dataSource)
         if (this.paginator && this.sort) {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
         }
-
+        this.displayedColumns = this.standartColumns;
         this.guardarEnLocalStorage(this.issueData);
-        this.loading = false;
+       
         this.dataError = false;
         this.botonDesactivado = false;
+        this.changeDetectorRef.detectChanges();
+        this.loading = false;
+        window.location.reload()
       },
 
       (error) => {
@@ -175,7 +277,7 @@ export class DashboardComponent implements OnInit {
 
   expandColumns() {
     if (!this.isCheckedFullInfo) {
-      this.displayedColumns = this.management === 'Gerencias de Tecnología' ? this.fullColumns : this.standartColumns;
+      this.displayedColumns = this.tecno  ? this.fullColumns : this.standartColumns;
     } else {
       this.displayedColumns = this.standartColumns;
     }
@@ -284,14 +386,12 @@ export class DashboardComponent implements OnInit {
     }
 
     obtenerDelLocalStorage(clave: string){
-      const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);      
-      console.log(datosObtenidos);  // Mostrará el objeto JSON guardado
+      const datosObtenidos = this.storageService.obtenerDesdeSessionStorage(clave);     
       return datosObtenidos 
     }
   
     // Ejemplo de cómo borrar un objeto JSON de sessionStorage
     borrarDatos(clave: string): void {
       this.storageService.borrarDesdeSessionStorage(clave);
-      console.log('datos borrados del session storage')
     }
   }

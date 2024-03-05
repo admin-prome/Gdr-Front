@@ -18,6 +18,24 @@ body{
     max-width: 80%;
 }
 
+.buttonDescription {
+  /* Estilos específicos para .buttonDescription */
+  background-color: inherit;
+  border: inherit;
+  box-sizing: inherit;
+  box-shadow: none;
+}
+
+
+.buttonDescription mat-icon{
+  color: var(--color-terciario);
+}
+
+.noData{
+  text-align: center;
+  margin-top: 3rem;
+}
+
 button{
   background-color:var(--color-secundario);
   color: white;
@@ -35,6 +53,14 @@ button:disabled {
   -webkit-text-fill-color: white !important;
 }
 
+.modal-header{
+  text-align: center;
+}
+.modal-header h1{
+  font-family: encodeSans-SemiBold !important;
+  color: var(--color-terciario);
+  text-align: center !important;
+}
 
 .spinner {
     width: 100vw;
@@ -49,18 +75,33 @@ button:disabled {
     display: flex;
     flex-direction: row;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
   
-  
-  .filter {
-    width: 60% !important;
+  .searchIcon{
+    font-size: medium  !important;
   }
   
+
+  /* .placeholderText{
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    column-gap: 10px;
+    margin: 0;
+  }
+
+  .placeholderText mat-label{
+    font-size: medium;
+  } */
+  /* Alinea horizontalmente el icono con el texto de búsqueda */
+
+
   .mat-paginator {
     width: auto;
   }
+
 
 
 a{
@@ -84,14 +125,13 @@ table {
   
   th{
     font-family: ansangeRegular;
-    font-weight: 600;
-    
+    font-weight: 600;    
     color: var(-color-terciario);
   }
 
-  td, th {
-    width: 15%;
-  }
+  /* td, th {
+    width: auto;
+  } */
 
 tr{
     font-family: ansangeLigth;
@@ -105,7 +145,7 @@ tr:active {
 background: #C9E6CB;
 }
   
-.mat-column-id{
+/* .mat-column-id{
     max-width: 15px; 
     padding: 5px;   
     margin-left: 20px;
@@ -116,12 +156,13 @@ background: #C9E6CB;
 }
 .mat-column-summary{
     width: 40%;
-}
+} */
 
 
-.mat-column-key, .mat-column-key a {
+/* .mat-column-key, .mat-column-key a {
     text-align: center;
-}
+} */
+
 .mat-column-key a:hover {
     transform: scale(1.05);
     color: var(--color-primario);

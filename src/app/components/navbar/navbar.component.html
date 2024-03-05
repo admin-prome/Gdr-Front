@@ -25,9 +25,9 @@
       </li>
       <li class="rightItems">
         <button mat-button (click)="navigateTo('/home')">Volver al inicio</button>
-        <span class="imageUser"><img src="{{imgUser}}" alt="imagen de usuario"></span>
+        <span class="imageUser" *ngIf="imgUser"><img src="{{imgUser}}" alt="imagen de usuario"></span>
 
-        <h5> Hola, {{firstName}}.</h5>
+        <h5 *ngIf="firstName"> Hola{{', '+firstName}}.</h5>
 
         <!-- <button mat-icon-button (click)="this.clearLocalStorage()">
         <mat-icon>note_add</mat-icon>
@@ -70,61 +70,55 @@
 
     <button mat-menu-item class="sidenav" (click)="drawer.close()">
       <mat-icon>close</mat-icon>
-      Cerrar
+      Cerrar panel
     </button>
-
+    <hr>
     <button mat-menu-item (click)="navigateTo('/home')">
       <mat-icon>home</mat-icon>
-      Volver al home
+      Volver a inicio
     </button>
+    <hr>
 
     <button mat-menu-item (click)="navigateTo('/issue-create')">
-      <hr>
+     
       <mat-icon>add_circle</mat-icon>
-      <span>Formulario Tradicional</span>
+      <span>Formulario tradicional</span>
     </button>
-
-
-
-
-
+    <hr>
 
     <button mat-menu-item (click)="navigateTo('/issue-create/new-issue')">
-      <hr>
+      
       <mat-icon>add_task</mat-icon>
-      <span>Crear nuevo</span>
+      <span>Nuevo formulario</span>
     </button>
 
-
-
-
-
+    <hr>
 
     <button mat-menu-item (click)="navigateTo('/help')">
-      <hr>
+    
       <mat-icon>help</mat-icon>
       <span>Ayuda</span>
     </button>
-
+    <hr>
     <button mat-menu-item (click)="navigateTo('/dashboard')">
-      <hr>
       <mat-icon>dashboard</mat-icon>
       <span>Mi tablero</span>
     </button>
-
+    <hr>
     <button mat-menu-item (click)="navigateTo('/version')">
-      <hr>
+      
       <mat-icon>information</mat-icon>
       <span>Más Información</span>
     </button>
-
+    <hr>
+    <hr>
     <button mat-menu-item (click)="this.clearLocalStorage()" id="sesionClose">
-      <hr>
+      
       <mat-icon>logout</mat-icon>
       <span>Cerrar sesión</span>
     </button>
 
-
+    <hr>
 
 
   </mat-drawer>

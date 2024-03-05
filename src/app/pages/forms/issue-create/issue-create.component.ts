@@ -34,18 +34,13 @@ export class IssueCreateComponent implements OnInit {
       "email": this.userCredential.email,
       "userCredential": this.userCredential
     }
-    //console.log(this.traditional);
-    //this.onFormSubmit(payload);
-    //console.log(this.traditional);
+   
     this.onFormSubmit(payload);
-    //this.traditional= this.getFormsService.traditional;
   }
 
   onFormSubmit(formData: any) {
     this.getFormsService.postFormData(formData).subscribe(
       (response) => {
-        console.log('Respuesta del backend:', response.formData);
-        console.log('Respuesta del backend:', response.formData.order);
 
        
         //const order = response.formData.order;
@@ -61,21 +56,16 @@ export class IssueCreateComponent implements OnInit {
           if (order.hasOwnProperty(key)) {
 
             const fieldName = order[key];
-            // console.log(fieldName);
-            // console.log(jsonData[fieldName])
             if (jsonData[fieldName]) {
               this.orderedForm[fieldName] = jsonData[fieldName];
             }
           }
         }
-        console.log('..........................')
-        //console.log(this.orderedForm)
         this.traditional=  this.orderedForm;
       },
 
       (error) => {
         console.error('Error al enviar el formulario:', error);
-        // Maneja errores si es necesario
       }
     );
     

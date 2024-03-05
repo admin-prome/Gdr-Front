@@ -71,20 +71,25 @@ export class IssueCreateFormComponent implements OnInit {
   ]
 
   subOptionsIssueREQ = [
-    {value: "CRM", label: "C.R.M"}, 
-    {value: "SCP", label: "Score PROME"}, 
-    {value: "NLO", label: "Calculadora/Nosis lote"}, 
-    {value: "WWW", label: "Web institucional"}, 
-    {value: "REN", label: "Rendición de viáticos"},
-    {value: "GDR", label: "Gestor de requerimientos"},
-    {value: "PPR", label: "Portal PROME"},
-    {value: "CPR", label: "Comunidad PROME"},
-    {value: "HLC", label: "Hace la Cuenta"}
+    { value: 'GDD', label: 'Gestión de la Demanda' },
+    { value: 'CRM', label: 'C.R.M' },
+    { value: 'SCP', label: 'Score PROME' },
+    { value: 'NLO', label: 'Calculadora/Nosis lote' },
+    { value: 'WWW', label: 'Web institucional' },
+    { value: 'REN', label: 'Rendición de viáticos' },
+    { value: 'GDR', label: 'Gestor de requerimientos' },
+    { value: 'PPR', label: 'Portal PROME' },
+    { value: 'CPR', label: 'Comunidad PROME' },
+    { value: 'IMP', label: 'Importación de Prospectos' },
+    { value: 'VDM', label: 'Validador de Metas' },
+    { value: 'IMM', label: 'Importación Ministerios' },
+    { value: 'PDM', label: 'Portal de Finanzas' }
   ];
   
   subOptionsIssueINF = [
     {value: "INF", label: "Infraestructura"}, 
-    {value: "SEG", label: "Seguridad Informática"}
+    {value: "SEG", label: "Seguridad Informática"},
+    {value: "ABM", label: "Alta Baja Modificación de Usuarios"}
   ];
 
   managersOptions = [    
@@ -152,7 +157,6 @@ export class IssueCreateFormComponent implements OnInit {
         this.reporter = userObject.idJIRA;
     
         if(userObject.idJIRA = null){     
-          console.log('No se hallo el idJIRA')    
           localStorage.clear();
           this.router.navigate(['/login']);
         };     
@@ -178,7 +182,6 @@ export class IssueCreateFormComponent implements OnInit {
        }
     } 
     else {
-      console.log("No se encontró ningún valor en el almacenamiento local para la clave especificada");
       localStorage.clear();
       this.router.navigate(["/login"]);
       }
@@ -271,10 +274,9 @@ export class IssueCreateFormComponent implements OnInit {
     if (this.requestForm.invalid != true) {
       this.ConnectionService.PostNewIssue(body).subscribe(
         (response) => {
-          this.dataEntry = Object.values(response);
-          //console.log("esto es la respuesta del back",this.dataEntry);      
+          this.dataEntry = Object.values(response);    
           
-          if (this.dataEntry[2] == "200"){
+          if (this.dataEntry[2] == "201"){
               this.closeSpinner();
               this.receivedData = true; 
               this.sharedDataService.setReceivedData(this.dataEntry)
@@ -382,7 +384,6 @@ export class IssueCreateFormComponent implements OnInit {
     if (credentialJson !== null) {
       this.dataJsonNewIssue.userCredential = JSON.parse(credentialJson);
     } else {
-      console.log('No se encontraron las credenciales del usuario');
       localStorage.clear();
       this.router.navigate(["/login"]);
     }

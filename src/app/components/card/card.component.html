@@ -7,13 +7,16 @@
 
           <div class="ag-courses-item_title">
             {{ course.name }}
+            
           </div>
-
+          
           <div class="ag-courses-item_date-box">
             
             <span class="ag-courses-item_date">
               <!-- {{ course.startDate | date: 'dd.MM.yyyy' }} -->
               {{ course.description }}
+              <hr>
+              <p *ngIf="course.code">Codigo interno: <b>[{{course.code}}]</b></p>
             </span>
           </div>
         </a>

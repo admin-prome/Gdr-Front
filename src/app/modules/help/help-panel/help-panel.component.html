@@ -3,7 +3,10 @@
   <h1>SECCIÓN DE AYUDA</h1>
 </header>
 
-<body>
+
+<mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
+
+<body *ngIf="!loading">
   <p>
     <b>Bienvenido al Gestor de Requerimientos:</b> <br> Tu Herramienta Personalizada para una Gestión Eficiente
 
@@ -11,7 +14,7 @@
     una herramienta diseñada pensando en ti. Nos complace ofrecerte una experiencia personalizada que se adapta a las
     necesidades específicas de tu perfil dentro de la empresa.
   </p>
-
+  
   <mat-divider></mat-divider><br>
   <mat-accordion>
     
@@ -61,21 +64,46 @@
       <app-card [dataCards]="issuetype"></app-card>
     </mat-expansion-panel>
 
-    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+    <mat-expansion-panel *ngIf="subissuetype.length > 0" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          ¿Cuáles son los subtipos de requerimiento o Incidente?
+          ¿Cuáles son los subtipos de requerimientos o Incidentes?
         </mat-panel-title>
         <mat-panel-description>
           
         </mat-panel-description>
       </mat-expansion-panel-header>
      
-      <app-card [dataCards]="subissuetype"></app-card>
+      <app-card  [dataCards]="subissuetype"></app-card>
     </mat-expansion-panel>
 
-   
+    <mat-expansion-panel  (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ¿Cuáles son los subtipos de infraestructura?
+        </mat-panel-title>
+        <mat-panel-description>
+          
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+     
+      <app-card  [dataCards]="infra"></app-card>
+    </mat-expansion-panel>
 
+
+    <mat-expansion-panel  (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <b>Descripción del Gestor de Requerimientos</b>
+        </mat-panel-title>
+        <mat-panel-description>
+          
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p>El Gestor de Requerimientos es una plataforma integral diseñada para simplificar y optimizar el proceso de gestión de requerimientos, brindando a los usuarios una experiencia intuitiva y eficiente. Esta herramienta se distingue por su integración directa con Jira, un robusto motor de gestión de proyectos y seguimiento de incidencias.</p>
+      <app-card  [dataCards]="detail"></app-card>
+    </mat-expansion-panel>
+    
 
   </mat-accordion>
 </body>

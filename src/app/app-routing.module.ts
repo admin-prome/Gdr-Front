@@ -30,15 +30,15 @@ const routes: Routes = [
   
   { path: 'version', component: VersionComponent },
 
-  { path: 'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule) },
+  { path: 'home', canActivate: [LoginGuard], loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule) },
 
-  { path: 'new-issue-create', loadChildren: () => import('./modules/issue-create/issue-create.module').then(m => m.IssueCreateModule) },
+  { path: 'new-issue-create', canActivate: [LoginGuard], loadChildren: () => import('./modules/issue-create/issue-create.module').then(m => m.IssueCreateModule) },
  
-  { path: 'help', loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule) },
+  { path: 'help', canActivate: [LoginGuard], loadChildren: () => import('./modules/help/help.module').then(m => m.HelpModule) },
 
-  { path: 'dashboard', loadChildren: () => import('./modules/issue-dashboard/issue-dashboard.module').then(m => m.IssueDashboardModule) },
+  { path: 'dashboard', canActivate: [LoginGuard], loadChildren: () => import('./modules/issue-dashboard/issue-dashboard.module').then(m => m.IssueDashboardModule) },
 
-  { path: 'incidencia', loadChildren: () => import('./pages/new-issue/new-issue.module').then(m => m.NewIssueModule) },
+  { path: 'incidencia', canActivate: [LoginGuard], loadChildren: () => import('./pages/new-issue/new-issue.module').then(m => m.NewIssueModule) },
 
   { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];

@@ -9,7 +9,6 @@ import { ImgCardComponent, ImgCardModule } from 'src/app/components/img-card/img
 @NgModule({
   declarations: [
     CardComponent, 
-    SpinnerComponent
     
   ],
   imports: [
@@ -19,7 +18,6 @@ import { ImgCardComponent, ImgCardModule } from 'src/app/components/img-card/img
   ],
   exports:[
     CardComponent,
-    SpinnerComponent,
     ImgCardModule
 
   ]

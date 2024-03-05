@@ -23,6 +23,5 @@ const routes: Routes = [
 
 export class NewIssueRoutingModule {
   constructor() {
-    console.log('NewIssueRoutingModule loaded.');  // Agrega este console.log
   }
 }

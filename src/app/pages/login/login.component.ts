@@ -15,10 +15,13 @@ import { userSession } from 'src/app/data/interfaces/userSession-interface';
 })
 export class LoginComponent implements OnInit {
 
-  pathTriangles = "../../assets/triangulosbackII@4x.png";
+  pathTriangles = "../../../assets/triangulosback@4x.png";
   userData: userSession;
   googleAuth: boolean = false;
   backendAuth: boolean = false;
+  loading: boolean = false;
+  
+  title: string = 'microsoft-login';
 
   constructor(
     private router: Router,
@@ -26,6 +29,7 @@ export class LoginComponent implements OnInit {
     private ngZone: NgZone
   ) {
     this.userData = {} as userSession;
+    
   }
 
   
@@ -44,7 +48,9 @@ export class LoginComponent implements OnInit {
   }
 
 
+
   handleCredentialResponse(response: any): void {
+    this.loading = true;
     if (response.credential) {
       const base64Url = response.credential.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -71,17 +77,19 @@ export class LoginComponent implements OnInit {
      
       if (responsePayload.email_verified && responsePayload.hd === environment.domain) {
         this.googleAuth = true;
-        console.log('email y dominio verificado');
-
+        
         if (this.googleAuth) {
           this.loginToBackend();
         }
+
       }
     }
   }
 
 
   loginToBackend(): void {
+
+    this.loading=true;
     this.loginService.loginBack(this.userData).subscribe(
       (data: any) => {
         this.userData = { ...this.userData, ...data };
@@ -90,12 +98,14 @@ export class LoginComponent implements OnInit {
        
         if (this.backendAuth && this.googleAuth) {
           this.ngZone.run(() => { // Envuelve la navegación con ngZone.run()
+            this.loading = false;
             this.router.navigate(['/home']);
           });
         }
       },
       (error) => {
-        console.log('Ocurrio un error al loguearse en el back:', error);
+        
+        console.log('Ocurrio un error al loguearse en el back:');
       }
     );
   }

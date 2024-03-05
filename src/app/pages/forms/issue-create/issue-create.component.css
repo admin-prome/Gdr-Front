@@ -1,7 +1,5 @@
-#helpButton{
-    color: white;
-    background-color:var(--color-azul) ;
-    position: absolute;
-    bottom: 80px;
-    left:80vw;
+.issue{
+    width: 80%;
+    height: 80%;
+    margin: auto;
 }
