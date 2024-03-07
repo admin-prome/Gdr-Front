@@ -1,5 +1,5 @@
 
-<body>
+<body *ngIf="!loading">
     <div class="triangles-top-box">
         <img class="triangles-top animate__animated animate__fadeInLeft" src="../../../assets/triangulosback@4x.png" alt="Elemento gráfico">
     </div>
@@ -8,7 +8,7 @@
         <article class="login-title">
           <img class="login-img-" src="../../../assets/loginGDR.png" alt="">
         </article>
-         <button id="buttonDiv">Login</button>
+         <button mat-button (click)="getSession()" style="background-color: var(--color-primario); color: #fff;">Entrar</button>
       
     </div>
     <div class="triangles-bottom-box">
@@ -16,3 +16,7 @@
     </div>
 
   </body>
+
+<div id="spinner" *ngIf="loading">
+  <span class="loader" *ngIf="loading"><img src="../../assets/logoColorP.png" alt="" width="80px"></span>
+</div>

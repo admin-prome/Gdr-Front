@@ -15,6 +15,7 @@
 .error-message,
 .success-message {
     text-align: center;
+    margin: 2rem;
 }
 
 ::ng-deep .mat-form-field-underline, ::ng-deep .mat-form-field-ripple {
@@ -24,3 +25,23 @@
 ::ng-deep .mat-form-field-label {
     color: #279E2D !important;
 }
+
+header{
+    padding-top:1rem;
+    text-align: center;    
+}
+header h1{
+    margin: 0;    
+    font-family: encodeSans-SemiBold;
+    color:var(--color-terciario);
+}
+
+.spinner {
+    width: 100vw;
+    justify-content: center;
+    padding: 3rem;
+    margin: 3rem auto;
+    z-index: 100;
+    color: var(--color-secundario) !important;
+    
+  }

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -18,9 +18,14 @@ export class LoginService {
     private router: Router) { }
 
   public loginBack(userCredential: userSession): Observable<any> {
-    const url = this.urlApi + '/users/getsession'; // Cambio en la URL
     
-    return this.http.post<any>(url, userCredential); // Cambio a POST
+    const headers = new HttpHeaders({
+      'Authorization-Key': environment.AuthorizationKey,
+      'Content-Type': 'application/json; charset=utf-8'      
+    });
+    
+    const url = this.urlApi + 'users/getsession'; // Cambio en la URL
+    return this.http.post<any>(url, userCredential, { headers }); // Cambio a POST
     
   }
 }

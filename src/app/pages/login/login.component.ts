@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   loading: boolean = false;
   
   title: string = 'microsoft-login';
+  error: boolean = false;
 
   constructor(
     private router: Router,
@@ -35,19 +36,29 @@ export class LoginComponent implements OnInit {
   
   ngOnInit(): void {
 
-      google.accounts.id.initialize({
-        client_id: environment.googleClientId,
-        callback: this.handleCredentialResponse.bind(this)
-      });
-      google.accounts.id.renderButton(
-        document.getElementById("buttonDiv"),
-        { theme: "outline", size: "large" }
-      );
-      google.accounts.id.prompt();
+    this.redirectToExternalUrl();
+      // google.accounts.id.initialize({
+      //   client_id: environment.googleClientId,
+      //   callback: this.handleCredentialResponse.bind(this)
+      // });
+      // google.accounts.id.renderButton(
+      //   document.getElementById("buttonDiv"),
+      //   { theme: "outline", size: "large" }
+      // );
+      // google.accounts.id.prompt();
    
   }
 
-
+  redirectToExternalUrl() {
+    const url = 'https://gdr-front-prod.azurewebsites.net/home';
+    
+    // Verifica si la URL contiene "requerimientos.prome.ar"
+    if (window.location.href.includes('requerimientos.prome.ar')) {
+      window.location.href = url; // Esta línea puede ser necesaria para abrir la URL en una nueva ventana/tab
+      // O puedes usar el enfoque de Router
+      // this.router.navigateByUrl(url);
+    } 
+  }
 
   handleCredentialResponse(response: any): void {
     this.loading = true;
@@ -96,7 +107,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('credentialGDR', JSON.stringify(this.userData));
         this.backendAuth = true;
        
-        if (this.backendAuth && this.googleAuth) {
+        if (this.backendAuth) {
           this.ngZone.run(() => { // Envuelve la navegación con ngZone.run()
             this.loading = false;
             this.router.navigate(['/home']);
@@ -110,5 +121,75 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  public async getSession() {
+    try {
+        this.loading = true;
+        // Make a GET request to the /.auth/me endpoint
+        const response = await fetch(environment.azureURL+".auth/me",{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },        
+          });
+        if (response.ok) {
+            // Parse the JSON response
+            const userData = await response.json();
+            
+            const userClaims = userData[0].user_claims;
+           
+            
+            const emailClaim = userClaims.find((claim: { typ: string; }) => claim.typ === "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress");
+            const nameClaim = userClaims.find((claim: { typ: string; }) => claim.typ === "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
+            const expClaim = userClaims.find((claim: { typ: string; }) => claim.typ === "exp");
+            // const pictureClaim = userClaims.find((claim: { typ: string; }) => claim.typ === "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn" || claim.typ === "http://schemas.microsoft.com/identity/claims/objectidentifier");
 
+            
+            if (emailClaim) {              
+              
+              if (emailClaim.val.endsWith(".com.ar")){
+                this.userData.email = emailClaim.val.slice(0, -3);}
+              else{
+                this.userData.email = emailClaim.val;
+              }
+
+              if (nameClaim) {
+                  this.userData.name = nameClaim.val;
+              } else {
+                  this.userData.name = '';
+              }
+
+              if (expClaim) {
+                  this.userData.exp = expClaim.val;
+              } else {
+                  this.userData.exp = '';
+              }
+
+            //  if (pictureClaim) {
+            //       this.userData.picture = pictureClaim.val;
+            //   } else {
+            //       this.userData.picture = 'https://requerimientos.prome.ar/assets/logoColorP.png';
+            //   }
+ 
+              this.loginToBackend();
+              this.loading = false;
+               
+
+            } else {
+                console.error("Email address claim not found in response.");
+                this.loading = false;
+                this.error = true;
+            }
+        } else {
+            console.error(`Failed to fetch email address: ${response.status} ${response.statusText}`);
+            this.loading = false;
+            this.error = true;
+        }
+    } catch (error) {
+     
+        console.error("Error fetching email address:", error);
+        this.loading = false;
+        this.error = true;
+        
+    }
+}
 }

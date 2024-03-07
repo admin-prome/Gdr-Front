@@ -1,51 +1,102 @@
 <!-- amount-million.component.html -->
+<header>
+    <h1>Formulario de registro para créditos con cuota mayores a $1.000.000</h1>
 
-<div class="form-container centered-column">
-    <form [formGroup]="requestForm" (ngSubmit)="sendForm()">
+</header>
+
+<div class="form-container centered-column sendForm m-4" *ngIf="!sending">
+    <form class="m-4" [formGroup]="requestForm" (ngSubmit)="sendForm()" *ngIf="!loading && !receivedData">
         <mat-form-field appearance="fill" class="full-width mt-4">
             <mat-label>DNI del cliente:</mat-label>
             <input matInput type="number" formControlName="dni" />
             <mat-error *ngIf="requestForm.get('dni')?.hasError('required')">DNI es requerido.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width mt-4">
-            <mat-label>N° de Solicitud:</mat-label>
+            <mat-error *ngIf="requestForm.get('dni')?.hasError('pattern')">DNI debe ser un número entero positivo.</mat-error>
+            <mat-error *ngIf="requestForm.get('dni')?.hasError('maxLength')">El DNI no puede tener más de 10 dígitos.</mat-error>
+          </mat-form-field>
+        
+          <!-- Número de Solicitud -->
+          <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-label>N° de Solicitud</mat-label>
             <input matInput formControlName="opportunity" />
-            <mat-error *ngIf="requestForm.get('opportunity')?.hasError('required')">Oportunidad es
-                requerida.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width mt-4">
-            <mat-label>Valor de cuota:</mat-label>
-            <input matInput type="number" formControlName="quotaValue" max="99999999" />
-            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('required')">Valor de cuota es
-                requerido.</mat-error>
-            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('pattern')">Valor de cuota debe ser un número
-                entero positivo.</mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-error *ngIf="requestForm.get('opportunity')?.hasError('required')">Oportunidad es requerida.</mat-error>
+            <mat-error *ngIf="requestForm.get('opportunity')?.hasError('maxlength')">La longitud máxima permitida es 7 caracteres.</mat-error>
+          </mat-form-field>
+        
+          <!-- Valor de Cuota -->
+          <mat-form-field appearance="fill" class="full-width mt-4">
+            <mat-label>Valor de cuota</mat-label>
+            <input matInput type="number" formControlName="quotaValue" />
+            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('required')">Valor de cuota es requerido.</mat-error>
+            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('maxLength')">La cuota no puede tener más de 9 dígitos.</mat-error>
+          </mat-form-field>
+        
+          <!-- Monto de Crédito -->
+          <mat-form-field appearance="fill" class="full-width mt-4">
             <mat-label>Monto de Crédito</mat-label>
             <input matInput type="number" formControlName="amount" />
             <mat-error *ngIf="requestForm.get('amount')?.hasError('required')">Cantidad es requerida.</mat-error>
-            <mat-error *ngIf="requestForm.get('amount')?.hasError('pattern')">Cantidad debe ser un número entero
-                positivo.</mat-error>
-        </mat-form-field>
-
+            <mat-error *ngIf="requestForm.get('amount')?.hasError('pattern')">Cantidad debe ser un número entero positivo.</mat-error>
+            <mat-error *ngIf="requestForm.get('amount')?.hasError('maxLength')">Cantidad debe ser un número máximo de 12 dígitos.</mat-error>
+          </mat-form-field>
+        
+          <!-- Cursa por -->
+          <mat-form-field class="full-width mt-4" appearance="fill">
+            <mat-label>Cursa por</mat-label>
+            <mat-select [(value)]="requestForm.value.creditCourse" formControlName="creditCourse">
+              <mat-option *ngFor="let option of creditCourse" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="requestForm.get('creditCourse')?.hasError('required')">Seleccioná una opción.</mat-error>
+          </mat-form-field>
+        <mat-checkbox  appearance="fill" formControlName="validateCourse" *ngIf="requestForm.get('creditCourse')?.value === 'BIP'" >El contacto tiene su legajo digital completo? </mat-checkbox>
+        <mat-checkbox  appearance="fill" formControlName="validateCourse" *ngIf="requestForm.get('creditCourse')?.value === 'Prome 0.4'" >Se han cargado los adjuntos correctamente? </mat-checkbox>
+        
+    
         <!-- <div class="form-group">
         <mat-checkbox formControlName="notified">Notificado</mat-checkbox>
       </div> -->
 
-        <div class="form-group mt-4">
-            <button mat-raised-button type="submit" [disabled]="!requestForm.valid || loading">Enviar</button>
-        </div>
+       
     </form>
 
-    <div *ngIf="formError" class="error-message">
-        por favor reenvie su solicitud, ocurrio un error en el proceso de registro.
+    <div class="form-group mt-4" *ngIf="!loading && !receivedData && !sending">
+        <button mat-raised-button  [disabled]="!requestForm.valid || loading" data-bs-toggle="modal" data-bs-target="#infoModal">Enviar</button>
     </div>
+    
+    <mat-spinner *ngIf="loading" class="spinner" diameter="80"></mat-spinner>
 
-    <div *ngIf="receivedData" class="success-message">
-        Sus Solicitud fue cargada Satisfactoriamente
-    </div>
 </div>
+
+<div *ngIf="formError && !loading" class="error-message">
+    <h3>Por favor, reenvie su solicitud, ocurrio un error en el proceso de registro.</h3>
+</div>
+
+<div *ngIf="receivedData && !loading" class="success-message">
+    <h3>Su solicitud fue cargada satisfactoriamente</h3>
+    <button mat-raised-button (click)="refreshPage()">Cargar una nueva solicitud</button>
+</div>
+
+
+<div class="modal fade" id="infoModal" tabindex="-1" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <div class="modal-header">
+            <img src="../../../../../assets/logoGDR.png" alt="" style="width: 80%; text-align: center; max-width: 400px; margin:1rem auto;" id="imgHeader">
+           
+          <!-- <h1 class="modal-title fs-5" id="infoModalLabel">Modal title</h1> -->
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+        </div>
+        <div class="modal-body">
+            <p class="mt-2">Recuerde que antes de llenar el formulario, la solicitud debe encontrarse en Documentacion.</p>
+            <p class="mt-2">Para solicitudes cursadas por Prome 0.4, se deben haber cargado correctamente los archivos adjuntos.</p>
+            <p class="mt-2">Y para solicitudes cursadas por BIP, el contacto debe tener su legajo digital completo.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="sendForm()">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>

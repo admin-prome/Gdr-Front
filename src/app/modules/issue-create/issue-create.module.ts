@@ -13,6 +13,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -35,6 +38,10 @@ import { MatButtonModule } from '@angular/material/button';
         MatFormFieldModule,
         MatCheckboxModule,
         MatButtonModule,
+        MatProgressSpinnerModule,
+        MatSelectModule,
+        MatCardModule
+
     ]
 })
 export class IssueCreateModule { }

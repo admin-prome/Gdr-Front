@@ -6,6 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialSharedModule } from '../material/material-shared.module';
 import { DialogComponent } from './pages/dialog/dialog.component';
+import { MaterialSelectComponent } from 'src/app/components/material/material-select/material-select.component';
 
 
 @NgModule({
@@ -17,7 +18,7 @@ import { DialogComponent } from './pages/dialog/dialog.component';
     CommonModule,
     HomeRoutingModule,
     SharedModule,
-    MaterialSharedModule
+    MaterialSharedModule    
   ]
 })
 export class HomeModule { }
