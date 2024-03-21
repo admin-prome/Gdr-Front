@@ -27,7 +27,7 @@
             <mat-label>Valor de cuota</mat-label>
             <input matInput type="number" formControlName="quotaValue" />
             <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('required')">Valor de cuota es requerido.</mat-error>
-            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('maxLength')">La cuota no puede tener más de 9 dígitos.</mat-error>
+            <mat-error *ngIf="requestForm.get('quotaValue')?.hasError('maxLength')">La cuota no puede tener más de 8 dígitos.</mat-error>
           </mat-form-field>
         
           <!-- Monto de Crédito -->
@@ -36,7 +36,7 @@
             <input matInput type="number" formControlName="amount" />
             <mat-error *ngIf="requestForm.get('amount')?.hasError('required')">Cantidad es requerida.</mat-error>
             <mat-error *ngIf="requestForm.get('amount')?.hasError('pattern')">Cantidad debe ser un número entero positivo.</mat-error>
-            <mat-error *ngIf="requestForm.get('amount')?.hasError('maxLength')">Cantidad debe ser un número máximo de 12 dígitos.</mat-error>
+            <mat-error *ngIf="requestForm.get('amount')?.hasError('maxLength')">Cantidad debe ser un número máximo de 9 dígitos.</mat-error>
           </mat-form-field>
         
           <!-- Cursa por -->

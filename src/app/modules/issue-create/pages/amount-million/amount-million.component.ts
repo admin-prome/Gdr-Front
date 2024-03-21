@@ -28,8 +28,8 @@ export class AmountMillionComponent implements OnInit {
   this.requestForm = this.fb.group({
     dni: ['', [Validators.required, Validators.pattern(/^[1-9]\d*$/), this.maxLengthValidator(10)]],
     opportunity: ['', [Validators.required, Validators.maxLength(7)]],
-    quotaValue: ['', [Validators.required, this.maxLengthValidator(9)]],
-    amount: ['', [Validators.required, Validators.pattern(/^[1-9]\d*$/), this.maxLengthValidator(12)]],
+    quotaValue: ['', [Validators.required, this.maxLengthValidator(8)]],
+    amount: ['', [Validators.required, Validators.pattern(/^[1-9]\d*$/), this.maxLengthValidator(9)]],
     creditCourse: ['', Validators.required],
     validateCourse: ['', [Validators.required, Validators.requiredTrue]],
       //notified: [false] // Assuming notified should be a boolean, initialize with default value
